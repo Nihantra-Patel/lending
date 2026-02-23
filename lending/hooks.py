@@ -17,6 +17,8 @@ add_to_apps_screen = [
 	}
 ]
 
+require_type_annotated_api_methods = True
+
 audit_trail_doctypes = [
 	# doctypes that make GL entries require Audit Trail to be maintained
 	# as per the laws applicable to Companies in India

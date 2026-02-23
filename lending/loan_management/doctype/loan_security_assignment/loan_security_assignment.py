@@ -219,7 +219,7 @@ def update_loan_securities_values(
 
 
 @frappe.whitelist()
-def release_loan_security_assignment(loan_security_assignment):
+def release_loan_security_assignment(loan_security_assignment: str):
 	frappe.db.set_value(
 		"Loan Security Assignment",
 		loan_security_assignment,

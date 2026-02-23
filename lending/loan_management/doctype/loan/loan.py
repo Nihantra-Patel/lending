@@ -555,7 +555,11 @@ def get_sanctioned_amount_limit(applicant_type, applicant, company):
 
 
 @frappe.whitelist()
-def request_loan_closure(loan, posting_date=None, auto_close=0):
+def request_loan_closure(
+	loan: str,
+	posting_date: str | date | datetime | None = None,
+	auto_close: bool = False,
+	):
 	from lending.loan_management.doctype.loan_repayment.loan_repayment import calculate_amounts
 
 	precision = cint(frappe.db.get_default("currency_precision")) or 2
@@ -606,14 +610,14 @@ def request_loan_closure(loan, posting_date=None, auto_close=0):
 
 
 @frappe.whitelist()
-def get_loan_application(loan_application):
+def get_loan_application(loan_application: str):
 	loan = frappe.get_doc("Loan Application", loan_application)
 	if loan:
 		return loan.as_dict()
 
 
 @frappe.whitelist()
-def close_unsecured_term_loan(loan):
+def close_unsecured_term_loan(loan: str):
 	loan_details = frappe.db.get_value(
 		"Loan", {"name": loan}, ["status", "is_term_loan", "is_secured_loan"], as_dict=1
 	)
@@ -630,16 +634,16 @@ def close_unsecured_term_loan(loan):
 
 @frappe.whitelist()
 def make_loan_disbursement(
-	loan,
-	disbursement_amount=0,
-	as_dict=0,
-	submit=0,
-	repayment_start_date=None,
-	repayment_frequency=None,
-	posting_date=None,
-	disbursement_date=None,
-	bank_account=None,
-	is_term_loan=None,
+	loan: str,
+	disbursement_amount: float = 0,
+	as_dict: bool = False,
+	submit: bool = False,
+	repayment_start_date: str | date | datetime | None = None,
+	repayment_frequency: str | None = None,
+	posting_date: str | date | datetime | None = None,
+	disbursement_date: str | date | datetime | None = None,
+	bank_account: str | None = None,
+	is_term_loan: bool | None = None,
 ):
 	loan_doc = frappe.get_doc("Loan", loan)
 	disbursement_entry = frappe.new_doc("Loan Disbursement")
@@ -676,7 +680,13 @@ def make_loan_disbursement(
 
 @frappe.whitelist()
 def make_repayment_entry(
-	loan, applicant_type, applicant, loan_product, company, loan_disbursement=None, as_dict=0
+	loan: str,
+	applicant_type: str,
+	applicant: str,
+	loan_product: str,
+	company: str,
+	loan_disbursement: str | None = None,
+	as_dict: bool = False,
 ):
 	repayment_entry = frappe.new_doc("Loan Repayment")
 	repayment_entry.against_loan = loan
@@ -695,7 +705,13 @@ def make_repayment_entry(
 
 
 @frappe.whitelist()
-def make_loan_write_off(loan, company=None, posting_date=None, amount=0, as_dict=0):
+def make_loan_write_off(
+	loan: str,
+	company: str | None = None,
+	posting_date: str | date | datetime | None = None,
+	amount: float = 0,
+	as_dict: bool = False,
+	):
 	from lending.loan_management.doctype.loan_repayment.loan_repayment import calculate_amounts
 
 	if not company:
@@ -732,13 +748,13 @@ def make_loan_write_off(loan, company=None, posting_date=None, amount=0, as_dict
 
 @frappe.whitelist()
 def unpledge_security(
-	loan=None,
-	loan_security_assignment=None,
-	security_map=None,
-	as_dict=0,
-	save=0,
-	submit=0,
-	approve=0,
+	loan: str | None = None,
+	loan_security_assignment: str | None = None,
+	security_map: dict | None = None,
+	as_dict: bool = False,
+	save: bool = False,
+	submit: bool = False,
+	approve: bool = False,
 ):
 	# if no security_map is passed it will be considered as full unpledge
 	if security_map and isinstance(security_map, str):
@@ -807,7 +823,13 @@ def get_shortfall_applicants():
 
 
 @frappe.whitelist()
-def make_refund_jv(loan, amount=0, reference_number=None, reference_date=None, submit=0):
+def make_refund_jv(
+	loan: str,
+	amount: float = 0,
+	reference_number: str | None = None,
+	reference_date: str | date | datetime | None = None,
+	submit: bool = False,
+):
 	loan_details = frappe.db.get_value(
 		"Loan",
 		loan,
@@ -1830,7 +1852,11 @@ def make_fldg_invocation_jv(loan, posting_date):
 
 
 @frappe.whitelist()
-def get_cyclic_date(loan_product, posting_date, ignore_bpi=False):
+def get_cyclic_date(
+	loan_product: str,
+	posting_date: str | date | datetime,
+	ignore_bpi: bool = False,
+	):
 	cycle_day, min_days_bw_disbursement_first_repayment = frappe.db.get_value(
 		"Loan Product",
 		loan_product,

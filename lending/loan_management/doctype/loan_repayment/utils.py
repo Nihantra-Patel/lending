@@ -10,13 +10,20 @@ def get_pending_principal_amount_for_loans(loans, disbursement_map, consolidated
 	principal_amount_map = {}
 
 	loan_list = [loan.name for loan in loans]
+
+	LoanDisbursement = frappe.qb.DocType("Loan Disbursement")
+
 	disbursement_details = frappe._dict(
-		frappe.db.get_all(
-			"Loan Disbursement",
-			{"against_loan": ["in", loan_list]},
-			["name", "(disbursed_amount - principal_amount_paid) as pending_principal_amount"],
-			as_list=1,
+		frappe.qb.from_(LoanDisbursement)
+		.select(
+			LoanDisbursement.name,
+			(
+				LoanDisbursement.disbursed_amount
+				- LoanDisbursement.principal_amount_paid
+			).as_("pending_principal_amount"),
 		)
+		.where(LoanDisbursement.against_loan.isin(loan_list))
+		.run(as_list=True)
 	)
 	for loan in loans:
 		if loan.repayment_schedule_type == "Line of Credit" and not consolidated:

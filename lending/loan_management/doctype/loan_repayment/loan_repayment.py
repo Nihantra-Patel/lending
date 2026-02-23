@@ -3,6 +3,7 @@
 
 
 import traceback
+from datetime import date, datetime
 
 import frappe
 from frappe import _
@@ -2715,7 +2716,7 @@ def process_amount_for_loan(
 
 
 @frappe.whitelist()
-def get_bulk_due_details(loans, posting_date, consolidated=False):
+def get_bulk_due_details(loans: list[str], posting_date: str | date | datetime, consolidated: bool = False):
 	from lending.loan_management.doctype.loan_repayment.utils import (
 		get_disbursement_map,
 		get_pending_principal_amount_for_loans,
@@ -2832,13 +2833,13 @@ def get_all_demands(loans, posting_date):
 
 @frappe.whitelist()
 def calculate_amounts(
-	against_loan,
-	posting_date,
-	payment_type="",
-	with_loan_details=False,
-	charges=None,
-	loan_disbursement=None,
-	for_update=False,
+	against_loan: str,
+	posting_date: str | date | datetime,
+	payment_type: str | None = None,
+	with_loan_details: bool = False,
+	charges: list[str] | None = None,
+	loan_disbursement: str | None = None,
+	for_update: bool = False,
 ):
 	amounts = init_amounts()
 
@@ -3144,7 +3145,7 @@ def get_net_paid_amount(loan):
 
 
 @frappe.whitelist(methods=["POST"])
-def post_bulk_payments(data):
+def post_bulk_payments(data: str | list[dict]):
 	# sort data by loan and value date
 	data = sorted(data, key=lambda x: (x["against_loan"], x["value_date"]))
 

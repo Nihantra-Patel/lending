@@ -2,6 +2,9 @@
 # License: GNU General Public License v3. See license.txt
 
 
+from datetime import date, datetime
+from typing import Any
+
 import frappe
 from frappe.utils.dashboard import cache_source
 
@@ -13,15 +16,15 @@ from lending.loan_management.report.applicant_wise_loan_security_exposure.applic
 @frappe.whitelist()
 @cache_source
 def get_data(
-	chart_name=None,
-	chart=None,
-	no_cache=None,
-	filters=None,
-	from_date=None,
-	to_date=None,
-	timespan=None,
-	time_interval=None,
-	heatmap_year=None,
+	chart_name: str | None = None,
+	chart: str | dict[str, Any] | None = None,
+	no_cache: bool | int | None = None,
+	filters: str | list | dict[str, Any] | None = None,
+	from_date: str | date | datetime | None = None,
+	to_date: str | date | datetime | None = None,
+	timespan: str | None = None,
+	time_interval: str | None = None,
+	heatmap_year: str | None = None,
 ):
 	if chart_name:
 		chart = frappe.get_doc("Dashboard Chart", chart_name)
