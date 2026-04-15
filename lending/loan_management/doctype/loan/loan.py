@@ -885,7 +885,7 @@ def request_loan_closure(loan: str, posting_date: str | None = None, auto_close:
 
 
 @frappe.whitelist()
-def get_loan_application(loan_application):
+def get_loan_application(loan_application: str):
 	loan = frappe.get_doc("Loan Application", loan_application)
 	if loan:
 		return loan.as_dict()
@@ -962,7 +962,13 @@ def make_loan_disbursement(
 
 @frappe.whitelist()
 def make_repayment_entry(
-	loan, applicant_type, applicant, loan_product, company, loan_disbursement=None, as_dict=0
+	loan: str,
+	applicant_type: str,
+	applicant: str,
+	loan_product: str,
+	company: str,
+	loan_disbursement: str | None = None,
+	as_dict: bool = False,
 ):
 	repayment_entry = frappe.new_doc("Loan Repayment")
 	repayment_entry.against_loan = loan
@@ -2029,7 +2035,11 @@ def make_journal_entry(
 
 
 @frappe.whitelist()
-def get_cyclic_date(loan_product, posting_date, ignore_bpi=False):
+def get_cyclic_date(
+	loan_product: str,
+	posting_date: str | date | datetime,
+	ignore_bpi: bool = False,
+):
 	cycle_day, min_days_bw_disbursement_first_repayment = frappe.db.get_value(
 		"Loan Product",
 		loan_product,
