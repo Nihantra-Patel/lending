@@ -307,6 +307,102 @@ class TestLoanInterestAccrual(IntegrationTestCase):
 		self.assertEqual(accrual_sum_till_freeze_date, amounts["unbooked_interest"])
 		self.assertEqual(amounts["unaccrued_interest"], 0)
 
+	def test_same_date_for_daily_accruals(self):
+		from lending.tests.test_utils import get_penalty_amount
+
+		set_loan_accrual_frequency("Daily")
+		loan = create_loan(
+			self.applicant1,
+			"Term Loan Product 4",
+			500000,
+			"Repay Over Number of Periods",
+			12,
+			repayment_start_date="2024-05-05",
+			posting_date="2024-04-01",
+			penalty_charges_rate=25,
+		)
+
+		loan.submit()
+
+		make_loan_disbursement_entry(
+			loan.name, loan.loan_amount, disbursement_date="2024-04-01", repayment_start_date="2024-05-05"
+		)
+		process_daily_loan_demands(posting_date="2024-07-07", loan=loan.name)
+		process_loan_interest_accrual_for_loans(
+			posting_date="2024-07-06", loan=loan.name, company="_Test Company"
+		)
+
+		# Calculate expected penal amount
+		expected_penalty_amount = 0
+
+		repayment_schedule = frappe.db.get_value(
+			"Loan Repayment Schedule", {"loan": loan.name, "status": "Active", "docstatus": 1}
+		)
+
+		for amount in frappe.db.get_all(
+			"Repayment Schedule",
+			{"parent": repayment_schedule, "principal_amount": (">", 0), "demand_generated": 1},
+			["payment_date", "total_payment"],
+		):
+
+			expected_penalty_amount += get_penalty_amount(
+				"2024-07-07", amount.payment_date, amount.total_payment, 25
+			)
+
+		amounts = calculate_amounts(against_loan=loan.name, posting_date="2024-07-07")
+
+		self.assertEqual(flt(amounts["penalty_amount"], 2), expected_penalty_amount)
+
+		accruals = frappe.get_all(
+			"Loan Interest Accrual",
+			{"loan": loan.name, "accrual_type": "Normal Interest"},
+			["start_date", "posting_date"],
+		)
+		for i in accruals:
+			self.assertEqual(i.start_date, i.posting_date)
+
+	def test_interest_accrual_stop_after_freeze_loan(self):
+		loan = create_loan(
+			"_Test Customer 1",
+			"Term Loan Product 4",
+			500000,
+			"Repay Over Number of Periods",
+			12,
+			"Customer",
+			posting_date="2025-01-01",
+			rate_of_interest=12,
+		)
+		loan.submit()
+
+		make_loan_disbursement_entry(
+			loan.name,
+			loan.loan_amount,
+			disbursement_date="2025-01-01",
+			repayment_start_date="2025-01-05",
+		)
+
+		process_loan_interest_accrual_for_loans(
+			posting_date="2025-02-05", loan=loan.name, company="_Test Company"
+		)
+
+		loan.load_from_db()
+		loan.freeze_account = 1
+		loan.freeze_date = "2025-01-25"
+		loan.save()
+
+		process_loan_interest_accrual_for_loans(
+			posting_date="2025-02-05", loan=loan.name, company="_Test Company"
+		)
+
+		last_accrual_date = frappe.db.get_value(
+			"Loan Interest Accrual",
+			{"loan": loan.name, "docstatus": 1},
+			"posting_date",
+			order_by="posting_date desc",
+		)
+
+		freeze_date = loan.freeze_date
+		self.assertEqual(getdate(last_accrual_date), getdate(freeze_date))
 
 def get_loan_object(loan_doc):
 	return frappe._dict(
