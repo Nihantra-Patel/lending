@@ -39,6 +39,22 @@ frappe.ui.form.on('Loan Application', {
 			};
 		});
 	},
+	generate_kfs_button: function (frm) {
+		if (frm.doc.__islocal) {
+			frappe.msgprint(__("Please save the Loan Application before generating the KFS."));
+			return;
+		}
+		frappe.call({
+			method: "lending.loan_management.doctype.loan_application.loan_application.generate_kfs",
+			args: { loan_application: frm.doc.name },
+			freeze: true,
+			freeze_message: __("Generating Key Facts Statement..."),
+			callback: function () {
+				frappe.show_alert({ message: __("Key Facts Statement generated"), indicator: "green" });
+				frm.reload_doc();
+			},
+		});
+	},
 	render_summary_card: function (frm) {
 		if (frm.doc.__islocal) {
 			frm.set_df_property("applicant_details_section", "hidden", 0);
