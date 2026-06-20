@@ -6,7 +6,7 @@
 import frappe
 from frappe.utils import flt, getdate
 
-from lending.mobile_api.utils import ensure_owns_loan
+from lending.mobile_api.utils import elevated, ensure_owns_loan
 
 
 @frappe.whitelist()
@@ -18,7 +18,8 @@ def get_dues(loan: str, as_on_date: str | None = None) -> dict:
 	from lending.loan_management.doctype.loan_repayment.loan_repayment import calculate_amounts
 
 	as_on_date = getdate(as_on_date)
-	amounts = calculate_amounts(loan, as_on_date)
+	with elevated():
+		amounts = calculate_amounts(loan, as_on_date)
 
 	return {
 		"as_on_date": as_on_date,
@@ -50,18 +51,19 @@ def get_schedule(loan: str) -> list[dict]:
 	if not schedule_name:
 		return []
 
-	rows = frappe.get_all(
-		"Repayment Schedule",
-		filters={"parent": schedule_name},
-		fields=[
-			"payment_date",
-			"principal_amount",
-			"interest_amount",
-			"total_payment",
-			"balance_loan_amount",
-		],
-		order_by="payment_date asc",
-	)
+	with elevated():
+		rows = frappe.get_all(
+			"Repayment Schedule",
+			filters={"parent": schedule_name},
+			fields=[
+				"payment_date",
+				"principal_amount",
+				"interest_amount",
+				"total_payment",
+				"balance_loan_amount",
+			],
+			order_by="payment_date asc",
+		)
 	for row in rows:
 		row["principal_amount"] = flt(row["principal_amount"], 2)
 		row["interest_amount"] = flt(row["interest_amount"], 2)

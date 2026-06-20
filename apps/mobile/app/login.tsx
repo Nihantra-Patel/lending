@@ -39,9 +39,10 @@ export default function Login() {
       style={styles.screen}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
+      <View style={styles.container}>
       <View style={styles.brand}>
         <View style={styles.logo}>
-          <Text style={styles.logoText}>₹</Text>
+          <Text style={styles.logoText}>L</Text>
         </View>
         <Text style={styles.title}>Lending</Text>
         <Text style={styles.subtitle}>Borrow smarter. Repay simpler.</Text>
@@ -80,12 +81,20 @@ export default function Login() {
           )}
         </Pressable>
       </View>
+      </View>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: theme.bg, justifyContent: "center", padding: 24 },
+  screen: {
+    flex: 1,
+    backgroundColor: theme.bg,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  container: { width: "100%", maxWidth: 400, alignSelf: "center" },
   brand: { alignItems: "center", marginBottom: 32 },
   logo: {
     width: 72,
