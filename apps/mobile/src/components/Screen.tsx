@@ -1,11 +1,11 @@
 import React from "react";
 import { ScrollView, View, ViewStyle } from "react-native";
-import { theme } from "../lib/theme";
+import { useTheme } from "../lib/ThemeContext";
 import { useResponsive } from "../lib/responsive";
 
 /**
- * Page wrapper that gives mobile a full-bleed single column and tablet/laptop a
- * centered column with a comfortable max width. Use `scroll` for content pages.
+ * Page wrapper: full-bleed single column on mobile, centered max-width column on
+ * tablet/laptop. Use `scroll` for content pages.
  */
 export function Screen({
   children,
@@ -17,6 +17,7 @@ export function Screen({
   contentStyle?: ViewStyle;
 }) {
   const { contentMaxWidth } = useResponsive();
+  const { palette } = useTheme();
 
   const inner = (
     <View style={[{ width: "100%", maxWidth: contentMaxWidth, alignSelf: "center", flex: 1 }, contentStyle]}>
@@ -27,7 +28,7 @@ export function Screen({
   if (scroll) {
     return (
       <ScrollView
-        style={{ flex: 1, backgroundColor: theme.bg }}
+        style={{ flex: 1, backgroundColor: palette.bg }}
         contentContainerStyle={{ alignItems: "center", flexGrow: 1 }}
       >
         {inner}
@@ -35,7 +36,5 @@ export function Screen({
     );
   }
 
-  return (
-    <View style={{ flex: 1, backgroundColor: theme.bg, alignItems: "center" }}>{inner}</View>
-  );
+  return <View style={{ flex: 1, backgroundColor: palette.bg, alignItems: "center" }}>{inner}</View>;
 }

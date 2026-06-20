@@ -1,13 +1,17 @@
 import { useRouter } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../src/lib/auth";
-import { theme } from "../../src/lib/theme";
+import { useTheme } from "../../src/lib/ThemeContext";
 import { useResponsive } from "../../src/lib/responsive";
+import { radiusLg, radius, radiusFull } from "../../src/lib/theme";
 
 export default function Profile() {
   const { profile, logout } = useAuth();
   const router = useRouter();
+  const { palette } = useTheme();
   const { contentMaxWidth } = useResponsive();
+  const insets = useSafeAreaInsets();
 
   const initials = (profile?.full_name || "?")
     .split(" ")
@@ -17,59 +21,61 @@ export default function Profile() {
     .toUpperCase();
 
   return (
-    <View style={[styles.screen, { alignItems: "center" }]}>
+    <View
+      style={{ flex: 1, backgroundColor: palette.bg, paddingTop: insets.top + 12, paddingHorizontal: 16, alignItems: "center" }}
+    >
       <View style={{ width: "100%", maxWidth: contentMaxWidth }}>
-      <View style={styles.card}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{initials}</Text>
+        <Text style={{ fontSize: 30, fontWeight: "800", color: palette.text, marginBottom: 18, letterSpacing: -0.5 }}>
+          Profile
+        </Text>
+        <View
+          style={{
+            backgroundColor: palette.card,
+            borderRadius: radiusLg,
+            padding: 24,
+            alignItems: "center",
+            borderWidth: 1,
+            borderColor: palette.border,
+          }}
+        >
+          <View
+            style={{
+              width: 84,
+              height: 84,
+              borderRadius: radiusFull,
+              backgroundColor: palette.accent,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ color: palette.onAccent, fontSize: 30, fontWeight: "800" }}>{initials}</Text>
+          </View>
+          <Text style={{ fontSize: 20, fontWeight: "800", color: palette.text, marginTop: 16 }}>
+            {profile?.full_name}
+          </Text>
+          <Text style={{ fontSize: 14, color: palette.muted, marginTop: 2 }}>{profile?.email}</Text>
+          {profile?.mobile_no ? (
+            <Text style={{ fontSize: 14, color: palette.muted, marginTop: 2 }}>{profile.mobile_no}</Text>
+          ) : null}
         </View>
-        <Text style={styles.name}>{profile?.full_name}</Text>
-        <Text style={styles.meta}>{profile?.email}</Text>
-        {profile?.mobile_no ? <Text style={styles.meta}>{profile.mobile_no}</Text> : null}
-      </View>
 
-      <Pressable
-        style={styles.logout}
-        onPress={async () => {
-          await logout();
-          router.replace("/login");
-        }}
-      >
-        <Text style={styles.logoutText}>Sign out</Text>
-      </Pressable>
+        <Pressable
+          style={{
+            marginTop: 20,
+            borderRadius: radius,
+            paddingVertical: 15,
+            alignItems: "center",
+            borderWidth: 1,
+            borderColor: palette.danger,
+          }}
+          onPress={async () => {
+            await logout();
+            router.replace("/login");
+          }}
+        >
+          <Text style={{ color: palette.danger, fontSize: 16, fontWeight: "700" }}>Sign out</Text>
+        </Pressable>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: theme.bg, padding: 16 },
-  card: {
-    backgroundColor: theme.card,
-    borderRadius: 16,
-    padding: 24,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: theme.primary,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  avatarText: { color: "#fff", fontSize: 28, fontWeight: "800" },
-  name: { fontSize: 20, fontWeight: "800", color: theme.text, marginTop: 16 },
-  meta: { fontSize: 14, color: theme.muted, marginTop: 2 },
-  logout: {
-    marginTop: 24,
-    borderRadius: 12,
-    paddingVertical: 15,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: theme.danger,
-  },
-  logoutText: { color: theme.danger, fontSize: 16, fontWeight: "700" },
-});

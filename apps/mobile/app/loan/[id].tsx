@@ -1,21 +1,15 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, Pressable, ScrollView, Text, View } from "react-native";
 import { api, Dues, inr, LoanSummary, ScheduleRow } from "../../src/lib/api";
-import { theme } from "../../src/lib/theme";
+import { useTheme } from "../../src/lib/ThemeContext";
 import { useResponsive } from "../../src/lib/responsive";
 import { RepaymentChart } from "../../src/components/RepaymentChart";
+import { radiusLg, radius } from "../../src/lib/theme";
 
 export default function LoanDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { palette } = useTheme();
   const { contentMaxWidth } = useResponsive();
   const [loan, setLoan] = useState<LoanSummary | null>(null);
   const [dues, setDues] = useState<Dues | null>(null);
@@ -45,21 +39,33 @@ export default function LoanDetail() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color={theme.primary} />
+      <View style={{ flex: 1, backgroundColor: palette.bg, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={palette.accent} />
       </View>
     );
   }
 
+  const Row = ({ label, value, bold }: { label: string; value: string; bold?: boolean }) => (
+    <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
+      <Text style={{ fontSize: 14, color: bold ? palette.text : palette.muted, fontWeight: bold ? "700" : "400" }}>
+        {label}
+      </Text>
+      <Text style={{ fontSize: bold ? 18 : 14, color: palette.text, fontWeight: bold ? "800" : "600" }}>{value}</Text>
+    </View>
+  );
+
   return (
     <ScrollView
-      style={styles.screen}
+      style={{ flex: 1, backgroundColor: palette.bg }}
       contentContainerStyle={{ padding: 16, paddingBottom: 40, width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
     >
-      <View style={styles.hero}>
-        <Text style={styles.heroLabel}>Outstanding principal</Text>
-        <Text style={styles.heroAmount}>{inr(dues?.principal_outstanding)}</Text>
-        <Text style={styles.heroMeta}>
+      {/* Hero balance card */}
+      <View style={{ backgroundColor: palette.accent, borderRadius: radiusLg, padding: 22, marginBottom: 14 }}>
+        <Text style={{ color: palette.onAccent, opacity: 0.8, fontSize: 13 }}>Outstanding principal</Text>
+        <Text style={{ color: palette.onAccent, fontSize: 34, fontWeight: "800", marginTop: 4, letterSpacing: -0.5 }}>
+          {inr(dues?.principal_outstanding)}
+        </Text>
+        <Text style={{ color: palette.onAccent, opacity: 0.8, fontSize: 13, marginTop: 6 }}>
           {loan?.loan_product} · {loan?.status}
         </Text>
       </View>
@@ -75,58 +81,72 @@ export default function LoanDetail() {
 
       {kyc ? (
         <View
-          style={[
-            styles.kyc,
-            { borderColor: kyc.verified ? theme.success : theme.warning },
-          ]}
+          style={{
+            backgroundColor: palette.card,
+            borderRadius: radius,
+            padding: 16,
+            marginBottom: 14,
+            borderWidth: 1.5,
+            borderColor: kyc.verified ? palette.accent : palette.warning,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          <Text style={styles.kycLabel}>eKYC / e-Sign</Text>
-          <Text
-            style={[
-              styles.kycStatus,
-              { color: kyc.verified ? theme.success : theme.warning },
-            ]}
-          >
+          <Text style={{ fontSize: 14, fontWeight: "600", color: palette.muted }}>eKYC / e-Sign</Text>
+          <Text style={{ fontSize: 15, fontWeight: "800", color: kyc.verified ? palette.accentDark : palette.warning }}>
             {kyc.verified ? "✓ Verified" : kyc.status || "Pending"}
           </Text>
         </View>
       ) : null}
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Amount due</Text>
+      <View style={{ backgroundColor: palette.card, borderRadius: radiusLg, padding: 18, marginBottom: 14, borderWidth: 1, borderColor: palette.border }}>
+        <Text style={{ fontSize: 16, fontWeight: "800", color: palette.text, marginBottom: 12 }}>Amount due</Text>
         <Row label="Overdue principal" value={inr(dues?.overdue_principal)} />
         <Row label="Overdue interest" value={inr(dues?.overdue_interest)} />
         <Row label="Penalty" value={inr(dues?.penalty_amount)} />
         <Row label="Charges" value={inr(dues?.charges)} />
-        <View style={styles.divider} />
+        <View style={{ height: 1, backgroundColor: palette.border, marginVertical: 8 }} />
         <Row label="Total due" value={inr(dues?.total_due)} bold />
         {dues?.oldest_due_date ? (
-          <Text style={styles.dueDate}>Oldest due date: {String(dues.oldest_due_date).slice(0, 10)}</Text>
+          <Text style={{ fontSize: 12, color: palette.warning, marginTop: 8 }}>
+            Oldest due date: {String(dues.oldest_due_date).slice(0, 10)}
+          </Text>
         ) : null}
         <Pressable
-          style={styles.payButton}
-          onPress={() =>
-            Alert.alert("Pay EMI", "Payment gateway integration goes here (Razorpay/UPI).")
-          }
+          style={{ backgroundColor: palette.primary, borderRadius: radius, paddingVertical: 15, alignItems: "center", marginTop: 16 }}
+          onPress={() => Alert.alert("Pay EMI", "Payment gateway integration goes here (Razorpay/UPI).")}
         >
-          <Text style={styles.payText}>Pay {inr(dues?.total_due)}</Text>
+          <Text style={{ color: palette.onPrimary, fontSize: 16, fontWeight: "700" }}>Pay {inr(dues?.total_due)}</Text>
         </Pressable>
       </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>EMI schedule</Text>
+      <View style={{ backgroundColor: palette.card, borderRadius: radiusLg, padding: 18, marginBottom: 14, borderWidth: 1, borderColor: palette.border }}>
+        <Text style={{ fontSize: 16, fontWeight: "800", color: palette.text, marginBottom: 12 }}>EMI schedule</Text>
         {schedule.length === 0 ? (
-          <Text style={styles.meta}>No schedule available.</Text>
+          <Text style={{ fontSize: 13, color: palette.muted }}>No schedule available.</Text>
         ) : (
           schedule.map((row, i) => (
-            <View key={i} style={styles.emiRow}>
+            <View
+              key={i}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingVertical: 10,
+                borderTopWidth: i === 0 ? 0 : 1,
+                borderTopColor: palette.border,
+              }}
+            >
               <View>
-                <Text style={styles.emiDate}>{String(row.payment_date).slice(0, 10)}</Text>
-                <Text style={styles.meta}>
+                <Text style={{ fontSize: 14, fontWeight: "600", color: palette.text }}>
+                  {String(row.payment_date).slice(0, 10)}
+                </Text>
+                <Text style={{ fontSize: 13, color: palette.muted, marginTop: 2 }}>
                   P {inr(row.principal_amount)} · I {inr(row.interest_amount)}
                 </Text>
               </View>
-              <Text style={styles.emiTotal}>{inr(row.total_payment)}</Text>
+              <Text style={{ fontSize: 15, fontWeight: "700", color: palette.text }}>{inr(row.total_payment)}</Text>
             </View>
           ))
         )}
@@ -134,71 +154,3 @@ export default function LoanDetail() {
     </ScrollView>
   );
 }
-
-function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
-  return (
-    <View style={styles.row}>
-      <Text style={[styles.rowLabel, bold && { color: theme.text, fontWeight: "700" }]}>{label}</Text>
-      <Text style={[styles.rowValue, bold && { fontWeight: "800", fontSize: 18 }]}>{value}</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: theme.bg },
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  hero: {
-    backgroundColor: theme.accent,
-    borderRadius: 18,
-    padding: 22,
-    marginBottom: 14,
-  },
-  heroLabel: { color: "#d6e9ff", fontSize: 13 },
-  heroAmount: { color: "#fff", fontSize: 32, fontWeight: "800", marginTop: 4 },
-  heroMeta: { color: "#d6e9ff", fontSize: 13, marginTop: 6 },
-  kyc: {
-    backgroundColor: theme.card,
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 14,
-    borderWidth: 1.5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  kycLabel: { fontSize: 14, fontWeight: "600", color: theme.muted },
-  kycStatus: { fontSize: 15, fontWeight: "800" },
-  card: {
-    backgroundColor: theme.card,
-    borderRadius: 16,
-    padding: 18,
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  cardTitle: { fontSize: 16, fontWeight: "800", color: theme.text, marginBottom: 12 },
-  row: { flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 },
-  rowLabel: { fontSize: 14, color: theme.muted },
-  rowValue: { fontSize: 14, color: theme.text, fontWeight: "600" },
-  divider: { height: 1, backgroundColor: theme.border, marginVertical: 8 },
-  dueDate: { fontSize: 12, color: theme.warning, marginTop: 8 },
-  payButton: {
-    backgroundColor: theme.primary,
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-    marginTop: 16,
-  },
-  payText: { color: "#fff", fontSize: 16, fontWeight: "700" },
-  emiRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: theme.border,
-  },
-  emiDate: { fontSize: 14, fontWeight: "600", color: theme.text },
-  emiTotal: { fontSize: 15, fontWeight: "700", color: theme.text },
-  meta: { fontSize: 13, color: theme.muted, marginTop: 2 },
-});
