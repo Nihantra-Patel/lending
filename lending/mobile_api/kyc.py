@@ -71,3 +71,9 @@ def get_kyc_status(loan: str | None = None, loan_application: str | None = None)
 		"verified": verified,
 		"updated_at": latest.get("webhook_received_at") or latest.get("modified"),
 	}
+
+
+# Initiating the eKYC flow is workflow-driven and lives in
+# ``lending.mobile_api.workflow`` — a lender wires ``ekyc_india``'s eKYC request to
+# a Loan Application workflow transition, and the borrower triggers it by applying
+# that workflow action. This module stays a read-only status passthrough.

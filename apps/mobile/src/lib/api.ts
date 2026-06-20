@@ -112,6 +112,11 @@ export const api = {
     "lending.mobile_api.loan.apply",
     payload
   ),
+  estimate: (loan_product: string, loan_amount: number, tenure: number) =>
+    call<{ emi: number; total_payable: number; total_interest: number; rate_of_interest: number }>(
+      "lending.mobile_api.repayment.estimate",
+      { loan_product, loan_amount, tenure }
+    ),
   getDues: (loan: string) =>
     call<Dues>("lending.mobile_api.repayment.get_dues", { loan }),
   getSchedule: (loan: string) =>
@@ -120,6 +125,16 @@ export const api = {
     call<{ status: string | null; verified: boolean }>(
       "lending.mobile_api.kyc.get_kyc_status",
       { loan }
+    ),
+  getApplicationFlow: (loan_application: string) =>
+    call<{ has_workflow: boolean; workflow?: string; state: string; actions: string[] }>(
+      "lending.mobile_api.workflow.get_application_flow",
+      { loan_application }
+    ),
+  applyApplicationAction: (loan_application: string, action: string) =>
+    call<{ ok: boolean; state: string; message: string }>(
+      "lending.mobile_api.workflow.apply_application_action",
+      { loan_application, action }
     ),
 };
 

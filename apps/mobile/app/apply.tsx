@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -41,14 +41,33 @@ export default function Apply() {
     })();
   }, []);
 
-  // Live repayment estimate (flat approximation for guidance only).
-  const estimate = useMemo(() => {
+  // Accurate repayment estimate from the backend schedule engine (debounced).
+  const [estimate, setEstimate] = useState<{ emi: number; total_payable: number; total_interest: number } | null>(null);
+  const [estimating, setEstimating] = useState(false);
+
+  useEffect(() => {
     const amt = Number(amount);
     const months = Number(tenure);
-    if (!selected || !amt || amt <= 0 || !months) return null;
-    const interest = (amt * selected.rate_of_interest * (months / 12)) / 100;
-    const total = amt + interest;
-    return { total, emi: total / months, interest };
+    if (!selected || !amt || amt <= 0 || !months) {
+      setEstimate(null);
+      return;
+    }
+    let cancelled = false;
+    setEstimating(true);
+    const t = setTimeout(async () => {
+      try {
+        const e = await api.estimate(selected.name, amt, months);
+        if (!cancelled) setEstimate(e);
+      } catch {
+        if (!cancelled) setEstimate(null);
+      } finally {
+        if (!cancelled) setEstimating(false);
+      }
+    }, 450);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
   }, [amount, tenure, selected]);
 
   const overLimit = selected && Number(amount) > selected.maximum_loan_amount;
@@ -175,16 +194,23 @@ export default function Apply() {
           onChangeText={setTenure}
         />
 
-        {/* Live estimate */}
-        {estimate ? (
+        {/* Live estimate from the real schedule engine */}
+        {estimate || estimating ? (
           <View style={{ backgroundColor: palette.accentSoft, borderRadius: radiusLg, padding: 16, marginTop: 18 }}>
             <Text style={{ fontSize: 13, color: palette.accentDark, fontWeight: "600" }}>Estimated monthly EMI</Text>
-            <Text style={{ fontSize: 28, fontWeight: "800", color: palette.text, marginTop: 2 }}>
-              {inr(estimate.emi)}
-            </Text>
-            <Text style={{ fontSize: 12, color: palette.muted, marginTop: 4 }}>
-              You repay {inr(estimate.total)} over {tenure} months (incl. {inr(estimate.interest)} interest).
-            </Text>
+            {estimating && !estimate ? (
+              <ActivityIndicator color={palette.accentDark} style={{ alignSelf: "flex-start", marginTop: 8 }} />
+            ) : estimate ? (
+              <>
+                <Text style={{ fontSize: 28, fontWeight: "800", color: palette.text, marginTop: 2 }}>
+                  {inr(estimate.emi)}
+                </Text>
+                <Text style={{ fontSize: 12, color: palette.muted, marginTop: 4 }}>
+                  You repay {inr(estimate.total_payable)} over {tenure} months (incl.{" "}
+                  {inr(estimate.total_interest)} interest).
+                </Text>
+              </>
+            ) : null}
           </View>
         ) : null}
       </ScrollView>

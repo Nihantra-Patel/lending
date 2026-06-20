@@ -10,6 +10,49 @@ from lending.mobile_api.utils import elevated, ensure_owns_loan
 
 
 @frappe.whitelist()
+def estimate(loan_product: str, loan_amount: float, tenure: int) -> dict:
+	"""Return an accurate EMI estimate for the apply screen.
+
+	Uses the core Loan Repayment Schedule engine so the figure shown to the
+	borrower matches what the loan will actually be, instead of a flat-interest
+	approximation.
+	"""
+	rate = frappe.db.get_value("Loan Product", loan_product, "rate_of_interest") or 0
+	schedule_type = frappe.db.get_value("Loan Product", loan_product, "repayment_schedule_type")
+
+	rs = frappe.new_doc("Loan Repayment Schedule")
+	rs.loan_product = loan_product
+	rs.repayment_frequency = "Monthly"
+	rs.repayment_method = "Repay Over Number of Periods"
+	rs.repayment_periods = int(tenure)
+	rs.rate_of_interest = rate
+	rs.posting_date = getdate()
+	rs.repayment_start_date = getdate()
+	rs.loan_amount = flt(loan_amount)
+	rs.current_principal_amount = flt(loan_amount)
+	rs.moratorium_tenure = 0
+	rs.moratorium_type = ""
+	rs.repayment_schedule_type = schedule_type
+
+	with elevated():
+		rs.validate()
+
+	rows = rs.get("repayment_schedule") or []
+	total = sum(flt(r.total_payment) for r in rows)
+	first_emi = flt(rows[0].total_payment) if rows else 0
+	interest = sum(flt(r.interest_amount) for r in rows)
+
+	return {
+		"loan_amount": flt(loan_amount, 2),
+		"rate_of_interest": rate,
+		"tenure": int(tenure),
+		"emi": flt(first_emi, 2),
+		"total_payable": flt(total, 2),
+		"total_interest": flt(interest, 2),
+	}
+
+
+@frappe.whitelist()
 def get_dues(loan: str, as_on_date: str | None = None) -> dict:
 	"""Return current dues for the borrower's loan, shaped for the EMI screen."""
 
