@@ -43,6 +43,25 @@ export type LoanSummary = {
   disbursement_date: string | null;
 };
 
+export type JourneyMeta = { journey_type: string; title: string; description: string | null };
+
+export type JourneyField = {
+  label: string;
+  fieldname: string;
+  fieldtype: "Data" | "Number" | "Float" | "Select" | "Date" | "Check" | "Text" | "File" | "Phone" | "Email";
+  reqd: boolean;
+  options: string[];
+  placeholder: string | null;
+  help_text: string | null;
+};
+
+export type Journey = {
+  journey_type: string;
+  title: string;
+  description: string | null;
+  sections: { title: string; fields: JourneyField[] }[];
+};
+
 export type Summary = {
   total_loans: number;
   active_loans: number;
@@ -129,10 +148,16 @@ export const api = {
     call<Application>("lending.mobile_api.loan.get_application", { loan_application }),
   getLoan: (loan: string) =>
     call<LoanSummary>("lending.mobile_api.loan.get_loan", { loan }),
+  listJourneys: () =>
+    call<JourneyMeta[]>("lending.mobile_api.onboarding.list_journeys"),
+  getJourney: (journey_type: string) =>
+    call<Journey>("lending.mobile_api.onboarding.get_onboarding_journey", { journey_type }),
   apply: (payload: {
     loan_product: string;
     loan_amount: number;
     repayment_periods: number;
+    journey_type?: string;
+    journey_data?: string;
   }) => call<{ loan_application: string; message: string }>(
     "lending.mobile_api.loan.apply",
     payload

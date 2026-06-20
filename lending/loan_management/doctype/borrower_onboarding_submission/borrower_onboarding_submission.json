@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "autoname": "field:loan_application",
+ "creation": "2026-06-20 14:30:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "loan_application",
+  "journey_type",
+  "applicant",
+  "data_json"
+ ],
+ "fields": [
+  {
+   "fieldname": "loan_application",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Loan Application",
+   "options": "Loan Application",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "journey_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Journey Type"
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Data",
+   "label": "Applicant"
+  },
+  {
+   "description": "Captured onboarding field values as JSON.",
+   "fieldname": "data_json",
+   "fieldtype": "JSON",
+   "label": "Data"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-20 14:30:00",
+ "modified_by": "Administrator",
+ "module": "Loan Management",
+ "name": "Borrower Onboarding Submission",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Loan Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

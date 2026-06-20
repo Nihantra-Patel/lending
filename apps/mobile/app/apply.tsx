@@ -1,17 +1,9 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { api, inr, LoanProduct } from "../src/lib/api";
+import { api, inr, Journey, JourneyMeta, LoanProduct } from "../src/lib/api";
+import { DynamicField } from "../src/components/DynamicField";
 import { useTheme } from "../src/lib/ThemeContext";
 import { useResponsive } from "../src/lib/responsive";
 import { radius, radiusLg } from "../src/lib/theme";
@@ -21,76 +13,97 @@ export default function Apply() {
   const { palette } = useTheme();
   const { contentMaxWidth } = useResponsive();
   const insets = useSafeAreaInsets();
+
+  const [step, setStep] = useState(1);
   const [products, setProducts] = useState<LoanProduct[]>([]);
-  const [selected, setSelected] = useState<LoanProduct | null>(null);
-  const [pickerOpen, setPickerOpen] = useState(false);
+  const [journeyTypes, setJourneyTypes] = useState<JourneyMeta[]>([]);
+  const [product, setProduct] = useState<LoanProduct | null>(null);
+  const [journeyType, setJourneyType] = useState<JourneyMeta | null>(null);
+  const [journey, setJourney] = useState<Journey | null>(null);
+  const [values, setValues] = useState<Record<string, string>>({});
   const [amount, setAmount] = useState("");
   const [tenure, setTenure] = useState("12");
+  const [estimate, setEstimate] = useState<{ emi: number; total_payable: number; total_interest: number } | null>(null);
+  const [productPicker, setProductPicker] = useState(false);
+  const [journeyPicker, setJourneyPicker] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const p = await api.getLoanProducts();
+        const [p, j] = await Promise.all([api.getLoanProducts(), api.listJourneys()]);
         setProducts(p);
-        setSelected(p[0] ?? null);
+        setJourneyTypes(j);
+        setProduct(p[0] ?? null);
+        setJourneyType(j[0] ?? null);
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
-  // Accurate repayment estimate from the backend schedule engine (debounced).
-  const [estimate, setEstimate] = useState<{ emi: number; total_payable: number; total_interest: number } | null>(null);
-  const [estimating, setEstimating] = useState(false);
-
+  // Debounced EMI estimate
   useEffect(() => {
     const amt = Number(amount);
     const months = Number(tenure);
-    if (!selected || !amt || amt <= 0 || !months) {
+    if (!product || !amt || amt <= 0 || !months) {
       setEstimate(null);
       return;
     }
     let cancelled = false;
-    setEstimating(true);
     const t = setTimeout(async () => {
       try {
-        const e = await api.estimate(selected.name, amt, months);
+        const e = await api.estimate(product.name, amt, months);
         if (!cancelled) setEstimate(e);
       } catch {
         if (!cancelled) setEstimate(null);
-      } finally {
-        if (!cancelled) setEstimating(false);
       }
     }, 450);
     return () => {
       cancelled = true;
       clearTimeout(t);
     };
-  }, [amount, tenure, selected]);
+  }, [amount, tenure, product]);
 
-  const overLimit = selected && Number(amount) > selected.maximum_loan_amount;
+  const overLimit = product && Number(amount) > product.maximum_loan_amount;
+
+  const goToStep2 = async () => {
+    if (!product || !journeyType) return;
+    const amt = Number(amount);
+    if (!amt || amt <= 0) return Alert.alert("Enter amount", "Please enter a valid loan amount.");
+    if (overLimit) return Alert.alert("Amount too high", `Maximum is ${inr(product.maximum_loan_amount)}.`);
+    setSubmitting(true);
+    try {
+      const j = await api.getJourney(journeyType.journey_type);
+      setJourney(j);
+      setStep(2);
+    } catch (e) {
+      Alert.alert("Error", (e as Error).message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const submit = async () => {
-    if (!selected) return;
-    const amt = Number(amount);
-    if (!amt || amt <= 0) {
-      Alert.alert("Enter amount", "Please enter a valid loan amount.");
-      return;
-    }
-    if (overLimit) {
-      Alert.alert("Amount too high", `Maximum for this product is ${inr(selected.maximum_loan_amount)}.`);
-      return;
+    if (!product || !journey) return;
+    // Validate required journey fields
+    for (const sec of journey.sections) {
+      for (const f of sec.fields) {
+        if (f.reqd && !values[f.fieldname]) {
+          return Alert.alert("Missing field", `Please fill "${f.label}".`);
+        }
+      }
     }
     setSubmitting(true);
     try {
       const res = await api.apply({
-        loan_product: selected.name,
-        loan_amount: amt,
+        loan_product: product.name,
+        loan_amount: Number(amount),
         repayment_periods: Number(tenure) || 12,
+        journey_type: journey.journey_type,
+        journey_data: JSON.stringify(values),
       });
-      // Go straight to the new application so the borrower sees the journey + eKYC.
       router.replace(`/application/${res.loan_application}`);
     } catch (e) {
       Alert.alert("Could not apply", (e as Error).message);
@@ -118,201 +131,166 @@ export default function Apply() {
     color: palette.text,
     backgroundColor: palette.card,
   };
-  const label = (t: string) => (
+  const fieldLabel = (t: string) => (
     <Text style={{ fontSize: 13, fontWeight: "600", color: palette.muted, marginTop: 18, marginBottom: 8 }}>{t}</Text>
   );
 
   return (
     <View style={{ flex: 1, backgroundColor: palette.bg }}>
-      {/* Explicit back row so it always works on web + native */}
+      {/* Header with back / step */}
       <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, paddingBottom: 8, flexDirection: "row", alignItems: "center" }}>
-        <Pressable onPress={() => router.back()} hitSlop={10} style={{ paddingVertical: 4, paddingRight: 12 }}>
-          <Text style={{ fontSize: 22, color: palette.text }}>‹</Text>
+        <Pressable onPress={() => (step === 2 ? setStep(1) : router.back())} hitSlop={10} style={{ paddingVertical: 4, paddingRight: 12 }}>
+          <Text style={{ fontSize: 24, color: palette.text }}>‹</Text>
         </Pressable>
-        <Text style={{ fontSize: 17, fontWeight: "700", color: palette.text }}>Apply for a loan</Text>
+        <Text style={{ fontSize: 17, fontWeight: "700", color: palette.text }}>
+          {step === 1 ? "Apply for a loan" : journey?.title}
+        </Text>
+        <Text style={{ marginLeft: "auto", fontSize: 13, color: palette.muted }}>Step {step}/2</Text>
       </View>
 
-      <ScrollView
-        contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 100, width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
-      >
-        <Text style={{ fontSize: 24, fontWeight: "800", color: palette.text, letterSpacing: -0.5 }}>
-          Online loans designed for you
-        </Text>
-        <Text style={{ fontSize: 14, color: palette.muted, marginTop: 6 }}>Choose a product and your conditions.</Text>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 100, width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}>
+        {step === 1 ? (
+          <>
+            <Text style={{ fontSize: 24, fontWeight: "800", color: palette.text, letterSpacing: -0.5 }}>Online loans designed for you</Text>
+            <Text style={{ fontSize: 14, color: palette.muted, marginTop: 6 }}>Choose your loan and conditions.</Text>
 
-        {label("Loan product")}
-        <Pressable
-          onPress={() => setPickerOpen(true)}
-          style={{ ...inputStyle, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
-        >
-          <Text style={{ fontSize: 16, fontWeight: "700", color: palette.text }}>
-            {selected?.product_name ?? "Select a product"}
-          </Text>
-          <Text style={{ color: palette.muted, fontSize: 14 }}>▾</Text>
-        </Pressable>
+            {fieldLabel("Loan type")}
+            <Pressable onPress={() => setJourneyPicker(true)} style={{ ...inputStyle, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+              <Text style={{ fontSize: 16, fontWeight: "700", color: palette.text }}>{journeyType?.title ?? "Select"}</Text>
+              <Text style={{ color: palette.muted }}>▾</Text>
+            </Pressable>
 
-        {/* Selected product details */}
-        {selected ? (
-          <View
-            style={{
-              backgroundColor: palette.card,
-              borderRadius: radiusLg,
-              borderWidth: 1,
-              borderColor: palette.border,
-              padding: 16,
-              marginTop: 12,
-              gap: 10,
-            }}
-          >
-            <Detail label="Interest rate" value={`${selected.rate_of_interest}% p.a.`} palette={palette} />
-            <Detail label="Maximum amount" value={inr(selected.maximum_loan_amount)} palette={palette} />
-            <Detail label="Schedule" value={selected.repayment_schedule_type} palette={palette} />
-          </View>
-        ) : null}
-
-        {label("Loan amount (₹)")}
-        <TextInput
-          style={[inputStyle, overLimit ? { borderColor: palette.danger } : null]}
-          keyboardType="numeric"
-          placeholder="50000"
-          placeholderTextColor={palette.muted}
-          value={amount}
-          onChangeText={setAmount}
-        />
-        {overLimit ? (
-          <Text style={{ color: palette.danger, fontSize: 12, marginTop: 6 }}>
-            Max for this product is {inr(selected!.maximum_loan_amount)}
-          </Text>
-        ) : null}
-
-        {label("Tenure (months)")}
-        <TextInput
-          style={inputStyle}
-          keyboardType="numeric"
-          placeholder="12"
-          placeholderTextColor={palette.muted}
-          value={tenure}
-          onChangeText={setTenure}
-        />
-
-        {/* Live estimate from the real schedule engine */}
-        {estimate || estimating ? (
-          <View style={{ backgroundColor: palette.accentSoft, borderRadius: radiusLg, padding: 16, marginTop: 18 }}>
-            <Text style={{ fontSize: 13, color: palette.accentDark, fontWeight: "600" }}>Estimated monthly EMI</Text>
-            {estimating && !estimate ? (
-              <ActivityIndicator color={palette.accentDark} style={{ alignSelf: "flex-start", marginTop: 8 }} />
-            ) : estimate ? (
-              <>
-                <Text style={{ fontSize: 28, fontWeight: "800", color: palette.text, marginTop: 2 }}>
-                  {inr(estimate.emi)}
-                </Text>
-                <Text style={{ fontSize: 12, color: palette.muted, marginTop: 4 }}>
-                  You repay {inr(estimate.total_payable)} over {tenure} months (incl.{" "}
-                  {inr(estimate.total_interest)} interest).
-                </Text>
-              </>
+            {fieldLabel("Loan product")}
+            <Pressable onPress={() => setProductPicker(true)} style={{ ...inputStyle, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+              <Text style={{ fontSize: 16, fontWeight: "700", color: palette.text }}>{product?.product_name ?? "Select"}</Text>
+              <Text style={{ color: palette.muted }}>▾</Text>
+            </Pressable>
+            {product ? (
+              <View style={{ backgroundColor: palette.card, borderRadius: radiusLg, borderWidth: 1, borderColor: palette.border, padding: 16, marginTop: 12, gap: 10 }}>
+                <Row label="Interest rate" value={`${product.rate_of_interest}% p.a.`} palette={palette} />
+                <Row label="Maximum amount" value={inr(product.maximum_loan_amount)} palette={palette} />
+              </View>
             ) : null}
-          </View>
-        ) : null}
+
+            {fieldLabel("Loan amount (₹)")}
+            <TextInput style={[inputStyle, overLimit ? { borderColor: palette.danger } : null]} keyboardType="numeric" placeholder="50000" placeholderTextColor={palette.muted} value={amount} onChangeText={setAmount} />
+
+            {fieldLabel("Tenure (months)")}
+            <TextInput style={inputStyle} keyboardType="numeric" placeholder="12" placeholderTextColor={palette.muted} value={tenure} onChangeText={setTenure} />
+
+            {estimate ? (
+              <View style={{ backgroundColor: palette.accentSoft, borderRadius: radiusLg, padding: 16, marginTop: 18 }}>
+                <Text style={{ fontSize: 13, color: palette.accentDark, fontWeight: "600" }}>Estimated monthly EMI</Text>
+                <Text style={{ fontSize: 28, fontWeight: "800", color: palette.text, marginTop: 2 }}>{inr(estimate.emi)}</Text>
+                <Text style={{ fontSize: 12, color: palette.muted, marginTop: 4 }}>
+                  You repay {inr(estimate.total_payable)} over {tenure} months (incl. {inr(estimate.total_interest)} interest).
+                </Text>
+              </View>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <Text style={{ fontSize: 14, color: palette.muted, marginBottom: 4 }}>
+              {inr(Number(amount))} · {product?.product_name}
+            </Text>
+            {journey?.sections.map((sec) => (
+              <View key={sec.title} style={{ marginTop: 18 }}>
+                <Text style={{ fontSize: 16, fontWeight: "800", color: palette.text, marginBottom: 12 }}>{sec.title}</Text>
+                {sec.fields.map((f) => (
+                  <DynamicField key={f.fieldname} field={f} value={values[f.fieldname] || ""} onChange={(v) => setValues((p) => ({ ...p, [f.fieldname]: v }))} />
+                ))}
+              </View>
+            ))}
+          </>
+        )}
       </ScrollView>
 
       {/* Sticky CTA */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          paddingHorizontal: 16,
-          paddingTop: 10,
-          paddingBottom: insets.bottom + 10,
-          backgroundColor: palette.bg,
-          borderTopWidth: 1,
-          borderTopColor: palette.border,
-          alignItems: "center",
-        }}
-      >
+      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, paddingHorizontal: 16, paddingTop: 10, paddingBottom: insets.bottom + 10, backgroundColor: palette.bg, borderTopWidth: 1, borderTopColor: palette.border, alignItems: "center" }}>
         <Pressable
-          style={{
-            width: "100%",
-            maxWidth: contentMaxWidth - 32,
-            backgroundColor: palette.primary,
-            borderRadius: radius,
-            paddingVertical: 16,
-            alignItems: "center",
-            opacity: submitting ? 0.7 : 1,
-          }}
-          onPress={submit}
+          style={{ width: "100%", maxWidth: contentMaxWidth - 32, backgroundColor: palette.primary, borderRadius: radius, paddingVertical: 16, alignItems: "center", opacity: submitting ? 0.7 : 1 }}
+          onPress={step === 1 ? goToStep2 : submit}
           disabled={submitting}
         >
-          {submitting ? (
-            <ActivityIndicator color={palette.onPrimary} />
-          ) : (
-            <Text style={{ color: palette.onPrimary, fontSize: 16, fontWeight: "700" }}>Apply Now</Text>
-          )}
+          {submitting ? <ActivityIndicator color={palette.onPrimary} /> : <Text style={{ color: palette.onPrimary, fontSize: 16, fontWeight: "700" }}>{step === 1 ? "Continue" : "Submit application"}</Text>}
         </Pressable>
       </View>
 
-      {/* Product picker dropdown */}
-      <Modal visible={pickerOpen} transparent animationType="fade" onRequestClose={() => setPickerOpen(false)}>
-        <Pressable
-          style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "flex-end" }}
-          onPress={() => setPickerOpen(false)}
-        >
-          <Pressable
-            style={{ backgroundColor: palette.card, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: "70%", paddingBottom: insets.bottom + 8 }}
-            onPress={(e) => e.stopPropagation()}
-          >
-            <View style={{ alignItems: "center", paddingVertical: 12 }}>
-              <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: palette.border }} />
-            </View>
-            <Text style={{ fontSize: 17, fontWeight: "800", color: palette.text, paddingHorizontal: 20, paddingBottom: 8 }}>
-              Select a loan product
-            </Text>
-            <ScrollView>
-              {products.map((p) => {
-                const active = selected?.name === p.name;
-                return (
-                  <Pressable
-                    key={p.name}
-                    onPress={() => {
-                      setSelected(p);
-                      setPickerOpen(false);
-                    }}
-                    style={{
-                      paddingHorizontal: 20,
-                      paddingVertical: 14,
-                      borderTopWidth: 1,
-                      borderTopColor: palette.border,
-                      backgroundColor: active ? palette.accentSoft : "transparent",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <View>
-                      <Text style={{ fontSize: 15, fontWeight: "700", color: palette.text }}>{p.product_name}</Text>
-                      <Text style={{ fontSize: 13, color: palette.muted, marginTop: 2 }}>
-                        {p.rate_of_interest}% · up to {inr(p.maximum_loan_amount)}
-                      </Text>
-                    </View>
-                    {active ? <Text style={{ color: palette.accentDark, fontWeight: "800" }}>✓</Text> : null}
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          </Pressable>
-        </Pressable>
-      </Modal>
+      {/* Pickers */}
+      <PickerSheet
+        open={journeyPicker}
+        title="Select loan type"
+        options={journeyTypes.map((j) => ({ key: j.journey_type, label: j.title }))}
+        selected={journeyType?.journey_type}
+        onSelect={(k) => setJourneyType(journeyTypes.find((j) => j.journey_type === k) || null)}
+        onClose={() => setJourneyPicker(false)}
+        insetBottom={insets.bottom}
+      />
+      <PickerSheet
+        open={productPicker}
+        title="Select loan product"
+        options={products.map((p) => ({ key: p.name, label: p.product_name, sub: `${p.rate_of_interest}% · up to ${inr(p.maximum_loan_amount)}` }))}
+        selected={product?.name}
+        onSelect={(k) => setProduct(products.find((p) => p.name === k) || null)}
+        onClose={() => setProductPicker(false)}
+        insetBottom={insets.bottom}
+      />
     </View>
   );
 }
 
-function Detail({ label, value, palette }: { label: string; value: string; palette: import("../src/lib/theme").Palette }) {
+function Row({ label, value, palette }: { label: string; value: string; palette: import("../src/lib/theme").Palette }) {
   return (
     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
       <Text style={{ fontSize: 14, color: palette.muted }}>{label}</Text>
       <Text style={{ fontSize: 14, fontWeight: "700", color: palette.text }}>{value}</Text>
     </View>
+  );
+}
+
+function PickerSheet({
+  open,
+  title,
+  options,
+  selected,
+  onSelect,
+  onClose,
+  insetBottom,
+}: {
+  open: boolean;
+  title: string;
+  options: { key: string; label: string; sub?: string }[];
+  selected?: string;
+  onSelect: (key: string) => void;
+  onClose: () => void;
+  insetBottom: number;
+}) {
+  const { palette } = useTheme();
+  return (
+    <Modal visible={open} transparent animationType="fade" onRequestClose={onClose}>
+      <Pressable style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "flex-end" }} onPress={onClose}>
+        <Pressable style={{ backgroundColor: palette.card, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: "70%", paddingBottom: insetBottom + 8 }} onPress={(e) => e.stopPropagation()}>
+          <Text style={{ fontSize: 17, fontWeight: "800", color: palette.text, padding: 18 }}>{title}</Text>
+          <ScrollView>
+            {options.map((o) => (
+              <Pressable
+                key={o.key}
+                onPress={() => {
+                  onSelect(o.key);
+                  onClose();
+                }}
+                style={{ paddingHorizontal: 18, paddingVertical: 14, borderTopWidth: 1, borderTopColor: palette.border, backgroundColor: selected === o.key ? palette.accentSoft : "transparent", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
+              >
+                <View>
+                  <Text style={{ fontSize: 15, fontWeight: "700", color: palette.text }}>{o.label}</Text>
+                  {o.sub ? <Text style={{ fontSize: 13, color: palette.muted, marginTop: 2 }}>{o.sub}</Text> : null}
+                </View>
+                {selected === o.key ? <Text style={{ color: palette.accentDark, fontWeight: "800" }}>✓</Text> : null}
+              </Pressable>
+            ))}
+          </ScrollView>
+        </Pressable>
+      </Pressable>
+    </Modal>
   );
 }

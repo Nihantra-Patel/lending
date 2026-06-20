@@ -52,11 +52,15 @@ def apply(
 	loan_amount: float,
 	repayment_periods: int,
 	repayment_start_date: str | None = None,
+	journey_type: str | None = None,
+	journey_data: dict | str | None = None,
 ) -> dict:
 	"""Create a Loan Application for the logged-in borrower.
 
 	The native "Apply" button posts here. We construct and submit the real Loan
-	Application so all core underwriting validations run server-side.
+	Application so all core underwriting validations run server-side. Any
+	product-specific onboarding fields captured by the dynamic journey form are
+	stored alongside the application via ``Borrower Onboarding Submission``.
 	"""
 
 	applicant_type, applicant = get_current_applicant()
@@ -93,6 +97,15 @@ def apply(
 	with elevated():
 		application.insert(ignore_permissions=True)
 		application.submit()
+
+	if journey_data:
+		import json
+
+		from lending.mobile_api.onboarding import save_submission
+
+		if isinstance(journey_data, str):
+			journey_data = json.loads(journey_data)
+		save_submission(application.name, journey_type, journey_data)
 
 	return {
 		"loan_application": application.name,
