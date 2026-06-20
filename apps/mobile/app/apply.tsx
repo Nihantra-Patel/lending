@@ -12,9 +12,11 @@ import {
 } from "react-native";
 import { api, inr, LoanProduct } from "../src/lib/api";
 import { theme } from "../src/lib/theme";
+import { useResponsive } from "../src/lib/responsive";
 
 export default function Apply() {
   const router = useRouter();
+  const { contentMaxWidth } = useResponsive();
   const [products, setProducts] = useState<LoanProduct[]>([]);
   const [selected, setSelected] = useState<LoanProduct | null>(null);
   const [amount, setAmount] = useState("");
@@ -67,7 +69,10 @@ export default function Apply() {
   }
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={{ padding: 16 }}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={{ padding: 16, width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
+    >
       <Text style={styles.label}>Loan product</Text>
       <View style={styles.products}>
         {products.map((p) => {

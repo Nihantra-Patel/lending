@@ -43,6 +43,14 @@ require_type_annotated_api_methods = True
 # app_include_css = "/assets/lending/css/lending.css"
 app_include_js = "lending.bundle.js"
 
+# Native borrower app (Expo web build) served at /borrow-portal.
+# Deep links like /borrow-portal/apply are handled by the SPA's client router,
+# so route every subpath back to the same www page (Raven-style).
+website_route_rules = [
+	{"from_route": "/borrow-portal", "to_route": "borrow_portal"},
+	{"from_route": "/borrow-portal/<path:app_path>", "to_route": "borrow_portal"},
+]
+
 # fixtures
 fixtures = [
 	{"dt": "Role", "filters": [["role_name", "like", "Loan %"]]},

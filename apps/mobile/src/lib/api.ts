@@ -5,10 +5,19 @@
  * Auth is cookie/token based and handled by the FrappeProvider (frappe-react-sdk);
  * here we only shape requests/responses for the screens.
  */
+import { Platform } from "react-native";
 import Constants from "expo-constants";
 
+/**
+ * On web the app is served by Frappe itself (e.g. dev-testcase.com/borrow-portal),
+ * so API calls are same-origin — no host, no CORS. On native (iOS/Android) the
+ * app is a standalone binary and must point at an absolute site URL, configured
+ * via app.json -> expo.extra.frappeSiteUrl.
+ */
 export const SITE_URL: string =
-  (Constants.expoConfig?.extra?.frappeSiteUrl as string) || "https://dev-testcase.com";
+  Platform.OS === "web"
+    ? ""
+    : (Constants.expoConfig?.extra?.frappeSiteUrl as string) || "https://dev-testcase.com";
 
 const METHOD_BASE = `${SITE_URL}/api/method`;
 
@@ -27,6 +36,7 @@ export type LoanSummary = {
   loan_amount: number;
   disbursed_amount: number;
   total_amount_paid: number;
+  total_payment?: number;
   monthly_repayment_amount: number;
   is_npa: number;
   days_past_due: number;

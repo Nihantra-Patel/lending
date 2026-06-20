@@ -2,10 +2,12 @@ import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../src/lib/auth";
 import { theme } from "../../src/lib/theme";
+import { useResponsive } from "../../src/lib/responsive";
 
 export default function Profile() {
   const { profile, logout } = useAuth();
   const router = useRouter();
+  const { contentMaxWidth } = useResponsive();
 
   const initials = (profile?.full_name || "?")
     .split(" ")
@@ -15,7 +17,8 @@ export default function Profile() {
     .toUpperCase();
 
   return (
-    <View style={styles.screen}>
+    <View style={[styles.screen, { alignItems: "center" }]}>
+      <View style={{ width: "100%", maxWidth: contentMaxWidth }}>
       <View style={styles.card}>
         <View style={styles.avatar}>
           <Text style={styles.avatarText}>{initials}</Text>
@@ -34,6 +37,7 @@ export default function Profile() {
       >
         <Text style={styles.logoutText}>Sign out</Text>
       </Pressable>
+      </View>
     </View>
   );
 }

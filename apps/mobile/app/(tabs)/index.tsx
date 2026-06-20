@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { api, inr, LoanSummary } from "../../src/lib/api";
 import { theme } from "../../src/lib/theme";
+import { useResponsive } from "../../src/lib/responsive";
 
 function StatusPill({ status, npa }: { status: string; npa: number }) {
   const color = npa ? theme.danger : status === "Closed" ? theme.muted : theme.success;
@@ -48,6 +49,7 @@ function LoanCard({ loan }: { loan: LoanSummary }) {
 
 export default function MyLoans() {
   const router = useRouter();
+  const { contentMaxWidth } = useResponsive();
   const [loans, setLoans] = useState<LoanSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -82,6 +84,7 @@ export default function MyLoans() {
       <FlatList
         data={loans}
         keyExtractor={(l) => l.name}
+        style={{ width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
         contentContainerStyle={{ padding: 16, paddingBottom: 90 }}
         refreshControl={
           <RefreshControl
@@ -102,9 +105,14 @@ export default function MyLoans() {
         }
         renderItem={({ item }) => <LoanCard loan={item} />}
       />
-      <Pressable style={styles.fab} onPress={() => router.push("/apply")}>
-        <Text style={styles.fabText}>+  Apply for a loan</Text>
-      </Pressable>
+      <View style={styles.fabWrap} pointerEvents="box-none">
+        <Pressable
+          style={[styles.fab, { maxWidth: contentMaxWidth - 32 }]}
+          onPress={() => router.push("/apply")}
+        >
+          <Text style={styles.fabText}>+  Apply for a loan</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -128,11 +136,16 @@ const styles = StyleSheet.create({
   meta: { fontSize: 13, color: theme.muted },
   pill: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
   pillText: { fontSize: 12, fontWeight: "700" },
-  fab: {
+  fabWrap: {
     position: "absolute",
     bottom: 20,
-    left: 16,
-    right: 16,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+  },
+  fab: {
+    width: "100%",
+    marginHorizontal: 16,
     backgroundColor: theme.primary,
     borderRadius: 14,
     paddingVertical: 16,

@@ -11,9 +11,12 @@ import {
 } from "react-native";
 import { api, Dues, inr, LoanSummary, ScheduleRow } from "../../src/lib/api";
 import { theme } from "../../src/lib/theme";
+import { useResponsive } from "../../src/lib/responsive";
+import { RepaymentChart } from "../../src/components/RepaymentChart";
 
 export default function LoanDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { contentMaxWidth } = useResponsive();
   const [loan, setLoan] = useState<LoanSummary | null>(null);
   const [dues, setDues] = useState<Dues | null>(null);
   const [schedule, setSchedule] = useState<ScheduleRow[]>([]);
@@ -49,7 +52,10 @@ export default function LoanDetail() {
   }
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={{ padding: 16, paddingBottom: 40, width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
+    >
       <View style={styles.hero}>
         <Text style={styles.heroLabel}>Outstanding principal</Text>
         <Text style={styles.heroAmount}>{inr(dues?.principal_outstanding)}</Text>
@@ -57,6 +63,15 @@ export default function LoanDetail() {
           {loan?.loan_product} · {loan?.status}
         </Text>
       </View>
+
+      {loan ? (
+        <RepaymentChart
+          loanAmount={loan.loan_amount}
+          paid={loan.total_amount_paid}
+          totalPayment={loan.total_payment || loan.loan_amount}
+          totalInterest={Math.max((loan.total_payment || 0) - loan.loan_amount, 0)}
+        />
+      ) : null}
 
       {kyc ? (
         <View
@@ -133,14 +148,14 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: theme.bg },
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
   hero: {
-    backgroundColor: theme.primary,
+    backgroundColor: theme.accent,
     borderRadius: 18,
     padding: 22,
     marginBottom: 14,
   },
-  heroLabel: { color: "#cdd9ff", fontSize: 13 },
+  heroLabel: { color: "#d6e9ff", fontSize: 13 },
   heroAmount: { color: "#fff", fontSize: 32, fontWeight: "800", marginTop: 4 },
-  heroMeta: { color: "#cdd9ff", fontSize: 13, marginTop: 6 },
+  heroMeta: { color: "#d6e9ff", fontSize: 13, marginTop: 6 },
   kyc: {
     backgroundColor: theme.card,
     borderRadius: 14,
