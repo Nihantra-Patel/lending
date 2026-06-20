@@ -90,7 +90,8 @@ export default function Apply() {
         loan_amount: amt,
         repayment_periods: Number(tenure) || 12,
       });
-      Alert.alert("Application submitted", res.message, [{ text: "Done", onPress: () => router.back() }]);
+      // Go straight to the new application so the borrower sees the journey + eKYC.
+      router.replace(`/application/${res.loan_application}`);
     } catch (e) {
       Alert.alert("Could not apply", (e as Error).message);
     } finally {

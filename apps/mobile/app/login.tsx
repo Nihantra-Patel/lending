@@ -53,10 +53,10 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: palette.bg, justifyContent: "center", alignItems: "center", padding: 24 }}
+      style={{ flex: 1, backgroundColor: palette.bg, alignItems: "center", paddingHorizontal: 24, paddingTop: 96 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <View style={{ width: "100%", maxWidth: 380 }}>
+      <View style={{ width: "100%", maxWidth: 360 }}>
         {/* Brand */}
         <View
           style={{

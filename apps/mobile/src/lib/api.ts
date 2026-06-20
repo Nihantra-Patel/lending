@@ -43,6 +43,27 @@ export type LoanSummary = {
   disbursement_date: string | null;
 };
 
+export type Summary = {
+  total_loans: number;
+  active_loans: number;
+  total_borrowed: number;
+  total_paid: number;
+  outstanding: number;
+  overdue_loans: number;
+  npa_loans: number;
+};
+
+export type Application = {
+  name: string;
+  loan_product: string;
+  loan_amount: number;
+  rate_of_interest: number;
+  repayment_periods: number;
+  status: string;
+  stage: string;
+  posting_date: string;
+};
+
 export type Dues = {
   as_on_date: string;
   oldest_due_date: string | null;
@@ -101,7 +122,11 @@ export const api = {
     call<LoanProduct[]>("lending.mobile_api.loan.get_loan_products"),
   getLoanProduct: (loan_product: string) =>
     call<LoanProduct>("lending.mobile_api.loan.get_loan_product", { loan_product }),
+  getSummary: () => call<Summary>("lending.mobile_api.loan.get_summary"),
   listLoans: () => call<LoanSummary[]>("lending.mobile_api.loan.list_loans"),
+  listApplications: () => call<Application[]>("lending.mobile_api.loan.list_applications"),
+  getApplication: (loan_application: string) =>
+    call<Application>("lending.mobile_api.loan.get_application", { loan_application }),
   getLoan: (loan: string) =>
     call<LoanSummary>("lending.mobile_api.loan.get_loan", { loan }),
   apply: (payload: {
@@ -125,6 +150,11 @@ export const api = {
     call<{ status: string | null; verified: boolean }>(
       "lending.mobile_api.kyc.get_kyc_status",
       { loan }
+    ),
+  getKycStatusForApplication: (loan_application: string) =>
+    call<{ available?: boolean; status: string | null; verified: boolean }>(
+      "lending.mobile_api.kyc.get_kyc_status",
+      { loan_application }
     ),
   getApplicationFlow: (loan_application: string) =>
     call<{ has_workflow: boolean; workflow?: string; state: string; actions: string[] }>(

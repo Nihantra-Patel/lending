@@ -14,34 +14,20 @@ export default function TabsLayout() {
         tabBarActiveTintColor: palette.text,
         tabBarInactiveTintColor: palette.muted,
         tabBarStyle: { backgroundColor: palette.card, borderTopColor: palette.border },
-        headerStyle: { backgroundColor: palette.bg },
-        headerTitleStyle: { color: palette.text },
-        headerShadowVisible: false,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="index"
-        options={{
-          title: "My Loans",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>🏦</Text>,
-        }}
+        options={{ title: "Home", tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>🏠</Text> }}
+      />
+      <Tabs.Screen
+        name="applications"
+        options={{ title: "Applications", tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>📄</Text> }}
       />
       <Tabs.Screen
         name="profile"
-        options={{
-          title: "Profile",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>👤</Text>,
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "Settings",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>⚙️</Text>,
-        }}
+        options={{ title: "Profile", tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>👤</Text> }}
       />
     </Tabs>
   );

@@ -109,7 +109,7 @@ def list_applications() -> list[dict]:
 	"""Return the borrower's loan applications (apply history screen)."""
 
 	applicant_type, applicant = get_current_applicant()
-	return frappe.get_all(
+	rows = frappe.get_all(
 		"Loan Application",
 		filters={"applicant_type": applicant_type, "applicant": applicant},
 		fields=[
@@ -119,10 +119,72 @@ def list_applications() -> list[dict]:
 			"rate_of_interest",
 			"repayment_periods",
 			"status",
+			"workflow_state",
 			"posting_date",
 		],
 		order_by="posting_date desc",
 	)
+	for r in rows:
+		r["stage"] = r.get("workflow_state") or r.get("status")
+	return rows
+
+
+@frappe.whitelist()
+def get_application(loan_application: str) -> dict:
+	"""Return a single application's details for the tracking screen."""
+
+	applicant_type, applicant = get_current_applicant()
+	app = frappe.db.get_value(
+		"Loan Application",
+		loan_application,
+		[
+			"name",
+			"applicant_type",
+			"applicant",
+			"loan_product",
+			"loan_amount",
+			"rate_of_interest",
+			"repayment_periods",
+			"status",
+			"workflow_state",
+			"posting_date",
+		],
+		as_dict=True,
+	)
+	if not app or app.applicant_type != applicant_type or app.applicant != applicant:
+		frappe.throw(_("Loan application not found."), frappe.PermissionError)
+
+	app["stage"] = app.get("workflow_state") or app.get("status")
+	return app
+
+
+@frappe.whitelist()
+def get_summary() -> dict:
+	"""Portfolio summary for the landing page header."""
+
+	applicant_type, applicant = get_current_applicant()
+	loans = frappe.get_all(
+		"Loan",
+		filters={"applicant_type": applicant_type, "applicant": applicant, "docstatus": ["<", 2]},
+		fields=["status", "loan_amount", "total_amount_paid", "total_payment", "is_npa", "days_past_due"],
+	)
+
+	active_statuses = {"Sanctioned", "Partially Disbursed", "Disbursed", "Active", "Loan Closure Requested"}
+	total_borrowed = sum(flt(l.loan_amount) for l in loans)
+	total_paid = sum(flt(l.total_amount_paid) for l in loans)
+	outstanding = sum(
+		max(flt(l.total_payment) - flt(l.total_amount_paid), 0) for l in loans if l.status in active_statuses
+	)
+
+	return {
+		"total_loans": len(loans),
+		"active_loans": len([l for l in loans if l.status in active_statuses]),
+		"total_borrowed": flt(total_borrowed, 2),
+		"total_paid": flt(total_paid, 2),
+		"outstanding": flt(outstanding, 2),
+		"overdue_loans": len([l for l in loans if flt(l.days_past_due) > 0]),
+		"npa_loans": len([l for l in loans if l.is_npa]),
+	}
 
 
 @frappe.whitelist()

@@ -2,7 +2,7 @@ import { Link, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable, RefreshControl, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { api, inr, LoanSummary } from "../../src/lib/api";
+import { api, inr, LoanSummary, Summary } from "../../src/lib/api";
 import { useAuth } from "../../src/lib/auth";
 import { useTheme } from "../../src/lib/ThemeContext";
 import { useResponsive } from "../../src/lib/responsive";
@@ -12,9 +12,19 @@ function statusTone(loan: LoanSummary, palette: Palette) {
   if (loan.is_npa) return { color: palette.danger, bg: palette.dangerSoft, label: "NPA" };
   if (loan.status === "Closed" || loan.status === "Settled")
     return { color: palette.muted, bg: palette.border, label: loan.status };
-  if (loan.days_past_due > 0)
-    return { color: palette.warning, bg: palette.warningSoft, label: loan.status };
+  if (loan.days_past_due > 0) return { color: palette.warning, bg: palette.warningSoft, label: loan.status };
   return { color: palette.accentDark, bg: palette.accentSoft, label: loan.status };
+}
+
+function Stat({ label, value, palette, color }: { label: string; value: string; palette: Palette; color?: string }) {
+  return (
+    <View style={{ flex: 1 }}>
+      <Text style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>{label}</Text>
+      <Text style={{ fontSize: 17, fontWeight: "800", color: color || "#fff", marginTop: 2 }} numberOfLines={1}>
+        {value}
+      </Text>
+    </View>
+  );
 }
 
 function LoanCard({ loan, palette }: { loan: LoanSummary; palette: Palette }) {
@@ -39,15 +49,13 @@ function LoanCard({ loan, palette }: { loan: LoanSummary; palette: Palette }) {
             <Text style={{ fontSize: 12, fontWeight: "700", color: tone.color }}>{tone.label}</Text>
           </View>
         </View>
-        <Text style={{ fontSize: 28, fontWeight: "800", color: palette.text, marginTop: 10, letterSpacing: -0.5 }}>
+        <Text style={{ fontSize: 26, fontWeight: "800", color: palette.text, marginTop: 10, letterSpacing: -0.5 }}>
           {inr(loan.loan_amount)}
         </Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 12 }}>
           <Text style={{ fontSize: 13, color: palette.muted }}>Paid {inr(loan.total_amount_paid)}</Text>
           {loan.days_past_due > 0 ? (
-            <Text style={{ fontSize: 13, fontWeight: "600", color: palette.warning }}>
-              {loan.days_past_due} days past due
-            </Text>
+            <Text style={{ fontSize: 13, fontWeight: "600", color: palette.warning }}>{loan.days_past_due} days past due</Text>
           ) : (
             <Text style={{ fontSize: 13, fontWeight: "600", color: palette.accentDark }}>On track</Text>
           )}
@@ -64,16 +72,15 @@ export default function MyLoans() {
   const { contentMaxWidth } = useResponsive();
   const insets = useSafeAreaInsets();
   const [loans, setLoans] = useState<LoanSummary[]>([]);
+  const [summary, setSummary] = useState<Summary | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     try {
-      setError(null);
-      setLoans(await api.listLoans());
-    } catch (e) {
-      setError((e as Error).message);
+      const [l, s] = await Promise.all([api.listLoans(), api.getSummary()]);
+      setLoans(l);
+      setSummary(s);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -84,7 +91,7 @@ export default function MyLoans() {
     load();
   }, [load]);
 
-  const name = profile?.full_name || "there";
+  const name = (profile?.full_name || "there").replace(/^_+/, "");
 
   if (loading) {
     return (
@@ -95,73 +102,92 @@ export default function MyLoans() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: palette.bg }}>
-      <FlatList
-        data={loans}
-        keyExtractor={(l) => l.name}
-        style={{ width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
-        contentContainerStyle={{ padding: 16, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 96 }}
-        ListHeaderComponent={
-          <View style={{ marginBottom: 18 }}>
-            <Text style={{ fontSize: 14, color: palette.muted }}>Welcome back,</Text>
-            <Text style={{ fontSize: 26, fontWeight: "800", color: palette.text, letterSpacing: -0.5 }} numberOfLines={1}>
-              {name}
-            </Text>
-            <Text style={{ fontSize: 14, color: palette.muted, marginTop: 6 }}>
-              {loans.length} {loans.length === 1 ? "loan" : "loans"}
-            </Text>
-          </View>
-        }
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            tintColor={palette.accent}
-            onRefresh={() => {
-              setRefreshing(true);
-              load();
-            }}
-          />
-        }
-        ListEmptyComponent={
-          <View style={{ alignItems: "center", padding: 32, gap: 6 }}>
-            <Text style={{ fontSize: 18, fontWeight: "700", color: palette.text }}>No loans yet</Text>
-            <Text style={{ fontSize: 13, color: palette.muted, textAlign: "center" }}>
-              {error ?? "Tap the button below to apply for your first loan."}
-            </Text>
-          </View>
-        }
-        renderItem={({ item }) => <LoanCard loan={item} palette={palette} />}
-      />
-      {/* Sticky bottom action bar so the CTA never covers a card */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          paddingHorizontal: 16,
-          paddingTop: 10,
-          paddingBottom: insets.bottom + 10,
-          backgroundColor: palette.bg,
-          borderTopWidth: 1,
-          borderTopColor: palette.border,
-          alignItems: "center",
-        }}
-      >
-        <Pressable
-          style={{
-            width: "100%",
-            maxWidth: contentMaxWidth - 32,
-            backgroundColor: palette.primary,
-            borderRadius: radius,
-            paddingVertical: 16,
-            alignItems: "center",
+    <FlatList
+      style={{ flex: 1, backgroundColor: palette.bg }}
+      data={loans}
+      keyExtractor={(l) => l.name}
+      contentContainerStyle={{
+        paddingHorizontal: 16,
+        paddingTop: insets.top + 12,
+        paddingBottom: insets.bottom + 24,
+        width: "100%",
+        maxWidth: contentMaxWidth,
+        alignSelf: "center",
+      }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          tintColor={palette.accent}
+          onRefresh={() => {
+            setRefreshing(true);
+            load();
           }}
-          onPress={() => router.push("/apply")}
-        >
-          <Text style={{ color: palette.onPrimary, fontSize: 16, fontWeight: "700" }}>+  Apply for a loan</Text>
-        </Pressable>
-      </View>
-    </View>
+        />
+      }
+      ListHeaderComponent={
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ fontSize: 14, color: palette.muted }}>Welcome back,</Text>
+          <Text style={{ fontSize: 24, fontWeight: "800", color: palette.text, letterSpacing: -0.5 }} numberOfLines={1}>
+            {name}
+          </Text>
+
+          {/* Portfolio summary card */}
+          <View style={{ backgroundColor: palette.primary, borderRadius: radiusLg, padding: 18, marginTop: 14 }}>
+            <Text style={{ fontSize: 13, color: "rgba(255,255,255,0.7)" }}>Total outstanding</Text>
+            <Text style={{ fontSize: 30, fontWeight: "800", color: "#fff", marginTop: 2, letterSpacing: -0.5 }}>
+              {inr(summary?.outstanding)}
+            </Text>
+            <View style={{ flexDirection: "row", marginTop: 16, gap: 12 }}>
+              <Stat label="Borrowed" value={inr(summary?.total_borrowed)} palette={palette} />
+              <Stat label="Paid" value={inr(summary?.total_paid)} palette={palette} color={palette.accent} />
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 14, gap: 12 }}>
+              <Stat label="Active loans" value={String(summary?.active_loans ?? 0)} palette={palette} />
+              <Stat
+                label="Overdue"
+                value={String(summary?.overdue_loans ?? 0)}
+                palette={palette}
+                color={summary && summary.overdue_loans > 0 ? palette.warning : "#fff"}
+              />
+            </View>
+          </View>
+
+          {/* Quick actions */}
+          <View style={{ flexDirection: "row", gap: 12, marginTop: 14 }}>
+            <Pressable
+              style={{ flex: 1, backgroundColor: palette.accent, borderRadius: radius, paddingVertical: 14, alignItems: "center" }}
+              onPress={() => router.push("/apply")}
+            >
+              <Text style={{ color: palette.onAccent, fontWeight: "700", fontSize: 15 }}>+ Apply</Text>
+            </Pressable>
+            <Pressable
+              style={{
+                flex: 1,
+                backgroundColor: palette.card,
+                borderWidth: 1,
+                borderColor: palette.border,
+                borderRadius: radius,
+                paddingVertical: 14,
+                alignItems: "center",
+              }}
+              onPress={() => router.push("/(tabs)/applications")}
+            >
+              <Text style={{ color: palette.text, fontWeight: "700", fontSize: 15 }}>My applications</Text>
+            </Pressable>
+          </View>
+
+          <Text style={{ fontSize: 16, fontWeight: "800", color: palette.text, marginTop: 22, marginBottom: 4 }}>
+            Your loans
+          </Text>
+        </View>
+      }
+      ListEmptyComponent={
+        <View style={{ alignItems: "center", padding: 32, gap: 6 }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: palette.text }}>No loans yet</Text>
+          <Text style={{ fontSize: 13, color: palette.muted, textAlign: "center" }}>Tap Apply to get started.</Text>
+        </View>
+      }
+      renderItem={({ item }) => <LoanCard loan={item} palette={palette} />}
+    />
   );
 }

@@ -22,6 +22,7 @@ function ThemedStack() {
         <Stack.Screen name="login" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="loan/[id]" options={{ headerShown: true, title: "Loan details", headerBackTitle: "Back" }} />
+        <Stack.Screen name="application/[id]" options={{ headerShown: true, title: "Application", headerBackTitle: "Back" }} />
         <Stack.Screen name="apply" options={{ headerShown: false }} />
       </Stack>
     </>
