@@ -99,6 +99,8 @@ export const api = {
   getProfile: () => call<Profile>("lending.mobile_api.auth.get_profile"),
   getLoanProducts: () =>
     call<LoanProduct[]>("lending.mobile_api.loan.get_loan_products"),
+  getLoanProduct: (loan_product: string) =>
+    call<LoanProduct>("lending.mobile_api.loan.get_loan_product", { loan_product }),
   listLoans: () => call<LoanSummary[]>("lending.mobile_api.loan.list_loans"),
   getLoan: (loan: string) =>
     call<LoanSummary>("lending.mobile_api.loan.get_loan", { loan }),

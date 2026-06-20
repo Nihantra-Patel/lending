@@ -8,32 +8,36 @@ import { useTheme } from "../../src/lib/ThemeContext";
 import { useResponsive } from "../../src/lib/responsive";
 import { radius, radiusLg, radiusFull, Palette } from "../../src/lib/theme";
 
-function StatusPill({ status, npa, palette }: { status: string; npa: number; palette: Palette }) {
-  const color = npa ? palette.danger : status === "Closed" ? palette.muted : palette.accentDark;
-  const bg = npa ? palette.dangerSoft : status === "Closed" ? palette.border : palette.accentSoft;
-  return (
-    <View style={{ borderRadius: radiusFull, paddingHorizontal: 12, paddingVertical: 5, backgroundColor: bg }}>
-      <Text style={{ fontSize: 12, fontWeight: "700", color }}>{npa ? "NPA" : status}</Text>
-    </View>
-  );
+function statusTone(loan: LoanSummary, palette: Palette) {
+  if (loan.is_npa) return { color: palette.danger, bg: palette.dangerSoft, label: "NPA" };
+  if (loan.status === "Closed" || loan.status === "Settled")
+    return { color: palette.muted, bg: palette.border, label: loan.status };
+  if (loan.days_past_due > 0)
+    return { color: palette.warning, bg: palette.warningSoft, label: loan.status };
+  return { color: palette.accentDark, bg: palette.accentSoft, label: loan.status };
 }
 
-function LoanCard({ loan, palette, tint }: { loan: LoanSummary; palette: Palette; tint: string }) {
+function LoanCard({ loan, palette }: { loan: LoanSummary; palette: Palette }) {
+  const tone = statusTone(loan, palette);
   return (
     <Link href={`/loan/${loan.name}`} asChild>
       <Pressable
         style={{
-          backgroundColor: tint,
+          backgroundColor: palette.card,
           borderRadius: radiusLg,
           padding: 18,
-          marginBottom: 14,
+          marginBottom: 12,
           borderWidth: 1,
           borderColor: palette.border,
+          borderLeftWidth: 4,
+          borderLeftColor: tone.color,
         }}
       >
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <Text style={{ fontSize: 13, fontWeight: "600", color: palette.muted }}>{loan.loan_product}</Text>
-          <StatusPill status={loan.status} npa={loan.is_npa} palette={palette} />
+          <View style={{ borderRadius: radiusFull, paddingHorizontal: 12, paddingVertical: 5, backgroundColor: tone.bg }}>
+            <Text style={{ fontSize: 12, fontWeight: "700", color: tone.color }}>{tone.label}</Text>
+          </View>
         </View>
         <Text style={{ fontSize: 28, fontWeight: "800", color: palette.text, marginTop: 10, letterSpacing: -0.5 }}>
           {inr(loan.loan_amount)}
@@ -80,8 +84,7 @@ export default function MyLoans() {
     load();
   }, [load]);
 
-  const tints = [palette.tintGreen, palette.tintBlue, palette.tintViolet];
-  const firstName = (profile?.full_name || "there").split(" ")[0];
+  const name = profile?.full_name || "there";
 
   if (loading) {
     return (
@@ -97,15 +100,15 @@ export default function MyLoans() {
         data={loans}
         keyExtractor={(l) => l.name}
         style={{ width: "100%", maxWidth: contentMaxWidth, alignSelf: "center" }}
-        contentContainerStyle={{ padding: 16, paddingTop: insets.top + 12, paddingBottom: 100 }}
+        contentContainerStyle={{ padding: 16, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 96 }}
         ListHeaderComponent={
           <View style={{ marginBottom: 18 }}>
             <Text style={{ fontSize: 14, color: palette.muted }}>Welcome back,</Text>
-            <Text style={{ fontSize: 30, fontWeight: "800", color: palette.text, letterSpacing: -0.5 }}>
-              {firstName}
+            <Text style={{ fontSize: 26, fontWeight: "800", color: palette.text, letterSpacing: -0.5 }} numberOfLines={1}>
+              {name}
             </Text>
-            <Text style={{ fontSize: 15, color: palette.muted, marginTop: 6 }}>
-              {loans.length} active {loans.length === 1 ? "loan" : "loans"}
+            <Text style={{ fontSize: 14, color: palette.muted, marginTop: 6 }}>
+              {loans.length} {loans.length === 1 ? "loan" : "loans"}
             </Text>
           </View>
         }
@@ -127,19 +130,31 @@ export default function MyLoans() {
             </Text>
           </View>
         }
-        renderItem={({ item, index }) => (
-          <LoanCard loan={item} palette={palette} tint={tints[index % tints.length]} />
-        )}
+        renderItem={({ item }) => <LoanCard loan={item} palette={palette} />}
       />
-      <View style={{ position: "absolute", bottom: 20, left: 0, right: 0, alignItems: "center" }} pointerEvents="box-none">
+      {/* Sticky bottom action bar so the CTA never covers a card */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          paddingHorizontal: 16,
+          paddingTop: 10,
+          paddingBottom: insets.bottom + 10,
+          backgroundColor: palette.bg,
+          borderTopWidth: 1,
+          borderTopColor: palette.border,
+          alignItems: "center",
+        }}
+      >
         <Pressable
           style={{
             width: "100%",
             maxWidth: contentMaxWidth - 32,
-            marginHorizontal: 16,
             backgroundColor: palette.primary,
             borderRadius: radius,
-            paddingVertical: 17,
+            paddingVertical: 16,
             alignItems: "center",
           }}
           onPress={() => router.push("/apply")}

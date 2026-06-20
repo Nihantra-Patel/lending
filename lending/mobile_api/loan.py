@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 from frappe.utils import flt, getdate
 
-from lending.mobile_api.utils import ensure_owns_loan, get_current_applicant
+from lending.mobile_api.utils import elevated, ensure_owns_loan, get_current_applicant
 
 
 @frappe.whitelist()
@@ -31,6 +31,19 @@ def get_loan_products() -> list[dict]:
 		],
 	)
 	return products
+
+
+@frappe.whitelist()
+def get_loan_product(loan_product: str) -> dict:
+	"""Return the key details of a single loan product for the apply screen."""
+
+	doc = frappe.db.get_value(
+		"Loan Product",
+		loan_product,
+		["name", "product_name", "rate_of_interest", "maximum_loan_amount", "repayment_schedule_type"],
+		as_dict=True,
+	)
+	return doc or {}
 
 
 @frappe.whitelist()
@@ -74,8 +87,12 @@ def apply(
 	if repayment_start_date:
 		application.repayment_start_date = getdate(repayment_start_date)
 
-	application.insert()
-	application.submit()
+	# The borrower (Customer role) is authorised to create their own application,
+	# but cannot write the Loan Application DocType directly; create it on their
+	# behalf after we have set applicant to their own Customer.
+	with elevated():
+		application.insert(ignore_permissions=True)
+		application.submit()
 
 	return {
 		"loan_application": application.name,

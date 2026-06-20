@@ -115,7 +115,12 @@ export default function LoanDetail() {
         ) : null}
         <Pressable
           style={{ backgroundColor: palette.primary, borderRadius: radius, paddingVertical: 15, alignItems: "center", marginTop: 16 }}
-          onPress={() => Alert.alert("Pay EMI", "Payment gateway integration goes here (Razorpay/UPI).")}
+          onPress={() =>
+            Alert.alert(
+              "Online payment coming soon",
+              "Paying EMIs in-app will be enabled once a payment gateway (Razorpay / UPI) is connected. Until then, please use your existing repayment channel."
+            )
+          }
         >
           <Text style={{ color: palette.onPrimary, fontSize: 16, fontWeight: "700" }}>Pay {inr(dues?.total_due)}</Text>
         </Pressable>
