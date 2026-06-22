@@ -2083,9 +2083,19 @@ class TestLoanRepayment(LendingTestSuite):
 		self.assertGreater(flt(bulk[penalty_loan.name]["penalty_amount"]), 0)
 		self.assertEqual(flt(bulk[deposit_loan.name]["available_security_deposit"]), 5200)
 
-		# Non-consolidated Line of Credit returns one row per disbursement.
+		# Non-consolidated Line of Credit returns one row per disbursement, and the
+		# per-disbursement amounts must add up to the consolidated total.
 		loc_rows = get_bulk_due_details([loc.name], due_date, consolidated=False)
 		self.assertEqual({row.get("loan_disbursement") for row in loc_rows}, {disb_a.name, disb_b.name})
+
+		loc_consolidated = bulk[loc.name]
+		for key in ["payable_principal_amount", "interest_amount", "penalty_amount", "total_charges_payable"]:
+			per_disbursement_total = sum(flt(row[key]) for row in loc_rows)
+			self.assertEqual(
+				per_disbursement_total,
+				flt(loc_consolidated[key]),
+				msg=f"{key}: consolidated != sum of per-disbursement rows",
+			)
 
 	def test_get_last_demand_date_map(self):
 		# The bulk last_demand_date map (used by get_bulk_due_details) must return

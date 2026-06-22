@@ -95,32 +95,84 @@ def get_last_demand_date_map(loans, posting_date, demand_subtype="Interest"):
 	return {row[0]: row[1] for row in rows}
 
 
+def get_demand_summary_map(loans, posting_date):
+	"""Return outstanding demand totals per (loan, disbursement), summed in SQL."""
+	if not loans:
+		return {}
+
+	precision = cint(frappe.db.get_default("currency_precision")) or 2
+	LoanDemand = DocType("Loan Demand")
+	rows = (
+		frappe.qb.from_(LoanDemand)
+		.select(
+			LoanDemand.loan,
+			LoanDemand.loan_disbursement,
+			LoanDemand.demand_subtype,
+			LoanDemand.demand_type,
+			fn.Sum(LoanDemand.outstanding_amount).as_("outstanding_amount"),
+		)
+		.where(
+			(LoanDemand.docstatus == 1)
+			& (LoanDemand.loan.isin(loans))
+			& (LoanDemand.demand_date <= posting_date)
+			& (fn.Round(LoanDemand.outstanding_amount, precision) > 0)
+		)
+		.groupby(
+			LoanDemand.loan,
+			LoanDemand.loan_disbursement,
+			LoanDemand.demand_subtype,
+			LoanDemand.demand_type,
+		)
+	).run(as_dict=1)
+
+	summary = {}
+	for d in rows:
+		totals = summary.setdefault(
+			(d.loan, d.loan_disbursement),
+			{"interest": 0, "principal": 0, "penalty": 0, "charges": 0},
+		)
+		if d.demand_subtype == "Interest":
+			totals["interest"] += d.outstanding_amount
+		elif d.demand_subtype == "Principal":
+			totals["principal"] += d.outstanding_amount
+		elif d.demand_subtype in ("Penalty", "Additional Interest"):
+			totals["penalty"] += d.outstanding_amount
+		elif d.demand_type == "Charges":
+			totals["charges"] += d.outstanding_amount
+
+	return summary
+
+
+def get_demand_totals(summary_map, loan, loan_disbursement, consolidated):
+	"""Combine the demand totals from get_demand_summary_map for a given loan."""
+	blank = {"interest": 0, "principal": 0, "penalty": 0, "charges": 0}
+	if loan_disbursement is not None and not consolidated:
+		return summary_map.get((loan, loan_disbursement), blank)
+
+	combined = dict(blank)
+	for (summary_loan, _), totals in summary_map.items():
+		if summary_loan == loan:
+			for key in combined:
+				combined[key] += totals[key]
+	return combined
+
+
 def process_amount_for_bulk_loans(
 	loan,
-	demands,
+	demand_totals,
 	loan_disbursement,
 	pending_principal_amount,
 	unbooked_interest,
 	amounts,
-	posting_date,
 	available_security_deposit_map,
 	last_demand_date,
 ):
 
 	precision = cint(frappe.db.get_default("currency_precision")) or 2
-	total_pending_interest = 0
-	charges = 0
-	penalty_amount = 0
-	payable_principal_amount = 0
-	for demand in demands:
-		if demand.demand_subtype == "Interest":
-			total_pending_interest += demand.outstanding_amount
-		elif demand.demand_subtype == "Principal":
-			payable_principal_amount += demand.outstanding_amount
-		elif demand.demand_subtype in ("Penalty", "Additional Interest"):
-			penalty_amount += demand.outstanding_amount
-		elif demand.demand_type == "Charges":
-			charges += demand.outstanding_amount
+	total_pending_interest = demand_totals["interest"]
+	payable_principal_amount = demand_totals["principal"]
+	penalty_amount = demand_totals["penalty"]
+	charges = demand_totals["charges"]
 
 	amounts["loan"] = loan.name
 	amounts["loan_disbursement"] = loan_disbursement
@@ -134,7 +186,7 @@ def process_amount_for_bulk_loans(
 	)
 	amounts["unbooked_interest"] = flt(unbooked_interest, precision)
 	amounts["written_off_amount"] = flt(loan.written_off_amount, precision)
-	amounts["unpaid_demands"] = demands
+	amounts["unpaid_demands"] = []
 	amounts["due_date"] = last_demand_date
 	amounts["excess_amount_paid"] = flt(loan.excess_amount_paid, precision)
 	amounts["available_security_deposit"] = available_security_deposit_map[loan.name]

@@ -2825,6 +2825,8 @@ def process_amount_for_loan(
 @frappe.whitelist()
 def get_bulk_due_details(loans: list[str], posting_date: str | date | datetime, consolidated: bool = False):
 	from lending.loan_management.doctype.loan_repayment.utils import (
+		get_demand_summary_map,
+		get_demand_totals,
 		get_disbursement_map,
 		get_last_demand_date_map,
 		get_pending_principal_amount_for_loans,
@@ -2864,13 +2866,8 @@ def get_bulk_due_details(loans: list[str], posting_date: str | date | datetime, 
 		loans=loans,
 		posting_date=posting_date,
 	)
-	loan_demands = get_all_demands(loans, posting_date)
+	demand_summary_map = get_demand_summary_map(loans, posting_date)
 	last_demand_date_map = get_last_demand_date_map(loans, posting_date)
-
-	demand_map = {}
-	for loan in loan_demands:
-		demand_map.setdefault(loan.loan, [])
-		demand_map[loan.loan].append(loan)
 
 	# Get unbooked interest for all loans
 	loan_security_deposit_doc = frappe.qb.DocType("Loan Security Deposit")
@@ -2891,20 +2888,18 @@ def get_bulk_due_details(loans: list[str], posting_date: str | date | datetime, 
 	due_details = []
 	for loan in loan_details:
 		if loan.repayment_schedule_type == "Line of Credit" and not consolidated:
-			demands = demand_map.get(loan.name, [])
 			for disbursement in disbursement_map.get(loan.name, []):
 				amounts = init_amounts()
 				principal_amount = principal_amount_map.get((loan.name, disbursement), 0)
 				unbooked_interest = unbooked_interest_map.get((loan.name, disbursement), 0)
-				filtered_demands = list(d for d in demands if d.loan_disbursement == disbursement)
+				demand_totals = get_demand_totals(demand_summary_map, loan.name, disbursement, consolidated)
 				amounts = process_amount_for_bulk_loans(
 					loan,
-					filtered_demands,
+					demand_totals,
 					disbursement,
 					principal_amount,
 					unbooked_interest,
 					amounts,
-					posting_date,
 					available_security_deposit_map,
 					last_demand_date=last_demand_date_map.get(loan.name),
 				)
@@ -2913,15 +2908,14 @@ def get_bulk_due_details(loans: list[str], posting_date: str | date | datetime, 
 			amounts = init_amounts()
 			principal_amount = principal_amount_map.get(loan.name, 0)
 			unbooked_interest = unbooked_interest_map.get(loan.name, 0)
-			demands = demand_map.get(loan.name, [])
+			demand_totals = get_demand_totals(demand_summary_map, loan.name, None, consolidated)
 			amounts = process_amount_for_bulk_loans(
 				loan,
-				demands,
+				demand_totals,
 				None,
 				principal_amount,
 				unbooked_interest,
 				amounts,
-				posting_date,
 				available_security_deposit_map,
 				last_demand_date=last_demand_date_map.get(loan.name),
 			)
