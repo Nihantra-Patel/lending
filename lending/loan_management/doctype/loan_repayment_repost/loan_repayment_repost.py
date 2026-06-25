@@ -41,6 +41,7 @@ class LoanRepaymentRepost(Document):
 		loan_disbursement: DF.Link | None
 		repayment_entries: DF.Table[LoanRepaymentRepostDetail]
 		repost_date: DF.Date
+		status: DF.Literal["Draft", "In Progress", "Completed", "Failed", "Cancelled"]
 	# end: auto-generated types
 
 	def validate(self):
@@ -70,17 +71,53 @@ class LoanRepaymentRepost(Document):
 			)
 
 	def on_submit(self):
+		self.db_set("status", "In Progress")
+
+		if frappe.flags.in_test:
+			self.process_repost()
+		else:
+			frappe.enqueue(
+				self.process_repost,
+				queue="long",
+				enqueue_after_commit=True,
+			)
+			frappe.msgprint(
+				frappe._(
+					"The repost is being processed in the background. Track progress on the Status field."
+				),
+				alert=True,
+			)
+
+	def on_cancel(self):
+		self.db_set("status", "Cancelled")
+
+	def process_repost(self):
 		# Reposting from a past date regenerates potentially hundreds of accruals, demands,
 		# GL entries and Journal Entries in a single transaction.  Multiply the per-transaction
 		# write limit (default 200 000) by 4 so large reposts don't hit TooManyWritesError.
 		frappe.db.MAX_WRITES_PER_TRANSACTION *= 4
 
-		if self.clear_demand_allocation_before_repost:
-			self.clear_demand_allocation()
+		try:
+			if self.clear_demand_allocation_before_repost:
+				self.clear_demand_allocation()
 
-		self.trigger_on_cancel_events()
-		self.cancel_demands()
-		self.trigger_on_submit_events()
+			self.trigger_on_cancel_events()
+			self.cancel_demands()
+			self.trigger_on_submit_events()
+		except Exception:
+			frappe.db.rollback()
+			frappe.db.set_value(self.doctype, self.name, "status", "Failed", update_modified=False)
+			frappe.db.commit()  # nosemgrep
+			frappe.log_error(
+				title="Loan Repayment Repost Failed",
+				message=frappe.get_traceback(),
+				reference_doctype=self.doctype,
+				reference_name=self.name,
+			)
+			raise
+
+		self.db_set("status", "Completed")
+		frappe.db.commit()  # nosemgrep
 
 	def cancel_demands(self):
 		from lending.loan_management.doctype.loan_demand.loan_demand import reverse_demands

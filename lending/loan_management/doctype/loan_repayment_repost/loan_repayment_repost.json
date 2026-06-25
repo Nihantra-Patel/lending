@@ -20,6 +20,7 @@
   "repayment_entries",
   "entries_to_cancel",
   "section_break_kbry",
+  "status",
   "amended_from"
  ],
  "fields": [
@@ -115,12 +116,21 @@
    "fieldname": "cancel_future_accruals_and_demands",
    "fieldtype": "Check",
    "label": "Cancel Future Accruals and Demands "
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nIn Progress\nCompleted\nFailed\nCancelled",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-26 11:46:37.007942",
+ "modified": "2026-06-25 16:24:46.899059",
  "modified_by": "Administrator",
  "module": "Loan Management",
  "name": "Loan Repayment Repost",
@@ -143,5 +153,26 @@
  ],
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Gray",
+   "title": "Draft"
+  },
+  {
+   "color": "Orange",
+   "title": "In Progress"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  },
+  {
+   "color": "Red",
+   "title": "Failed"
+  },
+  {
+   "color": "Gray",
+   "title": "Cancelled"
+  }
+ ]
 }
