@@ -3174,6 +3174,67 @@ class TestLoan(LendingTestSuite):
 
 		self.assertEqual(getdate(last_accrual_date), getdate("2024-07-06"))
 
+	def test_npa_accrual_cancel_with_frozen_books_under_immutable_ledger(self):
+		set_loan_accrual_frequency("Daily")
+		from erpnext.selling.doctype.customer.test_customer import get_customer_dict
+
+		customer = frappe.get_doc(get_customer_dict("NPA Customer 2")).insert()
+		frappe.db.set_value("Loan Product", "Term Loan Product 4", "days_past_due_threshold_for_npa", 90)
+
+		loan = create_loan(
+			customer.name,
+			"Term Loan Product 4",
+			100000,
+			"Repay Over Number of Periods",
+			22,
+			repayment_start_date="2024-04-05",
+			posting_date="2024-03-05",
+			rate_of_interest=8.5,
+			applicant_type="Customer",
+		)
+		loan.submit()
+
+		make_loan_disbursement_entry(
+			loan.name, loan.loan_amount, disbursement_date="2024-03-05", repayment_start_date="2024-04-05"
+		)
+
+		process_daily_loan_demands(posting_date="2024-07-05", loan=loan.name)
+		create_process_loan_classification(
+			posting_date="2024-07-06", loan=loan.name, force_update_dpd_in_loan=1
+		)
+		process_loan_interest_accrual_for_loans(
+			posting_date="2024-07-06", loan=loan.name, company="_Test Company"
+		)
+
+		accrual_name = frappe.db.get_value(
+			"Loan Interest Accrual",
+			{"loan": loan.name, "docstatus": 1},
+			"name",
+			order_by="posting_date desc",
+		)
+		accrual = frappe.get_doc("Loan Interest Accrual", accrual_name)
+		suspense_jv = accrual.normal_interest_journal_entry
+		self.assertTrue(suspense_jv, "NPA accrual did not create a suspense Journal Entry")
+
+		backdated = "2025-03-15"
+		frappe.db.set_value("Journal Entry", suspense_jv, "posting_date", backdated, update_modified=False)
+		frappe.db.set_value(
+			"GL Entry",
+			{"voucher_type": "Journal Entry", "voucher_no": suspense_jv},
+			"posting_date",
+			backdated,
+			update_modified=False,
+		)
+
+		frappe.db.set_value("Company", "_Test Company", "accounts_frozen_till_date", "2025-03-31")
+		frappe.db.set_single_value("Accounts Settings", "enable_immutable_ledger", 1)
+
+		accrual.cancel()
+
+		frappe.db.set_single_value("Accounts Settings", "enable_immutable_ledger", 0)
+
+		self.assertEqual(frappe.db.get_value("Journal Entry", suspense_jv, "docstatus"), 2)
+
 	def test_overlapping_accrual_validation(self):
 		loan = create_loan(
 			"_Test Customer 1",
