@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: frappe\n"
 "Report-Msgid-Bugs-To: contact@frappe.io\n"
 "POT-Creation-Date: 2026-06-28 10:18+0000\n"
-"PO-Revision-Date: 2026-06-29 15:50\n"
+"PO-Revision-Date: 2026-06-29 15:49\n"
 "Last-Translator: contact@frappe.io\n"
-"Language-Team: Hindi\n"
+"Language-Team: Bulgarian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,10 +13,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: frappe\n"
 "X-Crowdin-Project-ID: 639578\n"
-"X-Crowdin-Language: hi\n"
+"X-Crowdin-Language: bg\n"
 "X-Crowdin-File: /[frappe.lending] develop/lending/locale/main.pot\n"
 "X-Crowdin-File-ID: 130\n"
-"Language: hi_IN\n"
+"Language: bg_BG\n"
 
 #: lending/loan_management/report/applicant_wise_loan_security_exposure/applicant_wise_loan_security_exposure.py:84
 msgid "% Of Applicant Portfolio"
@@ -44,15 +44,15 @@ msgstr ""
 #. Label of the account_info (Section Break) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Account Info"
-msgstr "खाते की जानकारी"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_product/loan_product.py:115
 msgid "Account {0} does not belong to company {1}"
-msgstr "खाता {0} कंपनी {1} से संबंधित नहीं है"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:192
 msgid "Account {0} does not belongs to company {1}"
-msgstr "खाता {0} कंपनी {1} से संबंधित नहीं है"
+msgstr ""
 
 #. Label of the accounting_tab (Tab Break) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
@@ -107,7 +107,7 @@ msgstr ""
 #. Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Accounts"
-msgstr "हिसाब किताब"
+msgstr ""
 
 #. Label of the accrual_date (Date) field in DocType 'Loan Interest Accrual'
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.json
@@ -240,12 +240,12 @@ msgstr ""
 #. Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Address Details"
-msgstr "पता विवरण"
+msgstr ""
 
 #. Label of the address_html (HTML) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Address HTML"
-msgstr "पता HTML"
+msgstr ""
 
 #. Label of the address_links_section (Section Break) field in DocType 'Loan
 #. Lead'
@@ -257,7 +257,7 @@ msgstr ""
 #. Origination Settings'
 #: lending/loan_origination/doctype/loan_origination_settings/loan_origination_settings.json
 msgid "Adds the option to have employee loans"
-msgstr "कर्मचारी ऋण का विकल्प जोड़ा गया है"
+msgstr ""
 
 #. Description of the 'Unique Customer' (Check) field in DocType 'Loan
 #. Origination Settings'
@@ -324,38 +324,38 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Advance Payment"
-msgstr "अग्रिम भुगतान"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2199
 msgid "Against Account is mandatory"
-msgstr "खाते के विरुद्ध भुगतान अनिवार्य है"
+msgstr ""
 
 #. Label of the against_loan (Link) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/report/loan_repayment_and_closure/loan_repayment_and_closure.py:27
 msgid "Against Loan"
-msgstr "ऋण के विरुद्ध"
+msgstr ""
 
 #. Label of the against_loan (Link) field in DocType 'Loan Disbursement'
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.json
 msgid "Against Loan "
-msgstr "ऋण के विरुद्ध "
+msgstr ""
 
 #: lending/loan_management/doctype/loan_refund/loan_refund.py:160
 #: lending/loan_management/doctype/loan_refund/loan_refund.py:176
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.py:229
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.py:247
 msgid "Against Loan:"
-msgstr "ऋण के बदले:"
+msgstr ""
 
 #. Label of the age (Int) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
 msgid "Age"
-msgstr "आयु"
+msgstr ""
 
 #: lending/loan_management/report/alm_audit_report/alm_audit_report.py:27
 msgid "Ageing"
-msgstr "उम्र बढ़ने"
+msgstr ""
 
 #. Description of the 'Repost Date' (Date) field in DocType 'Loan Repayment
 #. Repost'
@@ -387,7 +387,7 @@ msgstr ""
 #. Security Shortfall'
 #: lending/loan_management/doctype/loan_security_shortfall/loan_security_shortfall.json
 msgid "America/New_York"
-msgstr "अमेरिका/न्यूयॉर्क"
+msgstr ""
 
 #. Option for the 'BPI Recovery Method' (Select) field in DocType 'Loan
 #. Product'
@@ -410,12 +410,12 @@ msgstr ""
 #: lending/loan_management/doctype/pledge/pledge.json
 #: lending/loan_management/doctype/proposed_pledge/proposed_pledge.json
 msgid "Amount"
-msgstr "मात्रा"
+msgstr ""
 
 #. Label of the amount_paid (Currency) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Amount Paid"
-msgstr "राशि का भुगतान"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:414
 msgid "Amount Paid must equal the sum of Principal, Interest, Penalty, Charges, Unbooked Interest, and Unbooked Penalty."
@@ -427,7 +427,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_balance_adjustment/loan_balance_adjustment.py:48
 msgid "Amount cannot be zero"
-msgstr "राशि शून्य नहीं हो सकती"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:1739
 msgid "Amount for advance payment must be between one to two EMI amount"
@@ -650,7 +650,7 @@ msgstr ""
 #: lending/loan_management/report/future_cashflow_report/future_cashflow_report.js:16
 #: lending/loan_management/report/past_cashflow_report/past_cashflow_report.js:16
 msgid "As on Date"
-msgstr "आज की तारीख में"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.py:90
 msgid "Atlest one security needs to be assigned"
@@ -683,13 +683,13 @@ msgstr ""
 #. Deposit'
 #: lending/loan_management/doctype/loan_security_deposit/loan_security_deposit.json
 msgid "Available Amount"
-msgstr "उपलब्ध राशि"
+msgstr ""
 
 #. Label of the available_limit (Currency) field in DocType 'Loan Restructure
 #. Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Available Limit"
-msgstr "उपलब्ध सीमा"
+msgstr ""
 
 #. Label of the available_limit_amount (Currency) field in DocType 'Loan'
 #. Option for the 'Value Type' (Select) field in DocType 'Loan Limit Change
@@ -697,19 +697,19 @@ msgstr "उपलब्ध सीमा"
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
 msgid "Available Limit Amount"
-msgstr "उपलब्ध सीमा राशि"
+msgstr ""
 
 #. Label of the available_security_deposit (Currency) field in DocType 'Loan
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Available Security Deposit"
-msgstr "उपलब्ध सुरक्षा जमा राशि"
+msgstr ""
 
 #. Label of the available_security_value (Currency) field in DocType 'Loan
 #. Security'
 #: lending/loan_management/doctype/loan_security/loan_security.json
 msgid "Available Security Value"
-msgstr "उपलब्ध सुरक्षा मूल्य"
+msgstr ""
 
 #. Option for the 'Demand Type' (Select) field in DocType 'Loan Demand'
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
@@ -757,7 +757,7 @@ msgstr ""
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Balance Amount"
-msgstr "शेष राशि"
+msgstr ""
 
 #. Label of the balance_charges (Currency) field in DocType 'Loan Restructure
 #. Charges'
@@ -772,7 +772,7 @@ msgstr ""
 #: lending/loan_management/doctype/co_lender_schedule/co_lender_schedule.json
 #: lending/loan_management/doctype/repayment_schedule/repayment_schedule.json
 msgid "Balance Loan Amount"
-msgstr "ऋण की शेष राशि"
+msgstr ""
 
 #. Label of the balance_principal (Currency) field in DocType 'Loan
 #. Restructure'
@@ -787,7 +787,7 @@ msgstr ""
 #. Label of a Link in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Bank"
-msgstr "किनारा"
+msgstr ""
 
 #. Label of the bank_account (Link) field in DocType 'Loan Disbursement'
 #. Label of the bank_account (Link) field in DocType 'Loan Repayment'
@@ -796,7 +796,7 @@ msgstr "किनारा"
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Bank Account"
-msgstr "बैंक खाता"
+msgstr ""
 
 #. Label of a Card Break in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
@@ -806,7 +806,7 @@ msgstr ""
 #. Label of the base_amount (Currency) field in DocType 'Loan Interest Accrual'
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.json
 msgid "Base Amount"
-msgstr "आधार राशि"
+msgstr ""
 
 #. Label of the section_break_hmca (Section Break) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
@@ -825,7 +825,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_import_details/loan_import_details.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Bi-Weekly"
-msgstr "द्वि-साप्ताहिक"
+msgstr ""
 
 #. Option for the 'Treatment of charge' (Select) field in DocType 'Loan
 #. Disbursement Charge'
@@ -850,13 +850,13 @@ msgstr ""
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Branch"
-msgstr "शाखा"
+msgstr ""
 
 #. Label of the branch_details_section (Section Break) field in DocType 'Loan
 #. Transfer'
 #: lending/loan_management/doctype/loan_transfer/loan_transfer.json
 msgid "Branch Details"
-msgstr "शाखा विवरण"
+msgstr ""
 
 #. Label of the broken_period_interest (Currency) field in DocType 'Loan
 #. Disbursement'
@@ -909,7 +909,7 @@ msgstr ""
 #. Label of the cancellation_date (Date) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Cancellation Date"
-msgstr "रद्द करने की तिथि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:894
 msgid "Cannot close loan as there is an outstanding of {0}"
@@ -947,7 +947,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 #: lending/loan_management/doctype/loan_restructure_charges/loan_restructure_charges.json
 msgid "Capitalize"
-msgstr "मूल बनाना"
+msgstr ""
 
 #. Label of the capitalize_amount (Currency) field in DocType 'Loan Restructure
 #. Charges'
@@ -970,7 +970,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 #: lending/loan_management/doctype/loan_restructure_charges/loan_restructure_charges.json
 msgid "Carry Forward"
-msgstr "आगे बढ़ाएँ"
+msgstr ""
 
 #. Option for the 'Organization Type' (Select) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
@@ -991,36 +991,36 @@ msgstr ""
 #: lending/loan_management/doctype/loan_restructure_charges/loan_restructure_charges.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Charge"
-msgstr "शुल्क"
+msgstr ""
 
 #. Label of the charge_accounts_section (Section Break) field in DocType 'Loan
 #. Charges'
 #: lending/loan_management/doctype/loan_charges/loan_charges.json
 msgid "Charge Accounts"
-msgstr "शुल्क खाते"
+msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Prepayment Charges'
 #: lending/loan_management/doctype/prepayment_charges/prepayment_charges.json
 #: lending/loan_management/report/disbursement_analysis_report/disbursement_analysis_report.py:82
 msgid "Charge Amount"
-msgstr "शुल्क राशि"
+msgstr ""
 
 #. Label of the charge_based_on (Select) field in DocType 'Loan Charges'
 #: lending/loan_management/doctype/loan_charges/loan_charges.json
 msgid "Charge Based On"
-msgstr "शुल्क आधारित"
+msgstr ""
 
 #. Label of the charge_code (Link) field in DocType 'Loan Repayment Charges'
 #. Label of the charge (Link) field in DocType 'Prepayment Charges'
 #: lending/loan_management/doctype/loan_repayment_charges/loan_repayment_charges.json
 #: lending/loan_management/doctype/prepayment_charges/prepayment_charges.json
 msgid "Charge Code"
-msgstr "चार्ज कोड"
+msgstr ""
 
 #. Option for the 'Repayment Type' (Select) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Charge Payment"
-msgstr "शुल्क भुगतान"
+msgstr ""
 
 #. Label of the charge_type (Link) field in DocType 'Loan Charges'
 #. Label of the charge_type (Link) field in DocType 'Loan Partner Adhoc Charges
@@ -1029,7 +1029,7 @@ msgstr "शुल्क भुगतान"
 #: lending/loan_management/doctype/loan_partner_adhoc_charges_shared/loan_partner_adhoc_charges_shared.json
 #: lending/loan_management/report/disbursement_analysis_report/disbursement_analysis_report.py:76
 msgid "Charge Type"
-msgstr "चार्ज प्रकार"
+msgstr ""
 
 #: lending/api.py:147
 msgid "Charge applied successfully for amount {0}"
@@ -1059,7 +1059,7 @@ msgstr ""
 #: lending/loan_management/doctype/repayment_schedule/repayment_schedule.json
 #: lending/workspace_sidebar/lending.json
 msgid "Charges"
-msgstr "प्रभार"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -1073,13 +1073,13 @@ msgstr ""
 #. Charges'
 #: lending/loan_management/doctype/loan_restructure_charges/loan_restructure_charges.json
 msgid "Charges Overdue"
-msgstr "बकाया शुल्क"
+msgstr ""
 
 #. Label of the treatment_of_other_charges (Select) field in DocType 'Loan
 #. Restructure Charges'
 #: lending/loan_management/doctype/loan_restructure_charges/loan_restructure_charges.json
 msgid "Charges Treatment"
-msgstr "शुल्क उपचार"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -1111,7 +1111,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_classification_range/loan_classification_range.json
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Classification Code"
-msgstr "वर्गीकरण कोड"
+msgstr ""
 
 #. Label of the classification_name (Data) field in DocType 'Loan'
 #. Label of the classification_name (Data) field in DocType 'Loan
@@ -1125,15 +1125,15 @@ msgstr "वर्गीकरण कोड"
 #: lending/loan_management/doctype/loan_classification_range/loan_classification_range.json
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Classification Name"
-msgstr "वर्गीकरण नाम"
+msgstr ""
 
 #: lending/overrides/company.py:11
 msgid "Classification {0} added multiple times"
-msgstr "वर्गीकरण {0} कई बार जोड़ा गया"
+msgstr ""
 
 #: lending/overrides/company.py:20
 msgid "Classification {0} with security type {1} added multiple times"
-msgstr "सुरक्षा प्रकार {1} के साथ वर्गीकरण {0} को कई बार जोड़ा गया है"
+msgstr ""
 
 #. Label of the clear_demand_allocation_before_repost (Check) field in DocType
 #. 'Loan Repayment Repost'
@@ -1146,20 +1146,20 @@ msgstr ""
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.json
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Clearance Date"
-msgstr "मंजूरी तिथि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.js:107
 msgid "Close Loan"
-msgstr "ऋण बंद करें"
+msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.html:144
 msgid "Closing Balance"
-msgstr "जमा शेष"
+msgstr ""
 
 #. Label of the closure_date (Date) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Closure Date"
-msgstr "समापन तिथि"
+msgstr ""
 
 #. Label of the co_lender_schedule_section (Section Break) field in DocType
 #. 'Loan Repayment Schedule'
@@ -1177,7 +1177,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Co Lending"
-msgstr "सह ऋण"
+msgstr ""
 
 #. Label of a Link in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
@@ -1198,7 +1198,7 @@ msgstr ""
 #. Label of a Card Break in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Co-Lending"
-msgstr "सह-ऋण"
+msgstr ""
 
 #. Label of the collection_offset_sequence_section (Section Break) field in
 #. DocType 'Loan Product'
@@ -1234,7 +1234,7 @@ msgstr ""
 #. Shareable'
 #: lending/loan_management/doctype/loan_partner_shareable/loan_partner_shareable.json
 msgid "Collection Percentage"
-msgstr "संग्रह प्रतिशत"
+msgstr ""
 
 #. Option for the 'Repayment Schedule Type' (Select) field in DocType 'Loan
 #. Partner'
@@ -1294,7 +1294,7 @@ msgstr ""
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Company"
-msgstr "कंपनी"
+msgstr ""
 
 #. Label of the company_collection_percentage (Percent) field in DocType 'Loan
 #. Partner Shareable'
@@ -1305,7 +1305,7 @@ msgstr ""
 #. Label of the completed_tenure (Int) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Completed Tenure"
-msgstr "कार्यकाल पूरा किया"
+msgstr ""
 
 #. Label of the components (Table) field in DocType 'Loan Demand Offset Order'
 #: lending/loan_management/doctype/loan_demand_offset_order/loan_demand_offset_order.json
@@ -1335,7 +1335,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.json
 msgid "Cost Center"
-msgstr "लागत केंद्र"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:202
 msgid "Cost center is mandatory for loans having rate of interest greater than 0"
@@ -1343,20 +1343,20 @@ msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.html:81
 msgid "Credit"
-msgstr "श्रेय"
+msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.py:60
 msgid "Credit ({0})"
-msgstr "क्रेडिट ({0})"
+msgstr ""
 
 #. Label of the credit_account (Link) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Credit Account"
-msgstr "क्रेडिट खाता"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2257
 msgid "Credit Account is mandatory"
-msgstr "क्रेडिट खाता अनिवार्य है"
+msgstr ""
 
 #. Option for the 'Adjustment Type' (Select) field in DocType 'Loan Balance
 #. Adjustment'
@@ -1391,7 +1391,7 @@ msgstr ""
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Current Restructure Count"
-msgstr "वर्तमान पुनर्गठन संख्या"
+msgstr ""
 
 #. Option for the 'Applicant Type' (Select) field in DocType 'Loan'
 #. Option for the 'Applicant Type' (Select) field in DocType 'Loan Application'
@@ -1429,7 +1429,7 @@ msgstr "वर्तमान पुनर्गठन संख्या"
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.json
 #: lending/workspace_sidebar/lending.json
 msgid "Customer"
-msgstr "ग्राहक"
+msgstr ""
 
 #. Label of the customer_refund_account (Link) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
@@ -1459,7 +1459,7 @@ msgstr ""
 #. Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Day of every month on which the repayment date is considered"
-msgstr "हर महीने का वह दिन जिस दिन भुगतान की तारीख मानी जाती है"
+msgstr ""
 
 #. Label of the days_past_due (Int) field in DocType 'Days Past Due Log'
 #. Label of the days_past_due (Int) field in DocType 'Loan'
@@ -1476,7 +1476,7 @@ msgstr ""
 #. Name of a DocType
 #: lending/loan_management/doctype/days_past_due_log/days_past_due_log.json
 msgid "Days Past Due Log"
-msgstr "बकाया दिनों का लॉग"
+msgstr ""
 
 #. Label of a Link in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
@@ -1528,13 +1528,13 @@ msgstr ""
 #. Label of the delinked (Check) field in DocType 'Loan NPA Log'
 #: lending/loan_management/doctype/loan_npa_log/loan_npa_log.json
 msgid "Delinked"
-msgstr "अलग कर"
+msgstr ""
 
 #. Label of the delinquent_available_limit (Currency) field in DocType 'Loan
 #. Restructure Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Delinquent Available Limit"
-msgstr "बकाया राशि के लिए उपलब्ध सीमा"
+msgstr ""
 
 #. Label of the delinquent_in_process_limit (Currency) field in DocType 'Loan
 #. Restructure Limit Log'
@@ -1546,19 +1546,19 @@ msgstr ""
 #. Restructure Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Delinquent Limit"
-msgstr "विलंब सीमा"
+msgstr ""
 
 #. Label of the delinquent_limit_amount (Currency) field in DocType 'Loan
 #. Restructure Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Delinquent Limit Amount"
-msgstr "बकाया सीमा राशि"
+msgstr ""
 
 #. Label of the delinquent_limit_percent (Percent) field in DocType 'Loan
 #. Restructure Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Delinquent Limit Percent"
-msgstr "विलंब सीमा प्रतिशत"
+msgstr ""
 
 #. Label of the delinquent_principal_outstanding (Currency) field in DocType
 #. 'Loan Restructure Limit Log'
@@ -1570,22 +1570,22 @@ msgstr ""
 #. Restructure Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Delinquent Utilized Limit"
-msgstr "अपराधी द्वारा उपयोग की गई सीमा"
+msgstr ""
 
 #. Label of the demand_amount (Currency) field in DocType 'Loan Demand'
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 msgid "Demand Amount"
-msgstr "मांग राशि"
+msgstr ""
 
 #. Label of the demand_date (Datetime) field in DocType 'Loan Demand'
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 msgid "Demand Date"
-msgstr "मांग तिथि"
+msgstr ""
 
 #. Label of the demand_generated (Check) field in DocType 'Repayment Schedule'
 #: lending/loan_management/doctype/repayment_schedule/repayment_schedule.json
 msgid "Demand Generated"
-msgstr "मांग उत्पन्न हुई"
+msgstr ""
 
 #. Label of the demand_subtype (Data) field in DocType 'Loan Demand'
 #. Label of the demand_subtype (Data) field in DocType 'Loan Repayment Detail'
@@ -1604,18 +1604,18 @@ msgstr ""
 #: lending/loan_management/doctype/loan_demand_offset_detail/loan_demand_offset_detail.json
 #: lending/loan_management/doctype/loan_repayment_detail/loan_repayment_detail.json
 msgid "Demand Type"
-msgstr "मांग प्रकार"
+msgstr ""
 
 #. Label of the deposit_amount (Currency) field in DocType 'Loan Security
 #. Deposit'
 #: lending/loan_management/doctype/loan_security_deposit/loan_security_deposit.json
 msgid "Deposit Amount"
-msgstr "जमा राशि"
+msgstr ""
 
 #. Label of the deposit_date (Date) field in DocType 'Loan Security Deposit'
 #: lending/loan_management/doctype/loan_security_deposit/loan_security_deposit.json
 msgid "Deposit Date"
-msgstr "जमा तिथि"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -1665,7 +1665,7 @@ msgstr ""
 #: lending/loan_management/doctype/process_loan_interest_accrual/process_loan_interest_accrual.json
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.py:178
 msgid "Disbursement"
-msgstr "अदायगी"
+msgstr ""
 
 #. Label of the disbursement_account (Link) field in DocType 'Loan'
 #. Label of the disbursement_account (Link) field in DocType 'Loan
@@ -1699,13 +1699,13 @@ msgstr ""
 #: lending/loan_management/report/disbursement_analysis_report/disbursement_analysis_report.py:64
 #: lending/loan_management/report/loan_outstanding_report/loan_outstanding_report.py:51
 msgid "Disbursement Date"
-msgstr "भुगतान तिथि"
+msgstr ""
 
 #. Label of the section_break_7 (Section Break) field in DocType 'Loan
 #. Disbursement'
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.json
 msgid "Disbursement Details"
-msgstr "भुगतान विवरण"
+msgstr ""
 
 #. Label of the disbursement_references_section (Section Break) field in
 #. DocType 'Loan Disbursement'
@@ -1715,7 +1715,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.py:763
 msgid "Disbursement against loan:"
-msgstr "ऋण के बदले भुगतान:"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.py:525
 msgid "Disbursement amount cannot be greater than available limit amount"
@@ -1768,7 +1768,7 @@ msgstr ""
 #. Label of the effective_date (Date) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Effective Date"
-msgstr "प्रभावी तिथि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_application/loan_application.py:329
 msgid "Either Loan Application, Loan or Applicant details are required to create Loan Security Assignment"
@@ -1819,13 +1819,13 @@ msgstr ""
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.json
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.json
 msgid "Employee"
-msgstr "कर्मचारी"
+msgstr ""
 
 #. Label of the employee_loans (Check) field in DocType 'Loan Origination
 #. Settings'
 #: lending/loan_origination/doctype/loan_origination_settings/loan_origination_settings.json
 msgid "Employee Loans"
-msgstr "कर्मचारी ऋण"
+msgstr ""
 
 #. Label of the employment_type (Select) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
@@ -1844,7 +1844,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_product/loan_product.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "End of the current month"
-msgstr "वर्तमान माह का अंत"
+msgstr ""
 
 #. Label of the entries_to_cancel (Table) field in DocType 'Loan Repayment
 #. Repost'
@@ -1862,18 +1862,18 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/report/past_cashflow_report/past_cashflow_report.py:55
 msgid "Excess Amount"
-msgstr "अतिरिक्त राशि"
+msgstr ""
 
 #. Label of the excess_amount_acceptance_limit (Float) field in DocType 'Loan
 #. Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Excess Amount Acceptance Limit"
-msgstr "अतिरिक्त राशि स्वीकृति सीमा"
+msgstr ""
 
 #. Label of the excess_amount_paid (Currency) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Excess Amount Paid"
-msgstr "अतिरिक्त भुगतान की गई राशि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_refund/loan_refund.py:96
 msgid "Excess amount refund cannot be more than excess amount paid"
@@ -1883,7 +1883,7 @@ msgstr ""
 #. 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Excess amount repayment limit during loan closure"
-msgstr "ऋण बंद करने के दौरान अतिरिक्त राशि चुकाने की सीमा"
+msgstr ""
 
 #. Label of the fldg_section (Section Break) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
@@ -1911,7 +1911,7 @@ msgstr ""
 #. 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "FLDG Limit Calculation Component"
-msgstr "FLDG सीमा गणना घटक"
+msgstr ""
 
 #. Label of the fldg_trigger_dpd (Int) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
@@ -1936,7 +1936,7 @@ msgstr ""
 #. Option for the 'Charge Based On' (Select) field in DocType 'Loan Charges'
 #: lending/loan_management/doctype/loan_charges/loan_charges.json
 msgid "Fixed Amount"
-msgstr "निश्चित राशि"
+msgstr ""
 
 #. Option for the 'Type of FLDG Applicable' (Select) field in DocType 'Loan
 #. Partner'
@@ -1983,12 +1983,12 @@ msgstr ""
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_freeze_log/loan_freeze_log.json
 msgid "Freeze Date"
-msgstr "तिथि जमा करें"
+msgstr ""
 
 #. Label of the from_branch (Link) field in DocType 'Loan Transfer'
 #: lending/loan_management/doctype/loan_transfer/loan_transfer.json
 msgid "From Branch"
-msgstr "शाखा से"
+msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.py:18
 msgid "From Date cannot be after To Date"
@@ -2062,17 +2062,17 @@ msgstr ""
 #. Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "In Process Limit"
-msgstr "प्रक्रिया सीमा में"
+msgstr ""
 
 #. Label of the income (Currency) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
 msgid "Income"
-msgstr "आय"
+msgstr ""
 
 #. Label of the income_account (Link) field in DocType 'Loan Charges'
 #: lending/loan_management/doctype/loan_charges/loan_charges.json
 msgid "Income Account"
-msgstr "आय खाता"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:970
 msgid "Incorrect repayment type, please write off the loan first"
@@ -2081,7 +2081,7 @@ msgstr ""
 #. Option for the 'Applicant Type' (Select) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
 msgid "Individual"
-msgstr "व्यक्ति"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan Repayment Schedule'
 #. Option for the 'Status' (Select) field in DocType 'Loan Restructure'
@@ -2093,7 +2093,7 @@ msgstr "व्यक्ति"
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
 msgid "Initiated"
-msgstr "शुरू किया"
+msgstr ""
 
 #: lending/loan_management/report/loan_outstanding_report/loan_outstanding_report.py:118
 msgid "Installments Overdue"
@@ -2103,7 +2103,7 @@ msgstr ""
 #. Detail'
 #: lending/loan_management/doctype/loan_demand_offset_detail/loan_demand_offset_detail.json
 msgid "Interest"
-msgstr "दिलचस्पी"
+msgstr ""
 
 #. Label of the interest_accounts_section (Section Break) field in DocType
 #. 'Loan Product'
@@ -2206,7 +2206,7 @@ msgstr ""
 #. Label of the interest_type (Select) field in DocType 'Loan Interest Accrual'
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.json
 msgid "Interest Type"
-msgstr "रुचि का प्रकार"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -2252,7 +2252,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:848
 msgid "Invalid Loan Disbursement linked for payment"
-msgstr "भुगतान के लिए अमान्य ऋण वितरण लिंक किया गया है"
+msgstr ""
 
 #. Label of the invoice_date (Date) field in DocType 'Loan Demand'
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
@@ -2367,7 +2367,7 @@ msgstr ""
 #. Range'
 #: lending/loan_management/doctype/loan_classification_range/loan_classification_range.json
 msgid "Is Written Off"
-msgstr "इसे खारिज कर दिया गया है"
+msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.html:49
 msgid "LOAN STATEMENT OF ACCOUNT"
@@ -2387,7 +2387,7 @@ msgstr ""
 #: lending/loan_management/report/applicant_wise_loan_security_exposure/applicant_wise_loan_security_exposure.py:64
 #: lending/loan_management/report/loan_security_exposure/loan_security_exposure.py:54
 msgid "Latest Price"
-msgstr "नवीनतम मूल्य"
+msgstr ""
 
 #. Label of the lead_source (Data) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
@@ -2399,7 +2399,7 @@ msgstr ""
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Lending"
-msgstr "ऋण"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/lending_settings/lending_settings.json
@@ -2410,12 +2410,12 @@ msgstr ""
 #. Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Limit Amount"
-msgstr "सीमा राशि"
+msgstr ""
 
 #. Label of the limit_applicable_end (Date) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Limit Applicable End"
-msgstr "लागू सीमा समाप्त"
+msgstr ""
 
 #. Label of the limit_applicable_start (Date) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -2426,7 +2426,7 @@ msgstr ""
 #. Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Limit Percent"
-msgstr "सीमा प्रतिशत"
+msgstr ""
 
 #. Option for the 'Event' (Select) field in DocType 'Loan Limit Change Log'
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
@@ -2436,13 +2436,13 @@ msgstr ""
 #. Label of the limits_section (Section Break) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Limits"
-msgstr "सीमाएं"
+msgstr ""
 
 #. Option for the 'Repayment Schedule Type' (Select) field in DocType 'Loan
 #. Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Line of Credit"
-msgstr "क्रेडिट की लाइन"
+msgstr ""
 
 #. Label of the loan (Link) field in DocType 'Bulk Repayment Log'
 #. Label of the loan (Link) field in DocType 'Days Past Due Log'
@@ -2527,7 +2527,7 @@ msgstr ""
 #. Security Release'
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.json
 msgid "Loan  Details"
-msgstr "ऋण विवरण"
+msgstr ""
 
 #. Label of the loan_account (Link) field in DocType 'Loan'
 #. Label of the loan_account (Link) field in DocType 'Loan Disbursement'
@@ -2539,7 +2539,7 @@ msgstr "ऋण विवरण"
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/report/disbursement_analysis_report/disbursement_analysis_report.py:19
 msgid "Loan Account"
-msgstr "ऋण खाता"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_product/loan_product.py:122
 msgid "Loan Account and Payment Account cannot be same"
@@ -2549,13 +2549,13 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2109
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2137
 msgid "Loan Account is mandatory"
-msgstr "ऋण खाता अनिवार्य है"
+msgstr ""
 
 #. Label of the account_details_section (Section Break) field in DocType 'Loan
 #. Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Loan Accounts"
-msgstr "ऋण खाते"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.py:1127
 msgid "Loan Accrual Frequency not set for company {0}"
@@ -2609,19 +2609,19 @@ msgstr ""
 #: lending/loan_management/report/loan_outstanding_report/loan_outstanding_report.py:42
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
 msgid "Loan Amount"
-msgstr "ऋण राशि"
+msgstr ""
 
 #. Label of the principal_amount_details_section (Section Break) field in
 #. DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Loan Amount Details"
-msgstr "ऋण राशि का विवरण"
+msgstr ""
 
 #. Option for the 'Sharing Parameter' (Select) field in DocType 'Loan Partner
 #. Shareable'
 #: lending/loan_management/doctype/loan_partner_shareable/loan_partner_shareable.json
 msgid "Loan Amount Percentage"
-msgstr "ऋण राशि प्रतिशत"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_application/loan_application.py:172
 msgid "Loan Amount cannot exceed Maximum Loan Amount of {0}"
@@ -2633,7 +2633,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_application/loan_application.py:165
 msgid "Loan Amount is mandatory"
-msgstr "ऋण राशि अनिवार्य है"
+msgstr ""
 
 #. Label of the loan_application (Link) field in DocType 'Loan'
 #. Name of a DocType
@@ -2649,12 +2649,12 @@ msgstr "ऋण राशि अनिवार्य है"
 #: lending/public/js/custom_customer.js:5
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Application"
-msgstr "कर्ज के लिए आवेदन"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_origination/doctype/loan_application_document/loan_application_document.json
 msgid "Loan Application Document"
-msgstr "ऋण आवेदन दस्तावेज़"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Link in the Lending Workspace
@@ -2666,7 +2666,7 @@ msgstr ""
 #. Option for the 'Event' (Select) field in DocType 'Loan Limit Change Log'
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
 msgid "Loan Booking"
-msgstr "ऋण बुकिंग"
+msgstr ""
 
 #. Label of the loan_charges_section (Section Break) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -2682,22 +2682,22 @@ msgstr ""
 #: lending/loan_management/doctype/loan_product/loan_product.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Loan Category"
-msgstr "ऋण श्रेणी"
+msgstr ""
 
 #. Label of the loan_category_code (Data) field in DocType 'Loan Category'
 #: lending/loan_management/doctype/loan_category/loan_category.json
 msgid "Loan Category Code"
-msgstr "ऋण श्रेणी कोड"
+msgstr ""
 
 #. Label of the loan_category_name (Data) field in DocType 'Loan Category'
 #: lending/loan_management/doctype/loan_category/loan_category.json
 msgid "Loan Category Name"
-msgstr "ऋण श्रेणी का नाम"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_charge_reference/loan_charge_reference.json
 msgid "Loan Charge Reference"
-msgstr "ऋण शुल्क संदर्भ"
+msgstr ""
 
 #. Label of the loan_charges (Table) field in DocType 'Loan'
 #. Name of a DocType
@@ -2706,7 +2706,7 @@ msgstr "ऋण शुल्क संदर्भ"
 #: lending/loan_management/doctype/loan_charges/loan_charges.json
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Loan Charges"
-msgstr "ऋण शुल्क"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Card Break in the Lending Workspace
@@ -2714,18 +2714,18 @@ msgstr "ऋण शुल्क"
 #: lending/loan_management/doctype/loan_classification/loan_classification.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Loan Classification"
-msgstr "ऋण वर्गीकरण"
+msgstr ""
 
 #. Label of the loan_classification_details_section (Section Break) field in
 #. DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Loan Classification Details"
-msgstr "ऋण वर्गीकरण विवरण"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_classification_range/loan_classification_range.json
 msgid "Loan Classification Range"
-msgstr "ऋण वर्गीकरण श्रेणी"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -2733,12 +2733,12 @@ msgstr "ऋण वर्गीकरण श्रेणी"
 #: lending/loan_management/doctype/loan_adjustment_detail/loan_adjustment_detail.json
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Loan Closure"
-msgstr "ऋण समापन"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Loan Closure Requested"
-msgstr "ऋण बंद करने का अनुरोध किया गया"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_origination/doctype/loan_co_applicants/loan_co_applicants.json
@@ -2749,11 +2749,11 @@ msgstr ""
 #. 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Loan Credit Limits"
-msgstr "ऋण क्रेडिट सीमाएँ"
+msgstr ""
 
 #: lending/loan_management/report/loan_outstanding_report/loan_outstanding_report.py:41
 msgid "Loan Date"
-msgstr "ऋण तिथि"
+msgstr ""
 
 #. Name of a DocType
 #. Label of the loan_demand (Link) field in DocType 'Loan Interest Accrual'
@@ -2766,13 +2766,13 @@ msgstr "ऋण तिथि"
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Demand"
-msgstr "ऋण मांग"
+msgstr ""
 
 #. Label of the loan_demand_details_section (Section Break) field in DocType
 #. 'Loan Demand'
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 msgid "Loan Demand Details"
-msgstr "ऋण मांग विवरण"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_demand_offset_detail/loan_demand_offset_detail.json
@@ -2787,7 +2787,7 @@ msgstr ""
 #. Label of the section_break_8 (Section Break) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Loan Details"
-msgstr "ऋण विवरण"
+msgstr ""
 
 #. Label of the loan_disbursement (Link) field in DocType 'Bulk Repayment Log'
 #. Label of the loan_disbursement (Link) field in DocType 'Days Past Due Log'
@@ -2836,18 +2836,18 @@ msgstr "ऋण विवरण"
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Disbursement"
-msgstr "ऋण भुगतान"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_disbursement_charge/loan_disbursement_charge.json
 msgid "Loan Disbursement Charge"
-msgstr "ऋण वितरण शुल्क"
+msgstr ""
 
 #. Label of the loan_disbursement_charges (Table) field in DocType 'Loan
 #. Disbursement'
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.json
 msgid "Loan Disbursement Charges"
-msgstr "ऋण वितरण शुल्क"
+msgstr ""
 
 #. Label of the loan_disbursement_id (Data) field in DocType 'Loan Import
 #. Details'
@@ -2867,7 +2867,7 @@ msgstr ""
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_freeze_log/loan_freeze_log.json
 msgid "Loan Freeze Log"
-msgstr "ऋण रोक लॉग"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
@@ -2886,7 +2886,7 @@ msgstr ""
 #. Application'
 #: lending/loan_management/doctype/loan_application/loan_application.json
 msgid "Loan Info"
-msgstr "ऋण जानकारी"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Link in the Lending Workspace
@@ -2910,7 +2910,7 @@ msgstr ""
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
 msgid "Loan Limit Change Log"
-msgstr "ऋण सीमा परिवर्तन लॉग"
+msgstr ""
 
 #. Label of a Workspace Sidebar Item
 #: lending/workspace_sidebar/lending.json
@@ -2949,7 +2949,7 @@ msgstr ""
 #: lending/loan_management/doctype/process_loan_security_shortfall/process_loan_security_shortfall.json
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.json
 msgid "Loan Manager"
-msgstr "ऋण प्रबंधक"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_npa_log/loan_npa_log.json
@@ -2978,7 +2978,7 @@ msgstr ""
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Outstanding Report"
-msgstr "बकाया ऋण रिपोर्ट"
+msgstr ""
 
 #. Label of the loan_partner (Link) field in DocType 'Loan'
 #. Label of the loan_partner (Link) field in DocType 'Loan Demand'
@@ -3117,7 +3117,7 @@ msgstr ""
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Product"
-msgstr "ऋण उत्पाद"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_product_loan_partner/loan_product_loan_partner.json
@@ -3140,7 +3140,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_refund/loan_refund.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Loan Refund"
-msgstr "ऋण वापसी"
+msgstr ""
 
 #. Option for the 'Reference Document Type' (Select) field in DocType 'Loan
 #. Balance Adjustment'
@@ -3165,7 +3165,7 @@ msgstr "ऋण वापसी"
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Repayment"
-msgstr "कर्ज का भुगतान"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_repayment_charges/loan_repayment_charges.json
@@ -3248,7 +3248,7 @@ msgstr ""
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Restructure"
-msgstr "ऋण पुनर्गठन"
+msgstr ""
 
 #. Label of the loan_restructure_charges (Table) field in DocType 'Loan
 #. Restructure'
@@ -3261,18 +3261,18 @@ msgstr ""
 #. Label of the loan_restructure_count (Int) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Loan Restructure Count"
-msgstr "ऋण पुनर्गठन की संख्या"
+msgstr ""
 
 #. Label of the loan_restructure_details_section (Section Break) field in
 #. DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Loan Restructure Details"
-msgstr "ऋण पुनर्गठन विवरण"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Loan Restructure Limit Log"
-msgstr "ऋण पुनर्गठन सीमा लॉग"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_balance_adjustment/loan_balance_adjustment.py:78
 msgid "Loan Restructure is in process. Cannot make any loan adjustment"
@@ -3304,7 +3304,7 @@ msgstr ""
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Security"
-msgstr "ऋण सुरक्षा"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Link in the Lending Workspace
@@ -3334,14 +3334,14 @@ msgstr ""
 #: lending/loan_management/report/applicant_wise_loan_security_exposure/applicant_wise_loan_security_exposure.py:42
 #: lending/loan_management/report/loan_security_exposure/loan_security_exposure.py:32
 msgid "Loan Security Code"
-msgstr "ऋण सुरक्षा कोड"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Link in the Lending Workspace
 #: lending/loan_management/doctype/loan_security_deposit/loan_security_deposit.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Loan Security Deposit"
-msgstr "ऋण सुरक्षा जमा"
+msgstr ""
 
 #. Label of the loan_security_details_section (Section Break) field in DocType
 #. 'Loan Application'
@@ -3353,7 +3353,7 @@ msgstr "ऋण सुरक्षा जमा"
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.json
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.json
 msgid "Loan Security Details"
-msgstr "ऋण सुरक्षा विवरण"
+msgstr ""
 
 #. Name of a report
 #. Label of a Link in the Lending Workspace
@@ -3384,7 +3384,7 @@ msgstr ""
 #: lending/loan_management/report/applicant_wise_loan_security_exposure/applicant_wise_loan_security_exposure.py:48
 #: lending/loan_management/report/loan_security_exposure/loan_security_exposure.py:38
 msgid "Loan Security Name"
-msgstr "ऋण सुरक्षा नाम"
+msgstr ""
 
 #. Name of a DocType
 #. Label of the loan_security_price (Currency) field in DocType 'Loan Security
@@ -3401,7 +3401,7 @@ msgstr "ऋण सुरक्षा नाम"
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Security Price"
-msgstr "ऋण सुरक्षा मूल्य"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_security_price/loan_security_price.py:79
 msgid "Loan Security Price overlapping with {0}"
@@ -3419,7 +3419,7 @@ msgstr ""
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Security Release"
-msgstr "ऋण सुरक्षा रिलीज"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.py:108
 msgid "Loan Security Release Error"
@@ -3430,7 +3430,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_security_shortfall/loan_security_shortfall.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Loan Security Shortfall"
-msgstr "ऋण सुरक्षा की कमी"
+msgstr ""
 
 #. Name of a report
 #. Label of a Link in the Lending Workspace
@@ -3439,7 +3439,7 @@ msgstr "ऋण सुरक्षा की कमी"
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Security Status"
-msgstr "ऋण सुरक्षा स्थिति"
+msgstr ""
 
 #. Label of the loan_security_type (Link) field in DocType 'Loan Security'
 #. Label of the loan_security_type (Link) field in DocType 'Loan Security
@@ -3461,11 +3461,11 @@ msgstr "ऋण सुरक्षा स्थिति"
 #: lending/loan_management/workspace/lending/lending.json
 #: lending/workspace_sidebar/lending.json
 msgid "Loan Security Type"
-msgstr "ऋण सुरक्षा प्रकार"
+msgstr ""
 
 #: lending/loan_management/report/loan_security_status/loan_security_status.py:44
 msgid "Loan Security Value"
-msgstr "ऋण सुरक्षा मूल्य"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.py:134
 msgid "Loan Security Value after unpledge is {0}"
@@ -3473,7 +3473,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.py:98
 msgid "Loan Security {0} added multiple times"
-msgstr "ऋण सुरक्षा {0} कई बार जोड़ी गई"
+msgstr ""
 
 #. Name of a report
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.json
@@ -3490,7 +3490,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_security/loan_security.json
 #: lending/loan_management/doctype/loan_security_type/loan_security_type.json
 msgid "Loan To Value Ratio"
-msgstr "ऋण से मूल्य अनुपात"
+msgstr ""
 
 #. Description of the 'Loan To Value Ratio' (Percent) field in DocType 'Loan
 #. Security Type'
@@ -3500,7 +3500,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.py:141
 msgid "Loan To Value ratio breach"
-msgstr "ऋण-मूल्य अनुपात का उल्लंघन"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Link in the Lending Workspace
@@ -3514,12 +3514,12 @@ msgstr ""
 #. Name of a DocType
 #: lending/loan_management/doctype/loan_transfer_detail/loan_transfer_detail.json
 msgid "Loan Transfer Detail"
-msgstr "ऋण हस्तांतरण विवरण"
+msgstr ""
 
 #. Label of a Card Break in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Loan Transfers"
-msgstr "ऋण हस्तांतरण"
+msgstr ""
 
 #. Name of a DocType
 #. Label of a Link in the Lending Workspace
@@ -3543,7 +3543,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:608
 msgid "Loan amount is mandatory"
-msgstr "ऋण राशि अनिवार्य है"
+msgstr ""
 
 #. Description of the 'Is NPA' (Check) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -3552,7 +3552,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.py:290
 msgid "Loan {0} closed"
-msgstr "ऋण {0} बंद हो गया"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:951
 msgid "Loan {0}: Cannot post {1} after Full Settlement. Only Interest, Penalty, or Charges Waiver can be posted after a Full Settlement."
@@ -3565,7 +3565,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_accrual_repost/loan_accrual_repost.json
 #: lending/loan_management/doctype/loan_transfer/loan_transfer.json
 msgid "Loans"
-msgstr "ऋण"
+msgstr ""
 
 #. Description of the 'Days Past Due Threshold for NPA' (Int) field in DocType
 #. 'Loan Product'
@@ -3600,7 +3600,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/report/disbursement_analysis_report/disbursement_analysis_report.py:58
 msgid "Maturity Date"
-msgstr "परिपक्वता तिथि"
+msgstr ""
 
 #. Label of the max_dpd_range (Int) field in DocType 'Loan Classification
 #. Range'
@@ -3614,7 +3614,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
 msgid "Maximum Limit Amount"
-msgstr "अधिकतम सीमा राशि"
+msgstr ""
 
 #. Label of the maximum_loan_amount (Currency) field in DocType 'Loan'
 #. Label of the maximum_loan_amount (Currency) field in DocType 'Loan
@@ -3624,13 +3624,13 @@ msgstr "अधिकतम सीमा राशि"
 #: lending/loan_management/doctype/loan_application/loan_application.json
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Maximum Loan Amount"
-msgstr "अधिकतम ऋण राशि"
+msgstr ""
 
 #. Label of the maximum_loan_value (Currency) field in DocType 'Loan Security
 #. Assignment'
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.json
 msgid "Maximum Loan Value"
-msgstr "अधिकतम ऋण मूल्य"
+msgstr ""
 
 #. Option for the 'Applicant Type' (Select) field in DocType 'Loan Balance
 #. Adjustment'
@@ -3662,7 +3662,7 @@ msgstr "अधिकतम ऋण मूल्य"
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.json
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.json
 msgid "Member"
-msgstr "सदस्य"
+msgstr ""
 
 #. Label of the migration_date (Date) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -3694,7 +3694,7 @@ msgstr ""
 #. Label of the misc_section (Section Break) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Misc"
-msgstr "विविध"
+msgstr ""
 
 #. Label of the mobile_verification_status (Select) field in DocType 'Loan
 #. Lead'
@@ -3707,7 +3707,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.json
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Mode Of Payment"
-msgstr "भुगतान का तरीका"
+msgstr ""
 
 #. Label of the monthly_repayment_amount (Currency) field in DocType 'Loan'
 #. Label of the repayment_amount (Currency) field in DocType 'Loan Application'
@@ -3767,7 +3767,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Moratorium Tenure"
-msgstr "स्थगन अवधि"
+msgstr ""
 
 #. Label of the moratorium_type (Select) field in DocType 'Loan'
 #. Label of the moratorium_type (Data) field in DocType 'Loan Repayment
@@ -3775,7 +3775,7 @@ msgstr "स्थगन अवधि"
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Moratorium Type"
-msgstr "स्थगन प्रकार"
+msgstr ""
 
 #. Label of the npa (Check) field in DocType 'Loan NPA Log'
 #: lending/loan_management/doctype/loan_npa_log/loan_npa_log.json
@@ -3795,12 +3795,12 @@ msgstr ""
 #. Label of the new_loan_amount (Currency) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "New Loan Amount"
-msgstr "नई ऋण राशि"
+msgstr ""
 
 #. Label of a chart in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "New Loans"
-msgstr "नए ऋण"
+msgstr ""
 
 #. Label of the new_monthly_repayment_amount (Currency) field in DocType 'Loan
 #. Restructure'
@@ -3845,7 +3845,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:1168
 msgid "No excess amount pending for refund"
-msgstr "वापसी के लिए कोई अतिरिक्त राशि लंबित नहीं है"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_transfer/loan_transfer.py:42
 msgid "No loans found for this applicant or branch"
@@ -3854,7 +3854,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_application/loan_application.py:212
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.py:116
 msgid "No valid Loan Security Price found for {0}"
-msgstr "{0} के लिए कोई वैध ऋण सुरक्षा मूल्य नहीं मिला"
+msgstr ""
 
 #. Description of the 'Grace Period in Days' (Int) field in DocType 'Loan
 #. Product'
@@ -3878,7 +3878,7 @@ msgstr ""
 #. Restructure Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Normal Limit"
-msgstr "सामान्य सीमा"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -3895,14 +3895,14 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Normal Restructure"
-msgstr "सामान्य पुनर्गठन"
+msgstr ""
 
 #. Label of the number_of_days (Int) field in DocType 'Co-Lender Schedule'
 #. Label of the number_of_days (Int) field in DocType 'Repayment Schedule'
 #: lending/loan_management/doctype/co_lender_schedule/co_lender_schedule.json
 #: lending/loan_management/doctype/repayment_schedule/repayment_schedule.json
 msgid "Number Of Days"
-msgstr "दिनों की संख्या"
+msgstr ""
 
 #. Label of the old_emi (Currency) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
@@ -3912,7 +3912,7 @@ msgstr ""
 #. Label of the old_loan_amount (Currency) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Old Loan Amount"
-msgstr "पुराने ऋण की राशि"
+msgstr ""
 
 #. Label of the old_rate_of_interest (Percent) field in DocType 'Loan
 #. Restructure'
@@ -3929,7 +3929,7 @@ msgstr ""
 #. Label of the old_tenure (Int) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Old Tenure"
-msgstr "पुराना कार्यकाल"
+msgstr ""
 
 #. Option for the 'BPI Treatment' (Select) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
@@ -3948,7 +3948,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_import_details/loan_import_details.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "One Time"
-msgstr "वन टाइम"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:1110
 msgid "Only submitted unpledge requests can be approved"
@@ -3991,19 +3991,19 @@ msgstr ""
 #. Label of the organization_type (Select) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Organization Type"
-msgstr "संगठन प्रकार"
+msgstr ""
 
 #. Label of the original_security_value (Currency) field in DocType 'Loan
 #. Security'
 #: lending/loan_management/doctype/loan_security/loan_security.json
 msgid "Original Security Value"
-msgstr "मूल सुरक्षा मूल्य"
+msgstr ""
 
 #. Label of the other_details_section (Section Break) field in DocType 'Loan
 #. Repayment Schedule'
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Other Details"
-msgstr "अन्य विवरण"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan Repayment Schedule'
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
@@ -4013,13 +4013,13 @@ msgstr ""
 #. Label of the outstanding_amount (Currency) field in DocType 'Loan Demand'
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 msgid "Outstanding Amount"
-msgstr "बकाया राशि"
+msgstr ""
 
 #. Option for the 'FLDG Limit Calculation Component' (Select) field in DocType
 #. 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Outstanding Principal"
-msgstr "बेहतरीन सिद्धांत"
+msgstr ""
 
 #. Option for the 'FLDG Limit Calculation Component' (Select) field in DocType
 #. 'Loan Partner'
@@ -4035,7 +4035,7 @@ msgstr ""
 #. Charges Shared'
 #: lending/loan_management/doctype/loan_partner_adhoc_charges_shared/loan_partner_adhoc_charges_shared.json
 msgid "Own Ratio"
-msgstr "अपना अनुपात"
+msgstr ""
 
 #. Label of the pan (Data) field in DocType 'Loan Lead'
 #: lending/loan_origination/doctype/loan_lead/loan_lead.json
@@ -4059,12 +4059,12 @@ msgstr ""
 #. Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Partial Payment Mechanism"
-msgstr "आंशिक भुगतान तंत्र"
+msgstr ""
 
 #. Option for the 'Repayment Type' (Select) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Partial Settlement"
-msgstr "आंशिक समझौता"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -4075,7 +4075,7 @@ msgstr ""
 #. Repayment Log'
 #: lending/loan_management/doctype/bulk_repayment_log/bulk_repayment_log.json
 msgid "Particulars"
-msgstr "विवरण"
+msgstr ""
 
 #. Label of the partner_base_interest_rate (Percent) field in DocType 'Loan
 #. Partner'
@@ -4089,7 +4089,7 @@ msgstr ""
 #. Label of the partner_code (Data) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Partner Code"
-msgstr "पार्टनर कोड"
+msgstr ""
 
 #. Label of the partner_collection_percentage (Percent) field in DocType 'Loan
 #. Partner Shareable'
@@ -4156,7 +4156,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 #: lending/loan_management/doctype/loan_repayment_detail/loan_repayment_detail.json
 msgid "Partner Share"
-msgstr "पार्टनर शेयर"
+msgstr ""
 
 #. Label of the partner_share_allocated (Currency) field in DocType 'Loan
 #. Demand'
@@ -4207,13 +4207,13 @@ msgstr ""
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_adjustment/loan_adjustment.json
 msgid "Payment Account"
-msgstr "भुगतान खाता"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2090
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2236
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2378
 msgid "Payment Account is mandatory"
-msgstr "भुगतान खाता अनिवार्य है"
+msgstr ""
 
 #. Label of the payment_date (Date) field in DocType 'Co-Lender Schedule'
 #. Label of the payment_date (Date) field in DocType 'Repayment Schedule'
@@ -4221,29 +4221,29 @@ msgstr "भुगतान खाता अनिवार्य है"
 #: lending/loan_management/doctype/repayment_schedule/repayment_schedule.json
 #: lending/loan_management/report/future_cashflow_report/future_cashflow_report.py:39
 msgid "Payment Date"
-msgstr "भुगतान तिथि"
+msgstr ""
 
 #. Label of the payment_details_section (Section Break) field in DocType 'Loan
 #. Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Payment Details"
-msgstr "भुगतान विवरण"
+msgstr ""
 
 #. Label of the payment_reference (Link) field in DocType 'Process Loan
 #. Classification'
 #: lending/loan_management/doctype/process_loan_classification/process_loan_classification.json
 msgid "Payment Reference"
-msgstr "भुगतान संदर्भ"
+msgstr ""
 
 #. Label of the references_section (Section Break) field in DocType 'Loan
 #. Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Payment References"
-msgstr "भुगतान संदर्भ"
+msgstr ""
 
 #: lending/loan_management/report/loan_repayment_and_closure/loan_repayment_and_closure.py:34
 msgid "Payment Type"
-msgstr "भुगतान प्रकार"
+msgstr ""
 
 #. Option for the 'Interest Type' (Select) field in DocType 'Loan Interest
 #. Accrual'
@@ -4269,18 +4269,18 @@ msgstr ""
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 #: lending/loan_management/doctype/loan_demand_offset_detail/loan_demand_offset_detail.json
 msgid "Penalty"
-msgstr "दंड"
+msgstr ""
 
 #. Label of the penalty_accrued_account (Link) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Penalty Accrued Account"
-msgstr "दंड अर्जित खाता"
+msgstr ""
 
 #. Label of the penalty_amount (Currency) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/report/alm_audit_report/alm_audit_report.py:47
 msgid "Penalty Amount"
-msgstr "जुर्माने की राशि"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -4294,12 +4294,12 @@ msgstr ""
 #. DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Penalty Charges Accounts"
-msgstr "जुर्माना शुल्क खाते"
+msgstr ""
 
 #. Label of the penalty_charges_rate (Percent) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Penalty Charges Rate"
-msgstr "जुर्माना शुल्क दर"
+msgstr ""
 
 #. Label of the penalty_income_account (Link) field in DocType 'Loan'
 #. Label of the penalty_income_account (Link) field in DocType 'Loan Product'
@@ -4308,11 +4308,11 @@ msgstr "जुर्माना शुल्क दर"
 #: lending/loan_management/doctype/loan_product/loan_product.json
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Penalty Income Account"
-msgstr "दंड आय खाता"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2119
 msgid "Penalty Income Account is mandatory"
-msgstr "जुर्माना आय खाता अनिवार्य है"
+msgstr ""
 
 #. Label of the penalty_interest_rate (Percent) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
@@ -4328,7 +4328,7 @@ msgstr ""
 #. Label of the penalty_overdue (Currency) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Penalty Overdue"
-msgstr "जुर्माना बकाया है"
+msgstr ""
 
 #. Label of the penalty_receivable_account (Link) field in DocType 'Loan
 #. Product'
@@ -4343,7 +4343,7 @@ msgstr ""
 #. Label of the penalty_suspense_account (Link) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Penalty Suspense Account"
-msgstr "दंड निलंबन खाता"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -4370,7 +4370,7 @@ msgstr ""
 #. Reference'
 #: lending/loan_management/doctype/loan_charge_reference/loan_charge_reference.json
 msgid "Pending Charge Amount"
-msgstr "लंबित शुल्क राशि"
+msgstr ""
 
 #. Label of the pending_principal_amount (Currency) field in DocType 'Loan
 #. Repayment'
@@ -4387,7 +4387,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.py:136
 msgid "Pending principal amount for loan {0} is {1}"
-msgstr "ऋण {0} की लंबित मूल राशि {1} है"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_refund/loan_refund.py:139
 msgid "Please add customer refund account in Loan Product"
@@ -4396,7 +4396,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_application/loan_application.py:140
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.py:930
 msgid "Please enter Repayment Periods"
-msgstr "कृपया भुगतान अवधि दर्ज करें"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.py:937
 msgid "Please enter monthly repayment amount"
@@ -4455,7 +4455,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2174
 msgid "Please set Customer Refund Account in Loan Product {0}"
-msgstr "कृपया ऋण उत्पाद में ग्राहक वापसी खाता सेट करें {0}"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.py:209
 msgid "Please set Interest Accrued Account in Loan Product {0}"
@@ -4483,7 +4483,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.py:227
 msgid "Please set Penalty Income Account in Loan Product {0}"
-msgstr "कृपया ऋण उत्पाद में दंड आय खाता सेट करें {0}"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:609
 msgid "Please set Write Off Recovery Account in Loan Product {0}"
@@ -4503,7 +4503,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2429
 msgid "Please set {0} in either Company or Loan Product"
-msgstr "कृपया कंपनी या ऋण उत्पाद में {0} सेट करें"
+msgstr ""
 
 #. Name of a DocType
 #: lending/loan_management/doctype/pledge/pledge.json
@@ -4599,7 +4599,7 @@ msgstr ""
 #: lending/loan_management/doctype/process_loan_restructure_limit/process_loan_restructure_limit.json
 #: lending/loan_management/report/loan_repayment_and_closure/loan_repayment_and_closure.py:17
 msgid "Posting Date"
-msgstr "पोस्ट करने की तारीख"
+msgstr ""
 
 #. Label of the posting_date (Datetime) field in DocType 'Loan Interest
 #. Accrual'
@@ -4616,12 +4616,12 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Pre Payment"
-msgstr "पूर्व भुगतान"
+msgstr ""
 
 #. Label of the prepayment_charges (Table) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Pre Payment Charges"
-msgstr "पूर्व भुगतान शुल्क"
+msgstr ""
 
 #. Label of the pre_restructure_dpd (Int) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
@@ -4632,7 +4632,7 @@ msgstr ""
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Pre Restructure Details"
-msgstr "पुनर्गठन से पहले के विवरण"
+msgstr ""
 
 #. Label of the prepayment_charges_section (Section Break) field in DocType
 #. 'Loan Repayment'
@@ -4640,12 +4640,12 @@ msgstr "पुनर्गठन से पहले के विवरण"
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/doctype/prepayment_charges/prepayment_charges.json
 msgid "Prepayment Charges"
-msgstr "पूर्व भुगतान शुल्क"
+msgstr ""
 
 #: lending/loan_management/report/applicant_wise_loan_security_exposure/applicant_wise_loan_security_exposure.py:71
 #: lending/loan_management/report/loan_security_exposure/loan_security_exposure.py:61
 msgid "Price Valid Upto"
-msgstr "यह मूल्य मान्य है"
+msgstr ""
 
 #. Label of the applicant_address_details_section (Section Break) field in
 #. DocType 'Loan Application'
@@ -4697,7 +4697,7 @@ msgstr ""
 #: lending/loan_management/report/future_cashflow_report/future_cashflow_report.py:45
 #: lending/loan_management/report/past_cashflow_report/past_cashflow_report.py:25
 msgid "Principal Amount"
-msgstr "मूल धन"
+msgstr ""
 
 #. Label of the principal_amount_paid (Currency) field in DocType 'Loan
 #. Disbursement'
@@ -4736,7 +4736,7 @@ msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.html:155
 msgid "Printed on {0}"
-msgstr "{0} पर मुद्रित"
+msgstr ""
 
 #. Option for the 'Repayment Schedule Type' (Select) field in DocType 'Loan
 #. Product'
@@ -4752,7 +4752,7 @@ msgstr ""
 #: lending/loan_management/doctype/process_loan_classification/process_loan_classification.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Process Loan Classification"
-msgstr "प्रक्रिया ऋण वर्गीकरण"
+msgstr ""
 
 #. Label of the process_loan_demand (Link) field in DocType 'Loan Demand'
 #. Name of a DocType
@@ -4761,7 +4761,7 @@ msgstr "प्रक्रिया ऋण वर्गीकरण"
 #: lending/loan_management/doctype/process_loan_demand/process_loan_demand.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Process Loan Demand"
-msgstr "ऋण मांग प्रक्रिया"
+msgstr ""
 
 #. Label of the process_loan_interest_accrual (Link) field in DocType 'Loan
 #. Interest Accrual'
@@ -4776,7 +4776,7 @@ msgstr ""
 #. Name of a DocType
 #: lending/loan_management/doctype/process_loan_restructure_limit/process_loan_restructure_limit.json
 msgid "Process Loan Restructure Limit"
-msgstr "प्रक्रिया ऋण पुनर्गठन सीमा"
+msgstr ""
 
 #. Label of the process_loan_security_shortfall (Link) field in DocType 'Loan
 #. Security Shortfall'
@@ -4786,12 +4786,12 @@ msgstr "प्रक्रिया ऋण पुनर्गठन सीमा
 #: lending/loan_management/doctype/process_loan_security_shortfall/process_loan_security_shortfall.json
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Process Loan Security Shortfall"
-msgstr "प्रक्रिया ऋण सुरक्षा कमी"
+msgstr ""
 
 #. Label of the product_code (Data) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Product Code"
-msgstr "उत्पाद कोड"
+msgstr ""
 
 #. Label of the product_name (Data) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
@@ -4821,12 +4821,12 @@ msgstr ""
 #. Provisioning Configuration'
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Provision Rate"
-msgstr "प्रावधान दर"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_application/loan_application.py:203
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.py:107
 msgid "Qty is mandatory for loan security!"
-msgstr "ऋण सुरक्षा के लिए मात्रा अनिवार्य है!"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_application/loan_application.py:371
 msgid "Qty or Amount is mandatroy for loan security"
@@ -4841,7 +4841,7 @@ msgstr ""
 #: lending/loan_management/report/loan_security_ledger/loan_security_ledger.py:49
 #: lending/loan_management/report/loan_security_status/loan_security_status.py:35
 msgid "Quantity"
-msgstr "मात्रा"
+msgstr ""
 
 #. Label of the rate_of_interest (Float) field in DocType 'Loan Interest
 #. Accrual'
@@ -4873,7 +4873,7 @@ msgstr ""
 #. Adhoc Charges Shared'
 #: lending/loan_management/doctype/loan_partner_adhoc_charges_shared/loan_partner_adhoc_charges_shared.json
 msgid "Ratio"
-msgstr "अनुपात"
+msgstr ""
 
 #. Label of the reason_for_freezing (Small Text) field in DocType 'Loan Freeze
 #. Log'
@@ -4885,7 +4885,7 @@ msgstr ""
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Reason for Restructure"
-msgstr "पुनर्गठन का कारण"
+msgstr ""
 
 #. Label of the receivable_account (Link) field in DocType 'Loan Charges'
 #. Label of the receivable_account (Link) field in DocType 'Loan Partner'
@@ -4911,7 +4911,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_refund/loan_refund.json
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Reference Number"
-msgstr "संदर्भ संख्या"
+msgstr ""
 
 #. Label of the references_section (Section Break) field in DocType 'Loan
 #. Demand'
@@ -4920,7 +4920,7 @@ msgstr "संदर्भ संख्या"
 #: lending/loan_management/doctype/loan_demand/loan_demand.json
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.json
 msgid "References"
-msgstr "संदर्भ"
+msgstr ""
 
 #. Option for the 'Accrual Type' (Select) field in DocType 'Loan Interest
 #. Accrual'
@@ -4944,7 +4944,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_refund/loan_refund.json
 #: lending/loan_management/doctype/loan_security_deposit/loan_security_deposit.json
 msgid "Refund Amount"
-msgstr "वापसी राशि"
+msgstr ""
 
 #. Label of the refund_date (Date) field in DocType 'Loan Security Deposit'
 #: lending/loan_management/doctype/loan_security_deposit/loan_security_deposit.json
@@ -4959,7 +4959,7 @@ msgstr ""
 #. Label of the refund_amount (Currency) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Refund amount"
-msgstr "वापसी राशि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_refund/loan_refund.py:57
 msgid "Refund amount cannot be greater than net paid amount"
@@ -4976,29 +4976,29 @@ msgstr ""
 #: lending/loan_management/doctype/loan_interest_accrual/loan_interest_accrual.json
 #: lending/loan_management/doctype/process_loan_interest_accrual/process_loan_interest_accrual.json
 msgid "Regular"
-msgstr "नियमित"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan Security Assignment'
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.json
 msgid "Release Requested"
-msgstr "रिहाई का अनुरोध किया गया"
+msgstr ""
 
 #. Label of the release_time (Datetime) field in DocType 'Loan Security
 #. Assignment'
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.json
 msgid "Release Time"
-msgstr "जारी करने का समय"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan Security Assignment'
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.json
 msgid "Released"
-msgstr "जारी किया"
+msgstr ""
 
 #. Label of the remarks (Data) field in DocType 'Loan Balance Adjustment'
 #: lending/loan_management/doctype/loan_balance_adjustment/loan_balance_adjustment.json
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.py:73
 msgid "Remarks"
-msgstr "टिप्पणी"
+msgstr ""
 
 #. Option for the 'Repayment Method' (Select) field in DocType 'Loan'
 #. Option for the 'Repayment Method' (Select) field in DocType 'Loan
@@ -5018,7 +5018,7 @@ msgstr "टिप्पणी"
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Repay Fixed Amount per Period"
-msgstr "प्रति अवधि निश्चित राशि का भुगतान करें"
+msgstr ""
 
 #. Option for the 'Repayment Method' (Select) field in DocType 'Loan'
 #. Option for the 'Repayment Method' (Select) field in DocType 'Loan
@@ -5050,7 +5050,7 @@ msgstr ""
 #: lending/loan_management/doctype/process_loan_interest_accrual/process_loan_interest_accrual.json
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.py:234
 msgid "Repayment"
-msgstr "वापसी"
+msgstr ""
 
 #. Label of the payment_account (Link) field in DocType 'Loan Product'
 #. Label of the payment_account (Link) field in DocType 'Loan Repayment'
@@ -5061,7 +5061,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_application/loan_application.py:234
 msgid "Repayment Amount must be greater than "
-msgstr "भुगतान राशि इससे अधिक होनी चाहिए "
+msgstr ""
 
 #. Label of the repayment_date_on (Select) field in DocType 'Loan Product'
 #. Label of the repayment_date_on (Select) field in DocType 'Loan Repayment
@@ -5069,12 +5069,12 @@ msgstr "भुगतान राशि इससे अधिक होनी �
 #: lending/loan_management/doctype/loan_product/loan_product.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Repayment Date On"
-msgstr "भुगतान तिथि"
+msgstr ""
 
 #. Label of the repayment_details (Table) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Repayment Details"
-msgstr "भुगतान विवरण"
+msgstr ""
 
 #. Label of the repayment_frequency (Select) field in DocType 'Loan'
 #. Label of the repayment_frequency (Select) field in DocType 'Loan
@@ -5094,7 +5094,7 @@ msgstr ""
 #. Application'
 #: lending/loan_management/doctype/loan_application/loan_application.json
 msgid "Repayment Info"
-msgstr "भुगतान संबंधी जानकारी"
+msgstr ""
 
 #. Label of the repayment_method (Select) field in DocType 'Loan'
 #. Label of the repayment_method (Select) field in DocType 'Loan Application'
@@ -5111,7 +5111,7 @@ msgstr "भुगतान संबंधी जानकारी"
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Repayment Method"
-msgstr "भुगतान विधि"
+msgstr ""
 
 #. Label of the repayment_periods (Int) field in DocType 'Loan Repayment
 #. Schedule'
@@ -5127,7 +5127,7 @@ msgstr ""
 #. Label of the repayment_periods (Int) field in DocType 'Loan Import Details'
 #: lending/loan_management/doctype/loan_import_details/loan_import_details.json
 msgid "Repayment Periods"
-msgstr "भुगतान अवधि"
+msgstr ""
 
 #. Label of the repayment_schedule (Table) field in DocType 'Loan Repayment
 #. Schedule'
@@ -5176,7 +5176,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_import_details/loan_import_details.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Repayment Start Date"
-msgstr "भुगतान शुरू होने की तारीख"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.py:927
 msgid "Repayment Start Date is mandatory for term loans"
@@ -5189,11 +5189,11 @@ msgstr ""
 #. Label of the repayment_type (Select) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Repayment Type"
-msgstr "भुगतान प्रकार"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:906
 msgid "Repayment cannot be made for closed loan"
-msgstr "बंद ऋण के लिए भुगतान नहीं किया जा सकता है"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:236
 msgid "Repayment periods is mandatory for term loans"
@@ -5211,21 +5211,21 @@ msgstr ""
 #. Label of the repost_date (Date) field in DocType 'Loan Repayment Repost'
 #: lending/loan_management/doctype/loan_repayment_repost/loan_repayment_repost.json
 msgid "Repost Date"
-msgstr "पुनः पोस्ट करने की तिथि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.js:75
 msgid "Request Loan Closure"
-msgstr "ऋण बंद करने का अनुरोध करें"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan Security Release'
 #: lending/loan_management/doctype/loan_security_release/loan_security_release.json
 msgid "Requested"
-msgstr "अनुरोध किया गया"
+msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Loan Repayment Schedule'
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Rescheduled"
-msgstr "फिर से निर्धारित"
+msgstr ""
 
 #. Label of the restructure_charge_amount (Currency) field in DocType 'Loan
 #. Restructure Charges'
@@ -5237,16 +5237,16 @@ msgstr ""
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Restructure Charges"
-msgstr "पुनर्गठन शुल्क"
+msgstr ""
 
 #. Label of the restructure_date (Datetime) field in DocType 'Loan Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Restructure Date"
-msgstr "पुनर्गठन तिथि"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.py:125
 msgid "Restructure Date cannot be before last due date {0}"
-msgstr "पुनर्गठन तिथि अंतिम नियत तिथि से पहले नहीं हो सकती {0}"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.py:194
 msgid "Restructure Date {0} cannot be after Repayment Start Date {1}"
@@ -5258,7 +5258,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Restructure Type"
-msgstr "पुनर्गठन प्रकार"
+msgstr ""
 
 #. Label of the restructure_of_loans_applicable (Check) field in DocType 'Loan
 #. Partner'
@@ -5317,18 +5317,18 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Sanctioned"
-msgstr "स्वीकृत"
+msgstr ""
 
 #. Label of the sanctioned_amount_limit (Currency) field in DocType 'Sanctioned
 #. Loan Amount'
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.json
 msgid "Sanctioned Amount Limit"
-msgstr "स्वीकृत राशि सीमा"
+msgstr ""
 
 #: lending/loan_management/doctype/loan/loan.py:568
 #: lending/loan_management/doctype/loan_application/loan_application.py:194
 msgid "Sanctioned Amount limit crossed for {0} {1}"
-msgstr "स्वीकृत राशि की सीमा पार हो गई है {0} {1}"
+msgstr ""
 
 #. Label of the sanctioned_loan_amount (Currency) field in DocType 'Loan
 #. Disbursement'
@@ -5338,7 +5338,7 @@ msgstr "स्वीकृत राशि की सीमा पार हो 
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.json
 #: lending/workspace_sidebar/lending.json
 msgid "Sanctioned Loan Amount"
-msgstr "स्वीकृत ऋण राशि"
+msgstr ""
 
 #: lending/loan_management/doctype/sanctioned_loan_amount/sanctioned_loan_amount.py:32
 msgid "Sanctioned Loan Amount already exists for {0} against company {1}"
@@ -5348,7 +5348,7 @@ msgstr ""
 #. Provisioning Configuration'
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Secured"
-msgstr "सुरक्षित"
+msgstr ""
 
 #. Label of the securities (Table) field in DocType 'Loan Security Assignment'
 #. Label of the securities (Table) field in DocType 'Loan Security Release'
@@ -5360,7 +5360,7 @@ msgstr ""
 #. Label of the security_deposit_account (Link) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Security Deposit Account"
-msgstr "सुरक्षा जमा खाता"
+msgstr ""
 
 #. Option for the 'Loan Repayment Type' (Select) field in DocType 'Loan
 #. Adjustment Detail'
@@ -5379,13 +5379,13 @@ msgstr ""
 #. Configuration'
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Security Type"
-msgstr "सुरक्षा प्रकार"
+msgstr ""
 
 #. Label of the security_value (Currency) field in DocType 'Loan Security
 #. Shortfall'
 #: lending/loan_management/doctype/loan_security_shortfall/loan_security_shortfall.json
 msgid "Security Value "
-msgstr "सुरक्षा मूल्य "
+msgstr ""
 
 #. Description of the 'Repayment Date On' (Select) field in DocType 'Loan
 #. Product'
@@ -5407,7 +5407,7 @@ msgstr ""
 #. Provisioning Configuration'
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Semi-Secured"
-msgstr "अर्ध-सुरक्षित"
+msgstr ""
 
 #. Label of the servicer_fee (Check) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
@@ -5417,7 +5417,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Settled"
-msgstr "बसा हुआ"
+msgstr ""
 
 #. Label of the settlement_date (Date) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
@@ -5427,18 +5427,18 @@ msgstr ""
 #. Label of the shareable_type (Link) field in DocType 'Loan Partner Shareable'
 #: lending/loan_management/doctype/loan_partner_shareable/loan_partner_shareable.json
 msgid "Shareable Type"
-msgstr "साझा करने योग्य प्रकार"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_partner/loan_partner.py:102
 msgid "Shareable Type {0} added multiple times"
-msgstr "साझा करने योग्य प्रकार {0} को कई बार जोड़ा गया"
+msgstr ""
 
 #. Label of the section_break_lpnj (Section Break) field in DocType 'Loan
 #. Partner'
 #. Label of the shareables (Table) field in DocType 'Loan Partner'
 #: lending/loan_management/doctype/loan_partner/loan_partner.json
 msgid "Shareables"
-msgstr "साझा करने योग्य"
+msgstr ""
 
 #. Label of the sharing_parameter (Select) field in DocType 'Loan Partner Adhoc
 #. Charges Shared'
@@ -5455,19 +5455,19 @@ msgstr ""
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/doctype/loan_security_shortfall/loan_security_shortfall.json
 msgid "Shortfall Amount"
-msgstr "कमी की राशि"
+msgstr ""
 
 #. Label of the shortfall_percentage (Percent) field in DocType 'Loan Security
 #. Shortfall'
 #: lending/loan_management/doctype/loan_security_shortfall/loan_security_shortfall.json
 msgid "Shortfall Percentage"
-msgstr "कमी प्रतिशत"
+msgstr ""
 
 #. Label of the shortfall_time (Datetime) field in DocType 'Loan Security
 #. Shortfall'
 #: lending/loan_management/doctype/loan_security_shortfall/loan_security_shortfall.json
 msgid "Shortfall Time"
-msgstr "कमी का समय"
+msgstr ""
 
 #. Option for the 'Repayment Date On' (Select) field in DocType 'Loan Product'
 #. Option for the 'Repayment Date On' (Select) field in DocType 'Loan Repayment
@@ -5475,7 +5475,7 @@ msgstr "कमी का समय"
 #: lending/loan_management/doctype/loan_product/loan_product.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Start of the next month"
-msgstr "अगले महीने की शुरुआत"
+msgstr ""
 
 #. Label of the subsidy_adjustment_account (Link) field in DocType 'Loan
 #. Product'
@@ -5497,7 +5497,7 @@ msgstr ""
 #. Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Suspense Collection Account"
-msgstr "सस्पेंस संग्रह खाता"
+msgstr ""
 
 #. Label of the suspense_interest_income (Link) field in DocType 'Loan Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
@@ -5507,12 +5507,12 @@ msgstr ""
 #. Label of a Link in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Taxes"
-msgstr "करों"
+msgstr ""
 
 #. Label of a Card Break in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "Taxes and Charges"
-msgstr "कर और शुल्क"
+msgstr ""
 
 #. Label of the repayment_periods (Int) field in DocType 'Loan'
 #. Label of the tenure (Int) field in DocType 'Loan Disbursement'
@@ -5520,12 +5520,12 @@ msgstr "कर और शुल्क"
 #: lending/loan_management/doctype/loan_disbursement/loan_disbursement.json
 #: lending/loan_management/report/loan_outstanding_report/loan_outstanding_report.py:124
 msgid "Tenure"
-msgstr "कार्यकाल"
+msgstr ""
 
 #. Label of the tenure_post_restructure (Int) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Tenure Post Restructure"
-msgstr "पुनर्गठन के बाद कार्यकाल"
+msgstr ""
 
 #. Label of the term_details_section (Section Break) field in DocType 'Loan'
 #. Label of the term_details_section (Section Break) field in DocType 'Loan
@@ -5533,7 +5533,7 @@ msgstr "पुनर्गठन के बाद कार्यकाल"
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Term Details"
-msgstr "अवधि विवरण"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:1006
 msgid "The Loan Disbursement {0} has been closed."
@@ -5568,7 +5568,7 @@ msgstr ""
 #. Label of the to_branch (Link) field in DocType 'Loan Transfer'
 #: lending/loan_management/doctype/loan_transfer/loan_transfer.json
 msgid "To Branch"
-msgstr "शाखा की ओर"
+msgstr ""
 
 #. Label of the total_amount_paid (Currency) field in DocType 'Loan'
 #. Label of the total_amount_paid (Currency) field in DocType 'Loan
@@ -5577,13 +5577,13 @@ msgstr "शाखा की ओर"
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 #: lending/loan_management/report/loan_outstanding_report/loan_outstanding_report.py:82
 msgid "Total Amount Paid"
-msgstr "भुगतान की गई कुल राशि"
+msgstr ""
 
 #. Label of the total_charges_paid (Currency) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/report/past_cashflow_report/past_cashflow_report.py:43
 msgid "Total Charges Paid"
-msgstr "कुल भुगतान की गई राशि"
+msgstr ""
 
 #. Label of the total_charges_payable (Currency) field in DocType 'Loan
 #. Repayment'
@@ -5593,7 +5593,7 @@ msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.html:138
 msgid "Total Credit"
-msgstr "कुल क्रेडिट"
+msgstr ""
 
 #: lending/loan_management/report/loan_statement_of_account/loan_statement_of_account.html:132
 msgid "Total Debit"
@@ -5640,7 +5640,7 @@ msgstr ""
 #. Restructure'
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.json
 msgid "Total Overdue Amount"
-msgstr "कुल बकाया राशि"
+msgstr ""
 
 #. Label of the total_partner_interest_share (Currency) field in DocType 'Loan
 #. Repayment'
@@ -5675,14 +5675,14 @@ msgstr ""
 #: lending/loan_management/report/future_cashflow_report/future_cashflow_report.py:57
 #: lending/loan_management/report/loan_repayment_and_closure/loan_repayment_and_closure.py:64
 msgid "Total Payment"
-msgstr "कुल भुगतान"
+msgstr ""
 
 #. Label of the total_penalty_paid (Currency) field in DocType 'Loan Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 #: lending/loan_management/report/loan_repayment_and_closure/loan_repayment_and_closure.py:57
 #: lending/loan_management/report/past_cashflow_report/past_cashflow_report.py:49
 msgid "Total Penalty Paid"
-msgstr "कुल जुर्माना अदा किया गया"
+msgstr ""
 
 #. Label of the total_principal_paid (Currency) field in DocType 'Loan'
 #. Label of the total_principal_paid (Currency) field in DocType 'Loan
@@ -5697,13 +5697,13 @@ msgstr ""
 #: lending/loan_management/report/applicant_wise_loan_security_exposure/applicant_wise_loan_security_exposure.py:62
 #: lending/loan_management/report/loan_security_exposure/loan_security_exposure.py:52
 msgid "Total Qty"
-msgstr "कुल मात्रा"
+msgstr ""
 
 #. Label of the total_security_value (Currency) field in DocType 'Loan Security
 #. Assignment'
 #: lending/loan_management/doctype/loan_security_assignment/loan_security_assignment.json
 msgid "Total Security Value"
-msgstr "कुल सुरक्षा मूल्य"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_adjustment/loan_adjustment.py:87
 msgid "Total net payable amount is {0} and total adjustment amount is {1}. For Manual or Internal Foreclosure, shortfall {2} exceeds the allowed write-off limit of {3} as per the Loan Product Auto Write Off Amount."
@@ -5738,12 +5738,12 @@ msgstr ""
 #. Schedule'
 #: lending/loan_management/doctype/loan_repayment_schedule/loan_repayment_schedule.json
 msgid "Treatment Of Interest"
-msgstr "रुचि का उपचार"
+msgstr ""
 
 #. Label of the treatment_of_interest (Select) field in DocType 'Loan'
 #: lending/loan_management/doctype/loan/loan.json
 msgid "Treatment of Interest"
-msgstr "रुचि का उपचार"
+msgstr ""
 
 #. Label of the treatment_of_charge (Select) field in DocType 'Loan
 #. Disbursement Charge'
@@ -5789,7 +5789,7 @@ msgstr ""
 #. Repayment'
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.json
 msgid "Unbooked Penalty Paid"
-msgstr "बिना बुकिंग के जुर्माना अदा किया गया"
+msgstr ""
 
 #. Label of the unfreeze_date (Date) field in DocType 'Loan Freeze Log'
 #: lending/loan_management/doctype/loan_freeze_log/loan_freeze_log.json
@@ -5829,7 +5829,7 @@ msgstr ""
 #. Provisioning Configuration'
 #: lending/loan_management/doctype/loan_irac_provisioning_configuration/loan_irac_provisioning_configuration.json
 msgid "Unsecured"
-msgstr "असुरक्षित"
+msgstr ""
 
 #. Label of the update_time (Datetime) field in DocType 'Process Loan Security
 #. Shortfall'
@@ -5841,13 +5841,13 @@ msgstr ""
 #. Product'
 #: lending/loan_management/doctype/loan_product/loan_product.json
 msgid "Upfront Deduction"
-msgstr "अग्रिम कटौती"
+msgstr ""
 
 #. Label of the utilized_limit (Currency) field in DocType 'Loan Restructure
 #. Limit Log'
 #: lending/loan_management/doctype/loan_restructure_limit_log/loan_restructure_limit_log.json
 msgid "Utilized Limit"
-msgstr "उपयोग की गई सीमा"
+msgstr ""
 
 #. Label of the utilized_limit_amount (Currency) field in DocType 'Loan'
 #. Option for the 'Value Type' (Select) field in DocType 'Loan Limit Change
@@ -5855,18 +5855,18 @@ msgstr "उपयोग की गई सीमा"
 #: lending/loan_management/doctype/loan/loan.json
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
 msgid "Utilized Limit Amount"
-msgstr "उपयोग की गई सीमा राशि"
+msgstr ""
 
 #. Label of the utilized_security_value (Currency) field in DocType 'Loan
 #. Security'
 #: lending/loan_management/doctype/loan_security/loan_security.json
 msgid "Utilized Security Value"
-msgstr "उपयोग किया गया सुरक्षा मूल्य"
+msgstr ""
 
 #. Label of the valid_from (Datetime) field in DocType 'Loan Security Price'
 #: lending/loan_management/doctype/loan_security_price/loan_security_price.json
 msgid "Valid From"
-msgstr "मान्य तिथि से"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_security_price/loan_security_price.py:63
 msgid "Valid From Time must be lesser than Valid Upto Time."
@@ -5875,7 +5875,7 @@ msgstr ""
 #. Label of the valid_upto (Datetime) field in DocType 'Loan Security Price'
 #: lending/loan_management/doctype/loan_security_price/loan_security_price.json
 msgid "Valid Upto"
-msgstr "तक मान्य"
+msgstr ""
 
 #. Label of the validate_normal_repayment (Check) field in DocType 'Loan
 #. Product'
@@ -5891,12 +5891,12 @@ msgstr ""
 #: lending/loan_management/doctype/loan_write_off/loan_write_off.json
 #: lending/loan_management/report/loan_repayment_and_closure/loan_repayment_and_closure.py:18
 msgid "Value Date"
-msgstr "मूल्य तारीख"
+msgstr ""
 
 #. Label of the value_type (Select) field in DocType 'Loan Limit Change Log'
 #: lending/loan_management/doctype/loan_limit_change_log/loan_limit_change_log.json
 msgid "Value Type"
-msgstr "मान प्रकार"
+msgstr ""
 
 #. Label of the waive_off_restructure_charges (Check) field in DocType 'Loan
 #. Restructure'
@@ -5920,11 +5920,11 @@ msgstr ""
 #. Label of the waiver_account (Link) field in DocType 'Loan Charges'
 #: lending/loan_management/doctype/loan_charges/loan_charges.json
 msgid "Waiver Account"
-msgstr "छूट खाता"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_repayment/loan_repayment.py:2389
 msgid "Waiver account not set for charge {0} in Loan Product {1}"
-msgstr "ऋण उत्पाद {1} में शुल्क {0} के लिए छूट खाता निर्धारित नहीं किया गया है"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_restructure/loan_restructure.py:421
 msgid "Waiver amount for charge {0} cannot exceed overdue amount {1}"
@@ -6028,7 +6028,7 @@ msgstr ""
 
 #: lending/loan_management/doctype/loan_balance_adjustment/loan_balance_adjustment.py:137
 msgid "with reference no. {}"
-msgstr "संदर्भ संख्या {} के साथ"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_product/loan_product.py:127
 msgid "{0} cannot be negative"
@@ -6041,7 +6041,7 @@ msgstr ""
 #: lending/loan_management/doctype/loan_partner/loan_partner.py:76
 #: lending/loan_management/doctype/loan_partner/loan_partner.py:92
 msgid "{0} should be between 1 and 99"
-msgstr "{0} का मान 1 और 99 के बीच होना चाहिए"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_product/loan_product.py:178
 msgid "{0} {1} mandatory when Loan Accounting is enabled for {2}"
@@ -6050,9 +6050,9 @@ msgstr ""
 #. Count format of shortcut in the Lending Workspace
 #: lending/loan_management/workspace/lending/lending.json
 msgid "{} Open"
-msgstr "{} खुला"
+msgstr ""
 
 #: lending/loan_management/doctype/loan_balance_adjustment/loan_balance_adjustment.py:135
 msgid "{} against loan {}"
-msgstr "ऋण के विरुद्ध {}"
+msgstr ""
 
