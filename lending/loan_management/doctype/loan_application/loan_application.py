@@ -10,7 +10,7 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 from frappe.query_builder import Criterion
-from frappe.utils import add_days, add_to_date, cint, flt, getdate, rounded
+from frappe.utils import cint, flt, rounded
 
 from lending.loan_management.doctype.loan.loan import (
 	get_sanctioned_amount_limit,
@@ -34,14 +34,8 @@ class LoanApplication(Document):
 		from frappe.types import DF
 
 		from lending.loan_management.doctype.proposed_pledge.proposed_pledge import ProposedPledge
-		from lending.loan_origination.doctype.loan_application_charge.loan_application_charge import (
-			LoanApplicationCharge,
-		)
 		from lending.loan_origination.doctype.loan_application_document.loan_application_document import (
 			LoanApplicationDocument,
-		)
-		from lending.loan_origination.doctype.loan_application_kfs_schedule.loan_application_kfs_schedule import (
-			LoanApplicationKFSSchedule,
 		)
 		from lending.loan_origination.doctype.loan_co_applicants.loan_co_applicants import (
 			LoanCoApplicants,
@@ -50,49 +44,32 @@ class LoanApplication(Document):
 		address_line_1: DF.Data | None
 		address_line_2: DF.Data | None
 		amended_from: DF.Link | None
-		annual_percentage_rate: DF.Percent
 		applicant: DF.DynamicLink | None
 		applicant_email_address: DF.Data | None
 		applicant_name: DF.Data | None
 		applicant_phone_number: DF.Phone | None
 		applicant_type: DF.Literal["Employee", "Customer"]
-		borrower_acknowledged: DF.Check
 		city: DF.Data | None
 		co_applicants: DF.Table[LoanCoApplicants]
 		company: DF.Link
 		country: DF.Link | None
 		documents: DF.Table[LoanApplicationDocument]
-		grievance_redressal_clause: DF.SmallText | None
-		interest_rate_benchmark: DF.Data | None
-		interest_rate_type: DF.Literal["Fixed", "Floating", "Hybrid"]
 		is_secured_loan: DF.Check
 		is_term_loan: DF.Check
-		kfs_charges: DF.Table[LoanApplicationCharge]
-		kfs_generated: DF.Check
-		kfs_schedule: DF.Table[LoanApplicationKFSSchedule]
-		kfs_valid_till: DF.Date | None
 		loan_amount: DF.Currency
 		loan_product: DF.Link
 		loan_purpose: DF.Link | None
-		loan_type: DF.Data | None
 		maximum_loan_amount: DF.Currency
-		net_disbursed_amount: DF.Currency
-		nodal_officer_email: DF.Data | None
-		nodal_officer_phone: DF.Data | None
 		posting_date: DF.Date
 		proposed_pledges: DF.Table[ProposedPledge]
 		rate_of_interest: DF.Percent
-		recovery_agent_clause: DF.SmallText | None
 		repayment_amount: DF.Currency
 		repayment_method: DF.Literal["", "Repay Fixed Amount per Period", "Repay Over Number of Periods"]
 		repayment_periods: DF.Int
-		reset_periodicity: DF.Data | None
-		spread_over_benchmark: DF.Percent
 		state: DF.Data | None
 		status: DF.Literal["Open", "Approved", "Rejected"]
 		total_payable_amount: DF.Currency
 		total_payable_interest: DF.Currency
-		unique_proposal_number: DF.Data | None
 		zip_code: DF.Int
 	# end: auto-generated types
 
@@ -111,10 +88,6 @@ class LoanApplication(Document):
 		self.check_sanctioned_amount_limit()
 
 	def before_save(self):
-		# Keep an already generated KFS in sync with the latest loan terms.
-		if self.kfs_generated:
-			self.build_kfs()
-
 		if self.applicant_type == "Customer":
 			if not self.applicant:
 				customer = frappe.new_doc("Customer")
@@ -294,202 +267,6 @@ class LoanApplication(Document):
 
 		if not self.loan_amount and self.is_secured_loan and self.proposed_pledges:
 			self.loan_amount = self.maximum_loan_amount
-
-	# ---------------------------------------------------------------------------
-	# Key Facts Statement (KFS) - RBI circular RBI/2024-25/18 dated 15 Apr 2024
-	# ---------------------------------------------------------------------------
-
-	def build_kfs(self):
-		"""Populate all Key Facts Statement values from the current loan terms.
-
-		Additive only: this reads the existing loan application fields and fills
-		the KFS fields/child tables. It does not change any existing loan,
-		disbursement, schedule or repayment logic.
-		"""
-		if not self.is_term_loan:
-			frappe.throw(_("Key Facts Statement can be generated only for term loans."))
-
-		if not (self.loan_amount and self.rate_of_interest and self.repayment_periods):
-			frappe.throw(
-				_("Loan Amount, Rate of Interest and Repayment Periods are required to generate the KFS.")
-			)
-
-		self.get_repayment_details()
-
-		if not self.unique_proposal_number:
-			self.unique_proposal_number = self.name or frappe.generate_hash(length=10).upper()
-
-		if not self.loan_type:
-			self.loan_type = frappe.db.get_value("Loan Product", self.loan_product, "product_name")
-
-		self.set_kfs_validity()
-		self.set_kfs_charges()
-		self.build_kfs_schedule()
-		self.calculate_apr()
-		self.kfs_generated = 1
-
-	def set_kfs_validity(self):
-		"""RBI: at least 3 working days (1 working day if tenor < 7 days)."""
-		tenor_days = flt(self.repayment_periods) * 30
-		working_days = 3 if tenor_days >= 7 else 1
-		self.kfs_valid_till = add_working_days(getdate(self.posting_date), working_days)
-
-	def set_kfs_charges(self):
-		"""Pull charges from the loan product if the KFS charge table is empty."""
-		if self.kfs_charges:
-			return
-
-		product_charges = frappe.get_all(
-			"Loan Charges",
-			filters={"parent": self.loan_product},
-			fields=["charge_type", "amount"],
-		)
-		for charge in product_charges:
-			self.append(
-				"kfs_charges",
-				{
-					"charge_name": charge.charge_type,
-					"payable_to": "Regulated Entity",
-					"amount": flt(charge.amount),
-					"included_in_apr": 1,
-				},
-			)
-
-	def get_total_kfs_charges(self, only_apr=False):
-		total = 0
-		for charge in self.kfs_charges:
-			if only_apr and not charge.included_in_apr:
-				continue
-			total += flt(charge.amount)
-		return total
-
-	def build_kfs_schedule(self):
-		"""Build the amortisation schedule (Annex C) using a flat reducing-balance EPI."""
-		self.set("kfs_schedule", [])
-
-		balance = flt(self.loan_amount)
-		epi = flt(self.repayment_amount)
-		monthly_rate = flt(self.rate_of_interest) / (12 * 100)
-		payment_date = getdate(self.posting_date)
-
-		for instalment_no in range(1, cint(self.repayment_periods) + 1):
-			interest_amount = rounded(balance * monthly_rate)
-			principal_amount = rounded(epi - interest_amount)
-
-			# Adjust the final instalment so the balance closes exactly.
-			if instalment_no == cint(self.repayment_periods) or principal_amount > balance:
-				principal_amount = balance
-				epi_amount = rounded(principal_amount + interest_amount)
-			else:
-				epi_amount = epi
-
-			opening_balance = balance
-			balance = rounded(balance - principal_amount)
-
-			payment_date = add_to_date(payment_date, months=1)
-
-			self.append(
-				"kfs_schedule",
-				{
-					"instalment_no": instalment_no,
-					"payment_date": payment_date,
-					"outstanding_principal": opening_balance,
-					"principal_amount": principal_amount,
-					"interest_amount": interest_amount,
-					"instalment_amount": epi_amount,
-				},
-			)
-
-			if balance <= 0:
-				break
-
-	def calculate_apr(self):
-		"""Compute the all-inclusive APR (Annex B) via XIRR over the loan cash flows.
-
-		Cash flows: net disbursed amount (outflow for the lender / inflow for the
-		borrower) at disbursement, followed by each EPI. APR-eligible charges are
-		deducted from the disbursed amount, increasing the effective cost of credit.
-		"""
-		apr_charges = self.get_total_kfs_charges(only_apr=True)
-		self.net_disbursed_amount = flt(self.loan_amount) - apr_charges
-
-		if not self.net_disbursed_amount or not self.kfs_schedule:
-			self.annual_percentage_rate = self.rate_of_interest
-			return
-
-		cash_flows = [(getdate(self.posting_date), -flt(self.net_disbursed_amount))]
-		for row in self.kfs_schedule:
-			cash_flows.append((getdate(row.payment_date), flt(row.instalment_amount)))
-
-		apr = xirr(cash_flows)
-		self.annual_percentage_rate = rounded(apr * 100, 2) if apr is not None else self.rate_of_interest
-
-
-def add_working_days(start_date, working_days):
-	"""Add the given number of working days (Mon-Fri) to a date."""
-	current = getdate(start_date)
-	added = 0
-	while added < working_days:
-		current = add_days(current, 1)
-		if current.weekday() < 5:  # 0-4 => Mon-Fri
-			added += 1
-	return current
-
-
-def xirr(cash_flows, guess=0.1):
-	"""Compute the annualised internal rate of return for dated cash flows.
-
-	Uses Newton-Raphson with a bisection fallback. Returns a decimal rate
-	(e.g. 0.12 for 12%) or None if it does not converge.
-	"""
-	if not cash_flows:
-		return None
-
-	base_date = cash_flows[0][0]
-
-	def npv(rate):
-		total = 0.0
-		for date, amount in cash_flows:
-			years = (getdate(date) - base_date).days / 365.0
-			total += amount / ((1 + rate) ** years)
-		return total
-
-	rate = guess
-	for _i in range(100):
-		value = npv(rate)
-		# Numerical derivative.
-		delta = 1e-6
-		derivative = (npv(rate + delta) - value) / delta
-		if not derivative:
-			break
-		new_rate = rate - value / derivative
-		if abs(new_rate - rate) < 1e-8:
-			return new_rate
-		rate = new_rate
-
-	# Bisection fallback over a sensible rate range.
-	low, high = -0.9999, 10.0
-	f_low = npv(low)
-	for _i in range(200):
-		mid = (low + high) / 2
-		f_mid = npv(mid)
-		if abs(f_mid) < 1e-6:
-			return mid
-		if (f_low < 0) != (f_mid < 0):
-			high = mid
-		else:
-			low, f_low = mid, f_mid
-	return None
-
-
-@frappe.whitelist()
-def generate_kfs(loan_application: str):
-	"""Generate and save the KFS for a Loan Application (callable from the form button)."""
-	doc = frappe.get_doc("Loan Application", loan_application)
-	doc.check_permission("write")
-	doc.build_kfs()
-	doc.save()
-	return doc.name
 
 
 @frappe.whitelist()
