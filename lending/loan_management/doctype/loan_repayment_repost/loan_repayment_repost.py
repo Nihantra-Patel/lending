@@ -12,7 +12,11 @@ from lending.loan_management.doctype.loan_repayment.loan_repayment import (
 	calculate_amounts,
 	get_pending_principal_amount,
 )
-from lending.loan_management.utils import update_repayment_schedule_demand_generated
+from lending.loan_management.utils import advisory_lock, update_repayment_schedule_demand_generated
+
+RecoverableErrors = (frappe.QueryDeadlockError, frappe.QueryTimeoutError)
+
+REPOST_LOCK_TIMEOUT = 21600
 
 
 class LoanRepaymentRepost(Document):
@@ -370,6 +374,9 @@ class LoanRepaymentRepost(Document):
 			repayment_doc.set("pending_principal_amount", flt(pending_principal_amount, precision))
 			repayment_doc.run_method("before_validate")
 
+			if is_security_deposit_adjustment:
+				repayment_doc.repayment_type = "Security Deposit Adjustment"
+
 			repayment_doc.allocate_amounts(amounts)
 
 			if repayment_doc.repayment_type in ("Advance Payment", "Pre Payment") and (
@@ -429,14 +436,6 @@ class LoanRepaymentRepost(Document):
 
 					frappe.db.set_value("Loan", self.loan, "written_off_amount", write_off_amount)
 
-			if is_security_deposit_adjustment:
-				frappe.db.set_value(
-					"Loan Repayment",
-					entry.loan_repayment,
-					"repayment_type",
-					"Security Deposit Adjustment",
-				)
-
 			repayment_doc.flags.from_repost = False
 			frappe.flags.on_repost = False
 
@@ -491,10 +490,11 @@ class LoanRepaymentRepost(Document):
 def process_loan_repayment_repost(repost):
 	# Only one repost runs at a time to avoid deadlocks on shared GL/accrual rows.
 	try:
-		with frappe.db.advisory_lock("loan_repayment_repost", timeout=21600):
+		with advisory_lock("loan_repayment_repost", timeout=REPOST_LOCK_TIMEOUT):
 			_process_loan_repayment_repost(repost)
 	except frappe.QueryTimeoutError:
-		# Lock held far longer than any repost should take; retry once instead of failing outright.
+		# Lock held far longer than any repost should take; let the job runner's built-in
+		# deadlock/timeout retry (frappe.utils.background_jobs.execute_job) try again.
 		raise frappe.RetryBackgroundJobError
 
 
@@ -502,17 +502,24 @@ def _process_loan_repayment_repost(repost):
 	doc = frappe.get_doc("Loan Repayment Repost", repost)
 	try:
 		doc._submit()
-	except Exception:
+	except Exception as e:
 		frappe.db.rollback()
-		# If the repost is already submitted (e.g. a duplicate job ran it), do not reset the
-		# status - that would overwrite a completed repost with Draft.
+		# Already submitted by another job - don't overwrite a completed repost with Draft.
 		if frappe.db.get_value("Loan Repayment Repost", repost, "docstatus") == 1:
 			return
+
+		traceback = frappe.get_traceback()
+		traceback_lower = traceback.lower() if traceback else ""
+		if isinstance(e, RecoverableErrors) or (
+			traceback_lower and ("timeout" in traceback_lower or "deadlock found" in traceback_lower)
+		):
+			# The job runner retries deadlocks/lock-timeouts automatically (up to 5 times);
+			# just let it propagate instead of resetting to Draft.
+			raise
+
 		doc.db_set("status", "Draft")
 		doc.add_comment(
-			"Comment",
-			_("The repost did not finish and has been reset to Draft:")
-			+ f"<br>{frappe.get_traceback()}",
+			"Comment", _("The repost did not finish and has been reset to Draft:") + f"<br><br>{traceback}"
 		)
 		frappe.db.commit()
 		raise

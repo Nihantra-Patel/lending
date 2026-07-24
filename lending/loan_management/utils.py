@@ -1,9 +1,38 @@
+import hashlib
+import time
+from contextlib import contextmanager
+
 from pypika import CustomFunction
 
 import frappe
 from frappe.query_builder.custom import ConstantColumn
 from frappe.query_builder.functions import Sum
 from frappe.utils import flt, getdate
+
+
+@contextmanager
+def advisory_lock(key, *, timeout=10):
+	"""Hold a session-level named lock (MySQL/MariaDB GET_LOCK) for the duration of the `with`
+	block. Works on frappe versions without frappe.db.advisory_lock. The key is hashed to a fixed
+	64-char digest so long keys can't collide via GET_LOCK's silent name truncation."""
+	name = hashlib.sha256(str(key).encode()).hexdigest()
+	deadline = time.monotonic() + timeout
+	while True:
+		remaining = deadline - time.monotonic()
+		result = frappe.db.sql("SELECT GET_LOCK(%s, %s)", (name, max(remaining, 0)))
+		value = result[0][0] if result else None
+		if value == 1:
+			break
+		# GET_LOCK returns 1 (acquired), 0 (waited out the remaining budget for the holder), or
+		# NULL (transient server error, e.g. killed thread). Retry NULL within the budget so a
+		# blip self-heals instead of failing the whole operation; give up once the budget is spent.
+		if value == 0 or remaining <= 0:
+			raise frappe.QueryTimeoutError(f"Could not acquire advisory lock {key!r} within {timeout}s")
+		time.sleep(0.1)
+	try:
+		yield
+	finally:
+		frappe.db.sql("SELECT RELEASE_LOCK(%s)", (name,))
 
 
 def get_payment_entries_for_bank_clearance(
