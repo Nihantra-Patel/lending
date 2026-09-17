@@ -40,6 +40,7 @@ def on_dpd_log_upsert(doc, method=None):
 
 	is_written_off = 1 if loan_details.status == "Written Off" else 0
 	days_past_due = doc.days_past_due or 0
+	posting_date = getdate(doc.posting_date) if doc.posting_date else today()
 
 	to_bucket_code, _to_bucket_name = get_classification_code_and_name(
 		days_past_due, loan_details.company, is_written_off=is_written_off
@@ -49,7 +50,7 @@ def on_dpd_log_upsert(doc, method=None):
 		"Collection Case Log",
 		{"loan": doc.loan},
 		"to_bucket",
-		order_by="creation desc",
+		order_by="posting_date desc, creation desc",
 	)
 
 	if to_bucket_code == from_bucket_code:
@@ -65,7 +66,8 @@ def on_dpd_log_upsert(doc, method=None):
 		if open_case:
 			resolve_case(doc.loan)
 			create_collection_case_log(
-				doc.loan, from_bucket_code, to_bucket_code or from_bucket_code, days_past_due, "Resolved"
+				doc.loan, from_bucket_code, to_bucket_code or from_bucket_code, days_past_due,
+				"Resolved", posting_date=posting_date,
 			)
 		return
 
@@ -73,7 +75,7 @@ def on_dpd_log_upsert(doc, method=None):
 		return
 
 	branch = get_applicant_branch(loan_details.applicant_type, loan_details.applicant)
-	outstanding_amount = get_case_outstanding_amount(doc.loan, doc.get("posting_date") or today())
+	outstanding_amount = get_case_outstanding_amount(doc.loan, posting_date)
 
 	case = get_or_create_case(
 		loan=doc.loan,
@@ -89,7 +91,10 @@ def on_dpd_log_upsert(doc, method=None):
 	)
 
 	event = "Case Opened" if not open_case else "Bucket Escalated"
-	create_collection_case_log(doc.loan, from_bucket_code, to_bucket_code, days_past_due, event, case.name)
+	create_collection_case_log(
+		doc.loan, from_bucket_code, to_bucket_code, days_past_due, event, case.name,
+		posting_date=posting_date,
+	)
 
 
 def is_bucket_escalation(from_bucket_code, to_bucket_code, company):
@@ -220,8 +225,10 @@ def allocate_agent(company, branch, loan_product):
 
 
 def create_collection_case_log(loan, from_bucket, to_bucket, days_past_due, event,
-	collection_case=None, process_collection_dunning=None):
+	collection_case=None, process_collection_dunning=None, posting_date=None):
 	"""UPSERT like create_dpd_record: one log per (loan, posting_date, event)."""
+	posting_date = posting_date or today()
+
 	if not collection_case:
 		collection_case = frappe.db.get_value(
 			"Collection Case",
@@ -230,7 +237,7 @@ def create_collection_case_log(loan, from_bucket, to_bucket, days_past_due, even
 
 	existing_log = frappe.db.get_value(
 		"Collection Case Log",
-		{"loan": loan, "posting_date": today(), "event": event},
+		{"loan": loan, "posting_date": posting_date, "event": event},
 	)
 	if existing_log:
 		log = frappe.get_doc("Collection Case Log", existing_log, for_update=True)
@@ -241,7 +248,7 @@ def create_collection_case_log(loan, from_bucket, to_bucket, days_past_due, even
 		{
 			"collection_case": collection_case,
 			"loan": loan,
-			"posting_date": today(),
+			"posting_date": posting_date,
 			"from_bucket": from_bucket,
 			"to_bucket": to_bucket,
 			"days_past_due": days_past_due,
