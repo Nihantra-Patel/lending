@@ -339,9 +339,8 @@ def send_loan_notification(loan, applicant_type, applicant, channel, communicati
 	Template body; SMS/WhatsApp are logged as a Communication for the integration
 	layer (SMS/WhatsApp gateway) to pick up, since no gateway ships with lending."""
 	template = frappe.get_doc("Email Template", communication_template)
-	context = {"loan": loan, "applicant": applicant}
-	subject = frappe.render_template(template.subject, context)
-	message = frappe.render_template(template.response, context)
+	formatted = template.get_formatted_email({"loan": loan, "applicant": applicant})
+	subject, message = formatted["subject"], formatted["message"]
 
 	recipient = None
 	if applicant_type == "Customer":
