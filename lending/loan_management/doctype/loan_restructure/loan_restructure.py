@@ -900,6 +900,9 @@ def create_loan_repayment(
 	repayment.payment_account = payment_account
 	repayment.loan_disbursement = loan_disbursement
 
+	# Links here come from already-validated parent records, so skip re-checking them.
+	repayment.flags.ignore_links = True
+
 	if charge_code and waiver_amount > 0:
 		if isinstance(charge_code, list):
 			for charge in charge_code:

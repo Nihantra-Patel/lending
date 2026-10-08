@@ -566,6 +566,8 @@ def create_loan_demand(
 		if frappe.flags.on_repost:
 			demand.flags.notify_update = False
 
+		# Links here come from already-validated parent records, so skip re-checking them.
+		demand.flags.ignore_links = True
 		demand.save()
 		demand.submit()
 

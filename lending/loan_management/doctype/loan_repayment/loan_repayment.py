@@ -1552,30 +1552,56 @@ class LoanRepayment(LoanController):
 			query.run()
 
 	def update_demands(self, cancel=0):
-		loan_demand = frappe.qb.DocType("Loan Demand")
+		if not self.repayment_details:
+			return
+
+		if self.repayment_type in ("Interest Waiver", "Penalty Waiver", "Charges Waiver"):
+			paid_amount_field = "waived_amount"
+		else:
+			paid_amount_field = "paid_amount"
+
+		# Sum amounts per demand first, then update all demands in one query.
+		increments = {}
 		for payment in self.repayment_details:
-			paid_amount = payment.paid_amount
+			paid_amount = flt(payment.paid_amount)
 			partner_share = flt(payment.partner_share)
 
 			if cancel:
-				paid_amount = -1 * flt(payment.paid_amount)
-				partner_share = -1 * flt(payment.partner_share)
+				paid_amount = -1 * paid_amount
+				partner_share = -1 * partner_share
 
-			if self.repayment_type in ("Interest Waiver", "Penalty Waiver", "Charges Waiver"):
-				paid_amount_field = "waived_amount"
-			else:
-				paid_amount_field = "paid_amount"
+			entry = increments.setdefault(payment.loan_demand, {"paid_amount": 0, "partner_share": 0})
+			entry["paid_amount"] += paid_amount
+			entry["partner_share"] += partner_share
 
-			frappe.qb.update(loan_demand).set(
-				loan_demand[paid_amount_field], loan_demand[paid_amount_field] + paid_amount
-			).set(
-				loan_demand.outstanding_amount, loan_demand.outstanding_amount - paid_amount
-			).set(
-				loan_demand.partner_share_allocated,
-				loan_demand.partner_share_allocated + partner_share,
-			).where(
-				loan_demand.name == payment.loan_demand
-			).run()
+		paid_amount_case = []
+		outstanding_case = []
+		partner_share_case = []
+		params_for_paid = []
+		params_for_outstanding = []
+		params_for_partner_share = []
+
+		for demand_name, entry in increments.items():
+			paid_amount_case.append(f"WHEN %s THEN {paid_amount_field} + %s")
+			outstanding_case.append("WHEN %s THEN outstanding_amount - %s")
+			partner_share_case.append("WHEN %s THEN partner_share_allocated + %s")
+			params_for_paid += [demand_name, entry["paid_amount"]]
+			params_for_outstanding += [demand_name, entry["paid_amount"]]
+			params_for_partner_share += [demand_name, entry["partner_share"]]
+
+		demand_names = tuple(increments.keys())
+
+		frappe.db.sql(
+			f"""
+			UPDATE `tabLoan Demand`
+			SET
+				{paid_amount_field} = CASE name {" ".join(paid_amount_case)} ELSE {paid_amount_field} END,
+				outstanding_amount = CASE name {" ".join(outstanding_case)} ELSE outstanding_amount END,
+				partner_share_allocated = CASE name {" ".join(partner_share_case)} ELSE partner_share_allocated END
+			WHERE name IN %s
+			""",
+			tuple(params_for_paid + params_for_outstanding + params_for_partner_share + [demand_names]),
+		)
 
 	def update_limits(self, query, loan, cancel=0):
 		principal_amount_paid = self.principal_amount_paid
@@ -1972,7 +1998,7 @@ class LoanRepayment(LoanController):
 		"""Allocate amount based on allocation order"""
 		precision = cint(frappe.db.get_default("currency_precision")) or 2
 
-		allocation_order_doc = frappe.get_doc("Loan Demand Offset Order", allocation_order)
+		allocation_order_doc = frappe.get_cached_doc("Loan Demand Offset Order", allocation_order)
 		for d in allocation_order_doc.get("components"):
 			if d.demand_type == "EMI (Principal + Interest)" and pending_amount > 0:
 				pending_amount = self.adjust_component(pending_amount, "BPI", demands)
