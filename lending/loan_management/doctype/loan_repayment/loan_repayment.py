@@ -141,6 +141,7 @@ class LoanRepayment(LoanController):
 		self.no_repayments_during_moratorium()
 		self.check_future_entries()
 		self.set_partner_payment_ratio()
+		self.set_advance_payment_type_if_nothing_due()
 
 		amounts = calculate_amounts(
 			self.against_loan,
@@ -2596,6 +2597,41 @@ class LoanRepayment(LoanController):
 		if loan_write_off:
 			loan_write_off_doc = frappe.get_doc("Loan Write Off", loan_write_off)
 			loan_write_off_doc.cancel()
+
+	def set_advance_payment_type_if_nothing_due(self):
+		# With nothing due, a Normal Repayment only reduces the principal and the schedule stays
+		# the same. Treat it as an Advance Payment so the schedule is rebuilt.
+		if self.repayment_type != "Normal Repayment":
+			return
+
+		is_term_loan, repayment_schedule_type = frappe.db.get_value(
+			"Loan", self.against_loan, ["is_term_loan", "repayment_schedule_type"]
+		)
+
+		if not is_term_loan or repayment_schedule_type == "Line of Credit":
+			return
+
+		moratorium_end_date = frappe.db.get_value(
+			"Loan Repayment Schedule",
+			{"loan": self.against_loan, "docstatus": 1, "status": "Active"},
+			"moratorium_end_date",
+		)
+		if moratorium_end_date and getdate(self.value_date) <= getdate(moratorium_end_date):
+			return
+
+		precision = cint(frappe.db.get_default("currency_precision")) or 2
+		amounts = calculate_amounts(
+			self.against_loan,
+			self.value_date,
+			payment_type=self.repayment_type,
+			loan_disbursement=self.loan_disbursement,
+		)
+
+		if flt(amounts.get("payable_amount"), precision) > 0:
+			return
+
+		if 0 < flt(self.amount_paid, precision) < flt(amounts.get("pending_principal_amount"), precision):
+			self.repayment_type = "Advance Payment"
 
 	def no_repayments_during_moratorium(self):
 		if self.repayment_type in ("Pre Payment", "Advance Payment"):

@@ -1015,6 +1015,59 @@ class TestLoanRepayment(LendingTestSuite):
 		self.assertEqual(lrs.monthly_repayment_amount, loan_restructure.new_monthly_repayment_amount)
 		self.assertNotEqual(lrs.monthly_repayment_amount, 47523)
 
+	def test_normal_repayment_after_advance_payment_updates_pending_schedule(self):
+		# Issue 1516: Normal Repayment made before the next due date, after an Advance Payment
+		frappe.db.set_value(
+			"Loan Product",
+			"Term Loan Product 4",
+			{
+				"rate_of_interest": 0,
+				"cyclic_day_of_the_month": 7,
+				"emi_rounding_method": "Round to Nearest",
+				"advance_payment_handling": "Reduce Tenure",
+			},
+		)
+		set_loan_accrual_frequency(loan_accrual_frequency="Daily")
+
+		loan = create_loan(
+			"_Test Customer 1",
+			"Term Loan Product 4",
+			7000,
+			"Repay Over Number of Periods",
+			6,
+			applicant_type="Customer",
+			repayment_start_date="2026-08-07",
+			posting_date="2026-07-15",
+			rate_of_interest=0,
+		)
+		loan.submit()
+
+		make_loan_disbursement_entry(
+			loan.name, loan.loan_amount, disbursement_date="2026-07-15", repayment_start_date="2026-08-07"
+		)
+
+		process_daily_loan_demands(posting_date="2026-08-07", loan=loan.name)
+		create_repayment_entry(loan.name, "2026-08-18", 1167).submit()
+
+		process_daily_loan_demands(posting_date="2026-09-07", loan=loan.name)
+		create_repayment_entry(loan.name, "2026-09-17", 1167).submit()
+		create_repayment_entry(loan.name, "2026-09-17", 1167, repayment_type="Advance Payment").submit()
+
+		process_daily_loan_demands(posting_date="2026-10-07", loan=loan.name)
+		create_repayment_entry(loan.name, "2026-10-14", 1167).submit()
+
+		principal_paid = frappe.db.get_value("Loan", loan.name, "total_principal_paid")
+		self.assertEqual(principal_paid, 4668)
+
+		schedule = frappe.get_doc(
+			"Loan Repayment Schedule", {"loan": loan.name, "docstatus": 1, "status": "Active"}
+		)
+		pending_rows = [row for row in schedule.repayment_schedule if not row.demand_generated]
+
+		# 4 EMIs are paid, so only 2 EMIs (2,332) are pending
+		self.assertEqual(sum(row.principal_amount for row in pending_rows), 7000 - principal_paid)
+		self.assertEqual(len(pending_rows), 2)
+
 	def test_advance_payment_before_first_payment(self):
 		set_loan_accrual_frequency(loan_accrual_frequency="Daily")
 
